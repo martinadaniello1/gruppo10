@@ -1,3 +1,5 @@
-/gruppo10/AutomateHub/nbproject
-/gruppo10/AutomateHub/build
-/gruppo10/mAutomateHub/manifest.mf
+AutomateHub/nbproject
+AutomateHub/build
+AutomateHub/manifest.mf
+.DS_store
+.env
