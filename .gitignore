@@ -3,3 +3,5 @@ AutomateHub/build.xml
 AutomateHub/manifest.mf
 .DS_store
 .env
+/AutomateHub/build/
+/AutomateHub/dist/
