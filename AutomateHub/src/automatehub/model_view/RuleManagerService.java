@@ -42,9 +42,9 @@ public class RuleManagerService extends Service{
             protected Void call() throws Exception {
                 while (!isCancelled()) {
                     // Verifica le condizioni e esegui le azioni per ogni regola
-                    for (Regola regola : ruleList) {
-                        if(regola.check())
-                            regola.execute();
+                    for (Rule regola : ruleList) {
+                        if(regola.getTrigger().check())
+                            regola.getAction().execute();
                     }
                     //Si attendono 2 secondi prima della prossima verifica
                     Thread.sleep(2000);
