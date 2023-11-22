@@ -10,5 +10,5 @@ public interface Action {
     public String nameAction = "";
     
     public int execute();
-    public String getActionName();    
+    public String getNameAction();    
 }

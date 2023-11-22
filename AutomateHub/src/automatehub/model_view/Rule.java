@@ -44,7 +44,7 @@ public class Rule {
 
     @Override
     public String toString() {
-        return "La regola " + nameRule + " è composta dal trigger " + trigger.getTriggerName() + " e dall'azione " + action.getActionName();
+        return "La regola " + nameRule + " è composta dal trigger " + trigger.getNameTrigger() + " e dall'azione " + action.getNameAction();
     }
     
     
