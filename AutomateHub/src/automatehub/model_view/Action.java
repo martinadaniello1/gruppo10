@@ -9,6 +9,6 @@ public interface Action {
         
     public String nameAction = "";
     
-    public int excute();
+    public int execute();
     public String getActionName();    
 }
