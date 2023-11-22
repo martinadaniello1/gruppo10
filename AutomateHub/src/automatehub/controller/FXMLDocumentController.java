@@ -6,10 +6,12 @@ package automatehub.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.*;
 
 /**
  *
@@ -18,17 +20,37 @@ import javafx.scene.control.Label;
 public class FXMLDocumentController implements Initializable {
     
     @FXML
-    private Label label;
-    
+    private Button addButton;
     @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-    }
+    private ChoiceBox<?> triggersBox;
+    @FXML
+    private ChoiceBox<?> actionsBox;
+    @FXML
+    private TableView<?> rulesTable;
+    @FXML
+    private TableColumn<Rule, String> rulesColumn;
+    @FXML
+    private TableColumn<Rule, Boolean> disableColumn;
     
+    private ObservableList<Rule> rulesList;
+    
+ 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
+        rulesList = FXCollections.observableArrayList();
+        
+        disableColumn.setCellValueFactory(cellData -> cellData.getValue().selectedProperty());
+        
+        disableColumn.setCellFactory(CheckBoxTableCell.forTableColumn(disableColumn));
+        
+        addButton.disableProperty().bind(triggersBox.valueProperty().isNotNull().and(actionsBox.valueProperty().isNotNull()));
     }    
+
+    @FXML
+    private void addAction(ActionEvent event) {
+        
+
+    }
     
 }
