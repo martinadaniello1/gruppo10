@@ -4,6 +4,7 @@
  */
 package automatehub.controller;
 
+import automatehub.model_view.Rule;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.*;
@@ -22,7 +23,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button addButton;
     @FXML
-<<<<<<< HEAD
     private ChoiceBox<?> triggersBox;
     @FXML
     private ChoiceBox<?> actionsBox;
@@ -41,9 +41,9 @@ public class FXMLDocumentController implements Initializable {
         
         rulesList = FXCollections.observableArrayList();
         
-        disableColumn.setCellValueFactory(cellData -> cellData.getValue().selectedProperty());
+//        disableColumn.setCellValueFactory(cellData -> cellData.getValue().selectedProperty());
         
-        disableColumn.setCellFactory(CheckBoxTableCell.forTableColumn(disableColumn));
+//        disableColumn.setCellFactory(CheckBoxTableCell.forTableColumn(disableColumn));
         
         addButton.disableProperty().bind(triggersBox.valueProperty().isNotNull().and(actionsBox.valueProperty().isNotNull()));
     }    
