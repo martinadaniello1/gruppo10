@@ -4,6 +4,10 @@ AutomateHub/manifest.mf
 AutomateHub/lib
 .DS_store
 .env
+<<<<<<< HEAD
 /AutomateHub/build/
 /AutomateHub/dist/
 AutomateHub/build/
+=======
+
+>>>>>>> Luca
