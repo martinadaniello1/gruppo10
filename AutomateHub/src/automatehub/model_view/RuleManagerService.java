@@ -1,4 +1,4 @@
-package automatehub.model;
+package automatehub.model_view;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -61,6 +61,7 @@ public class RuleManagerService extends Service{
         this.ruleList.add(r);
         }
     }
+    
     public void removeRule (Rule r){
         synchronized(ruleList){
         if(this.ruleList.remove(r)==false)
