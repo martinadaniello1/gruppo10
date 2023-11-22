@@ -1,7 +1,7 @@
 package automatehub.model;
 
-import java.util.Collection;
-import java.util.concurrent.CopyOnWriteArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
@@ -16,14 +16,14 @@ import javafx.concurrent.Task;
 
 public class RuleManagerService extends Service{
     
-    private Collection<Rule> ruleList;
+    private ObservableList<Rule> ruleList;
     
     //Unica istanza della classe
     private static RuleManagerService instance = null ;
     
     //Costruttore privato
     private RuleManagerService(){
-        this.ruleList =  new CopyOnWriteArrayList<>();
+        this.ruleList = FXCollections.observableArrayList();
     };
     
     //Lazy initialization
@@ -57,15 +57,18 @@ public class RuleManagerService extends Service{
     public void addRule(Rule r) {
         if(r == null)
             throw new IllegalArgumentException("Regola non valida");
-       
+        synchronized(ruleList){
         this.ruleList.add(r);
+        }
     }
     public void removeRule (Rule r){
+        synchronized(ruleList){
         if(this.ruleList.remove(r)==false)
             throw new IllegalArgumentException("Regola non presente");
+        }
     }    
     
-    public CopyOnWriteArrayList<Rule> getRuleList(){
+    public ObservableList<Rule> getRuleList(){
         return this.ruleList;
     }
 }
