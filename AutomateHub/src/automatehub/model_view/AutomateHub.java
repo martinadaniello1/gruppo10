@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXML.java to edit this template
  */
-package automatehub.model;
+package automatehub.model_view;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 public class AutomateHub extends Application {
     
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) throws Exception {        
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
         Scene scene = new Scene(root);
@@ -30,7 +30,7 @@ public class AutomateHub extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        launch(args);
+        launch(args);        
     }
     
 }

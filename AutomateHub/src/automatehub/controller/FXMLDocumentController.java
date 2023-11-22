@@ -22,6 +22,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button addButton;
     @FXML
+<<<<<<< HEAD
     private ChoiceBox<?> triggersBox;
     @FXML
     private ChoiceBox<?> actionsBox;
