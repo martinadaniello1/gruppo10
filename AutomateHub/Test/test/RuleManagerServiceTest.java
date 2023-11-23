@@ -1,5 +1,6 @@
 package test ;
 
+import automatehub.model_view.Rule;
 import automatehub.model_view.RuleManagerService;
 import static org.junit.Assert.*;
 import org.junit.After;

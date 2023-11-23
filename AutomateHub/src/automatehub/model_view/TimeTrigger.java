@@ -1,4 +1,4 @@
-package automatehub.model;
+package automatehub.model_view;
 
 
 import java.time.LocalDateTime;

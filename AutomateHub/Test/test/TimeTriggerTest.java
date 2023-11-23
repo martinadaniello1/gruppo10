@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
 package test;
 
+import automatehub.model_view.TimeTrigger;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import org.junit.*;
@@ -26,16 +23,16 @@ public class TimeTriggerTest {
     @Test
     public void testFalsecheckTime() {
         timetrigger.check();        
-        assertEquals(false, timetrigger.isVerified());
+        assertEquals(false, timetrigger.check());
     }
     
     @Test
     public void testTruecheckTime() {
         
         timetrigger.setTime(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
-        timetrigger.checkTime();
+   //     timetrigger.checkTime();
         
-        assertEquals(true, timetrigger.isVerified());
+        assertEquals(true, timetrigger.check());
     }
     
 }
