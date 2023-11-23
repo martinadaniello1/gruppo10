@@ -22,9 +22,6 @@ public class Rule {
         this.active = active;
     }
     
-    public Rule() {
-        
-    }
 
     public Action getAction() {
         return action;
