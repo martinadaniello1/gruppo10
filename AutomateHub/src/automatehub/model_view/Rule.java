@@ -11,6 +11,10 @@ public class Rule {
     private Trigger trigger;
     private Boolean active;
 
+    public Rule(){
+       
+    }
+    
     public Rule(String nameRule, Action action, Trigger trigger, Boolean active) {
         this.nameRule = nameRule;
         this.action = action;

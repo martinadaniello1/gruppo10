@@ -23,9 +23,9 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button addButton;
     @FXML
-    private ChoiceBox<Trigger> triggersBox;
+    private ChoiceBox<String> triggersBox;
     @FXML
-    private ChoiceBox<Action> actionsBox;
+    private ChoiceBox<String> actionsBox;
     @FXML
     private TableView<Rule> rulesTable;
     @FXML
@@ -34,14 +34,26 @@ public class FXMLDocumentController implements Initializable {
     private TableColumn<Rule, Boolean> disableColumn;
     
     private ObservableList<Rule> rulesList;
+    private ObservableList<String> actionsList;
+    private ObservableList<String> triggersList;
     
  
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
         rulesList = FXCollections.observableArrayList();
+        actionsList = FXCollections.observableArrayList();
+        triggersList = FXCollections.observableArrayList();
+        
+        actionsList.addAll("Play an audio file", "Show a message");
+        triggersList.addAll("When the clock hits ...");
+        actionsBox.setItems(actionsList);
+        triggersBox.setItems(triggersList);
+  
         
         rulesTable.setItems(rulesList);
+        
+        
         
 //        disableColumn.setCellValueFactory(cellData -> cellData.getValue().selectedProperty());
         
