@@ -12,14 +12,11 @@ import java.time.temporal.ChronoUnit;
 public class TimeTrigger implements Trigger{
     
     private LocalDateTime time;
+    private String nameTrigger;
+    
 
-    public TimeTrigger(String timeInserted) {        
-        DateTimeFormatter dtf= DateTimeFormatter.ofPattern("yyyy/MM/dd/HH:mm");
-        this.time = LocalDateTime.parse(timeInserted,dtf).truncatedTo(ChronoUnit.MINUTES);
-    }
-
-    public TimeTrigger(String nameTrigger, String timeInserted) {
-        nameTrigger=nameTrigger;
+    public TimeTrigger(String timeInserted, String nameTrigger) {
+        this.nameTrigger=nameTrigger;
         DateTimeFormatter dtf= DateTimeFormatter.ofPattern("yyyy/MM/dd/HH:mm");
         this.time = LocalDateTime.parse(timeInserted,dtf).truncatedTo(ChronoUnit.MINUTES);  
     }
@@ -38,7 +35,7 @@ public class TimeTrigger implements Trigger{
     }
     
     public void setNameTrigger(String nameTrigger){
-        nameTrigger= nameTrigger;
+        this.nameTrigger= nameTrigger;
     }
        
     @Override

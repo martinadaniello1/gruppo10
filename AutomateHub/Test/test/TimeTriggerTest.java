@@ -17,36 +17,79 @@ import java.time.format.DateTimeFormatter;
  */
 public class TimeTriggerTest {
     
-    private static TimeTrigger timetrigger;
+    private  TimeTrigger timetrigger;
+    private  LocalDateTime dateExpected;
+    private  String nameExpected="";
+    private  String falseNameExpected="";
+    private  LocalDateTime falseDateExpected;
     
-    @BeforeClass
-    public static void setUpClass() {
+    @Before
+    public  void setUp() {
         
-        timetrigger= new TimeTrigger("2023/11/22/10:47");
+        timetrigger= new TimeTrigger("2023/11/22/10:47", "Testing Trigger");
+        dateExpected= LocalDateTime.of(2023, 11, 22, 10, 47);
+        nameExpected= "Testing Trigger";
+        falseNameExpected="False Testing Trigger";
+        falseDateExpected= LocalDateTime.of(2023, 06, 22, 10, 10);
+        
     }
+    
+    @Test
+    public void testTimeTrigger() {
+        
+        
+        
+        assertEquals(dateExpected,timetrigger.getTime());
+        assertNotEquals(falseDateExpected,timetrigger.getTime());
+        
+        assertEquals(nameExpected, timetrigger.getNameTrigger());
+        assertNotEquals(falseNameExpected,timetrigger.getNameTrigger());
+        
+    }
+    
+   
     
     @Test
     public void testgetTime() {
         
-        String triggertime= "2023/11/22/10:47";
-        DateTimeFormatter dtf= DateTimeFormatter.ofPattern("yyyy/MM/dd/HH:mm");
-        LocalDateTime triggertimeparse= LocalDateTime.parse(triggertime,dtf).truncatedTo(ChronoUnit.MINUTES);   
-        
-        assertEquals(triggertimeparse,timetrigger.getTime());
+        timetrigger.setTime(LocalDateTime.of(2023, 06, 22, 10, 10));
+        assertEquals(falseDateExpected,timetrigger.getTime());
+        assertNotEquals(dateExpected,timetrigger.getTime());
     }
     
     @Test
-    public void testFalsecheck() {
+    public void testsetTime() {
+        
+        
+        timetrigger.setTime(LocalDateTime.of(2023,10, 23, 10, 38));
+        assertEquals(LocalDateTime.of(2023,10, 23, 10, 38),timetrigger.getTime());
+        assertNotEquals(falseDateExpected,timetrigger.getTime());
+    }
+    
+    @Test
+    public void testgetNameTrigger() {
+        
+        timetrigger.setNameTrigger("False Testing Trigger");
+        assertEquals(falseNameExpected, timetrigger.getNameTrigger());
+        assertNotEquals(nameExpected,timetrigger.getNameTrigger());
+        
+    }
+    
+    @Test
+    public void testsetNameTrigger() {
+        
+        timetrigger.setNameTrigger("Changed name");
+        assertEquals("Changed name",timetrigger.getNameTrigger());
+        assertNotEquals(falseNameExpected,timetrigger.getNameTrigger());
+        
+    }
+    
+    @Test
+    public void testcheck() {
                
         assertEquals(false, timetrigger.check());
-    }
-    
-    @Test
-    public void testTruecheck() {
         
         timetrigger.setTime(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
-        
-        
         assertEquals(true, timetrigger.check());
     }
     
