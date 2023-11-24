@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXML2.java to edit this template
- */
 package automatehub.controller;
 
 import automatehub.model_view.*;
@@ -28,20 +24,23 @@ public class FXMLDocumentController implements Initializable {
     private ChoiceBox<String> actionsBox;
     @FXML
     private TableView<Rule> rulesTable;
-    @FXML
-    private TableColumn<Rule, String> rulesColumn;
-    @FXML
-    private TableColumn<Rule, Boolean> disableColumn;
     
     private RuleManagerService ruleManager = RuleManagerService.getRuleManager();
     
     private ObservableList<Rule> rulesList = ruleManager.getRuleList();
     private ObservableList<String> actionsList;
     private ObservableList<String> triggersList;
+    @FXML
+    private TableColumn<Rule, String> nameColumn;
+    @FXML
+    private TableColumn<Rule, String> triggerColumn;
+    @FXML
+    private TableColumn<Rule, String> actionColumn;
+    @FXML
+    private TableColumn<Rule, Boolean> activeColumn;
     
 
     
-    @FXML
     public void startAction(){
         //ruleManager.setOnSucceeded();
         ruleManager.start();
@@ -50,7 +49,6 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-    //  rulesList = FXCollections.observableArrayList(); istanziato sopra
         actionsList = FXCollections.observableArrayList();
         triggersList = FXCollections.observableArrayList();
         
@@ -62,11 +60,13 @@ public class FXMLDocumentController implements Initializable {
         
         rulesTable.setItems(rulesList);
         
-        
-        
-//      disableColumn.setCellValueFactory(cellData -> cellData.getValue().selectedProperty());
-        
-        disableColumn.setCellFactory(CheckBoxTableCell.forTableColumn(disableColumn));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("nameRule"));
+        triggerColumn.setCellValueFactory(new PropertyValueFactory<>("trigger"));
+        actionColumn.setCellValueFactory(new PropertyValueFactory<>("action"));
+        activeColumn.setCellValueFactory(new PropertyValueFactory<>("active"));
+    
+                
+        activeColumn.setCellFactory(CheckBoxTableCell.forTableColumn(activeColumn));
         
         addButton.disableProperty().bind(triggersBox.valueProperty().isNull().or(actionsBox.valueProperty().isNull()));
 
