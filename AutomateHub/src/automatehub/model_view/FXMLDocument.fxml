@@ -21,8 +21,10 @@
          <center>
             <TableView fx:id="rulesTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn fx:id="rulesColumn" prefWidth="392.0" text="Rules" />
-                <TableColumn fx:id="disableColumn" minWidth="0.0" prefWidth="235.0" />
+                <TableColumn fx:id="nameColumn" prefWidth="392.0" text="Rule name" />
+                  <TableColumn fx:id="triggerColumn" prefWidth="75.0" text="Trigger" />
+                  <TableColumn fx:id="actionColumn" prefWidth="75.0" text="Action" />
+                <TableColumn fx:id="activeColumn" minWidth="0.0" prefWidth="235.0" text="Active" />
               </columns>
                <BorderPane.margin>
                   <Insets />
