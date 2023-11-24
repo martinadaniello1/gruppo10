@@ -61,6 +61,7 @@ public class RuleManagerService extends Service{
         this.ruleList.add(r);
         //Logging
         System.out.println("addRule in RuleManagerService eseguita correttamente");
+        System.out.println(r.toString());
         }           
     }
     
@@ -71,6 +72,7 @@ public class RuleManagerService extends Service{
         }
         //Logging
         System.out.println("removeRule in RuleManagerService eseguita correttamente");
+        System.out.println(r.toString());
     }    
     
     public ObservableList<Rule> getRuleList(){
