@@ -60,8 +60,7 @@ public class RuleManagerService extends Service{
         synchronized(ruleList){
         this.ruleList.add(r);
         //Logging
-        System.out.println("addRule in RuleManagerService eseguita, con aggiunta di: ");
-        System.out.println(r.toString());
+        System.out.println("addRule in RuleManagerService eseguita correttamente");
         }           
     }
     
@@ -71,8 +70,7 @@ public class RuleManagerService extends Service{
             throw new IllegalArgumentException("Regola non presente");
         }
         //Logging
-        System.out.println("removeRule in RuleManagerService eseguita, con rimozione di:");
-        System.out.println(r.toString());
+        System.out.println("removeRule in RuleManagerService eseguita correttamente");
     }    
     
     public ObservableList<Rule> getRuleList(){
