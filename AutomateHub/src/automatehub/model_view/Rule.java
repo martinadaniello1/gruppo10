@@ -6,7 +6,7 @@ package automatehub.model_view;
  */
 
 public class Rule {
-    public String nameRule;
+    private String nameRule;
     private Action action;
     private Trigger trigger;
     private Boolean active;
@@ -28,8 +28,7 @@ public class Rule {
 
     public void setNameRule(String nameRule) {
         this.nameRule = nameRule;
-    }
-    
+    }    
 
     public Action getAction() {
         return action;
