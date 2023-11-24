@@ -24,12 +24,7 @@ public class AutomateHub extends Application {
         
         stage.setScene(scene);
         stage.show();
-        
-        RuleManagerService ruleManager = null;
-        ruleManager = RuleManagerService.getRuleManager();
-        //ruleManager.setOnSucceeded();
-        
-        ruleManager.start();
+    
         
         
     }
