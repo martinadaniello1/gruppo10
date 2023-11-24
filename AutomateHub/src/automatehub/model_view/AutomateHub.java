@@ -26,8 +26,9 @@ public class AutomateHub extends Application {
         stage.setScene(scene);
         stage.show();
         
-         AudioAction audio = new AudioAction("Test","C:\\Users\\mapic\\Desktop\\Progetto\\ONE MORE TIME.wav");
-        audio.execute();
+    
+        
+        
     }
 
     /**

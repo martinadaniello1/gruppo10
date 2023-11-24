@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXML2.java to edit this template
- */
 package automatehub.controller;
 
 import automatehub.model_view.*;
@@ -23,29 +19,54 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button addButton;
     @FXML
-    private ChoiceBox<Trigger> triggersBox;
+    private ChoiceBox<String> triggersBox;
     @FXML
-    private ChoiceBox<Action> actionsBox;
+    private ChoiceBox<String> actionsBox;
     @FXML
     private TableView<Rule> rulesTable;
-    @FXML
-    private TableColumn<Rule, String> rulesColumn;
-    @FXML
-    private TableColumn<Rule, Boolean> disableColumn;
     
-    private ObservableList<Rule> rulesList;
+    private RuleManagerService ruleManager = RuleManagerService.getRuleManager();
     
- 
+    private ObservableList<Rule> rulesList = ruleManager.getRuleList();
+    private ObservableList<String> actionsList;
+    private ObservableList<String> triggersList;
+    @FXML
+    private TableColumn<Rule, String> nameColumn;
+    @FXML
+    private TableColumn<Rule, String> triggerColumn;
+    @FXML
+    private TableColumn<Rule, String> actionColumn;
+    @FXML
+    private TableColumn<Rule, Boolean> activeColumn;
+    
+
+    
+    public void startAction(){
+        //ruleManager.setOnSucceeded();
+        ruleManager.start();
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        rulesList = FXCollections.observableArrayList();
+        actionsList = FXCollections.observableArrayList();
+        triggersList = FXCollections.observableArrayList();
+        
+        actionsList.addAll("Play an audio file", "Show a message");
+        triggersList.addAll("When the clock hits ...");
+        actionsBox.setItems(actionsList);
+        triggersBox.setItems(triggersList);
+        
         
         rulesTable.setItems(rulesList);
         
-//        disableColumn.setCellValueFactory(cellData -> cellData.getValue().selectedProperty());
-        
-        disableColumn.setCellFactory(CheckBoxTableCell.forTableColumn(disableColumn));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("nameRule"));
+        triggerColumn.setCellValueFactory(new PropertyValueFactory<>("trigger"));
+        actionColumn.setCellValueFactory(new PropertyValueFactory<>("action"));
+        activeColumn.setCellValueFactory(new PropertyValueFactory<>("active"));
+    
+                
+        activeColumn.setCellFactory(CheckBoxTableCell.forTableColumn(activeColumn));
         
         addButton.disableProperty().bind(triggersBox.valueProperty().isNull().or(actionsBox.valueProperty().isNull()));
 
@@ -53,8 +74,9 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void addAction(ActionEvent event) {
-        
-
+//        Rule provaRule = new Rule("Regola di prova", new Action(), new TimeTrigger(), Boolean.TRUE); 
+//        ruleManager.addRule(provaRule);
+        System.out.println("AddAction Excecuted");
     }
    
 }

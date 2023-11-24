@@ -11,16 +11,25 @@ public class Rule {
     private Trigger trigger;
     private Boolean active;
 
+    public Rule(){
+       
+    }
+    
     public Rule(String nameRule, Action action, Trigger trigger, Boolean active) {
         this.nameRule = nameRule;
         this.action = action;
         this.trigger = trigger;
         this.active = active;
     }
-    
-    public Rule() {
-        
+
+    public String getNameRule() {
+        return nameRule;
     }
+
+    public void setNameRule(String nameRule) {
+        this.nameRule = nameRule;
+    }
+    
 
     public Action getAction() {
         return action;
@@ -49,8 +58,7 @@ public class Rule {
     @Override
     public String toString() {
         return "La regola " + nameRule + " è composta dal trigger " + trigger.getNameTrigger() + " e dall'azione " + action.getNameAction();
-    }
-    
+    }   
     
     
 }
