@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXML.java to edit this template
- */
 package automatehub.model_view;
 
 import javafx.application.Application;
@@ -30,10 +26,6 @@ public class AutomateHub extends Application {
         //ruleManager.setOnSucceeded();
         
         ruleManager.start();
-        
-        AudioAction audio = new AudioAction("Test","C:\\Users\\mapic\\Desktop\\Progetto\\ONE MORE TIME.wav");
-        audio.execute();
-        
     }
 
     /**
