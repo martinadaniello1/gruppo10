@@ -59,7 +59,9 @@ public class RuleManagerService extends Service{
             throw new IllegalArgumentException("Regola non valida");
         synchronized(ruleList){
         this.ruleList.add(r);
-        }
+        System.out.println("AddRule in RuleManagerService eseguita");
+        System.out.println(r.toString());
+        }           
     }
     
     public void removeRule (Rule r){
