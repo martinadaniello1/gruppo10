@@ -10,4 +10,5 @@ public interface Trigger {
     
     public boolean check();
     public String getNameTrigger(); 
+    public void setNameTrigger(String nameTrigger);
 }

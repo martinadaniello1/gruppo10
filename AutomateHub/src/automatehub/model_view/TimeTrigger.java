@@ -37,6 +37,7 @@ public class TimeTrigger implements Trigger{
         return nameTrigger;
     }
     
+    @Override
     public void setNameTrigger(String nameTrigger){
         nameTrigger= nameTrigger;
     }
