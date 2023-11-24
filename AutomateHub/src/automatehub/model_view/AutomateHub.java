@@ -31,6 +31,8 @@ public class AutomateHub extends Application {
         
         ruleManager.start();
         
+        AudioAction audio = new AudioAction("Test","C:\\Users\\mapic\\Desktop\\Progetto\\ONE MORE TIME.wav");
+        audio.execute();
         
     }
 
