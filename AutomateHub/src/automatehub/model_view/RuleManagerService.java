@@ -10,7 +10,7 @@ import javafx.concurrent.Task;
  * applicativo, controllandone le condizioni periodicamente. 
  * Si implementa il pattern singleton. Tale implementazione del pattern singleton
  * risulta valido fintanto stiamo lavorando in ambito single-thread.
- * Come collezione per gestire l'insieme di regole si è scelta una ObservableList,
+ * Come collezione per gestire l'insieme di regole si è scelta una ArrayList.
  * @author adc01
  */
 
@@ -46,8 +46,8 @@ public class RuleManagerService extends Service{
                         if(regola.getTrigger().check())
                             regola.getAction().execute();
                     }
-                    //Si attendono 2 secondi prima della prossima verifica
-                    Thread.sleep(2000);
+                    //Si attendono 3 secondi prima della prossima verifica
+                    Thread.sleep(3000);
                 }
                 return null;
             }
@@ -59,7 +59,8 @@ public class RuleManagerService extends Service{
             throw new IllegalArgumentException("Regola non valida");
         synchronized(ruleList){
         this.ruleList.add(r);
-        System.out.println("AddRule in RuleManagerService eseguita");
+        //Logging
+        System.out.println("addRule in RuleManagerService eseguita, con aggiunta di: ");
         System.out.println(r.toString());
         }           
     }
@@ -69,6 +70,9 @@ public class RuleManagerService extends Service{
         if(this.ruleList.remove(r)==false)
             throw new IllegalArgumentException("Regola non presente");
         }
+        //Logging
+        System.out.println("removeRule in RuleManagerService eseguita, con rimozione di:");
+        System.out.println(r.toString());
     }    
     
     public ObservableList<Rule> getRuleList(){
