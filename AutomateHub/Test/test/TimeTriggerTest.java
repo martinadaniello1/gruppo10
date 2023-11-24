@@ -45,16 +45,8 @@ public class TimeTriggerTest {
     }
     
    
-    
     @Test
-
-
-    public void testFalsecheckTime() {
-        timetrigger.check();        
-        assertEquals(false, timetrigger.check());
-    }
-
-    public void testgetTime() {
+    public void testGetTime() {
         
         timetrigger.setTime(LocalDateTime.of(2023, 06, 22, 10, 10));
         assertEquals(falseDateExpected,timetrigger.getTime());
@@ -62,7 +54,7 @@ public class TimeTriggerTest {
     }
     
     @Test
-    public void testsetTime() {
+    public void testSetTime() {
         
         
         timetrigger.setTime(LocalDateTime.of(2023,10, 23, 10, 38));
@@ -71,7 +63,7 @@ public class TimeTriggerTest {
     }
     
     @Test
-    public void testgetNameTrigger() {
+    public void testGetNameTrigger() {
         
         timetrigger.setNameTrigger("False Testing Trigger");
         assertEquals(falseNameExpected, timetrigger.getNameTrigger());
@@ -80,7 +72,7 @@ public class TimeTriggerTest {
     }
     
     @Test
-    public void testsetNameTrigger() {
+    public void testSetNameTrigger() {
         
         timetrigger.setNameTrigger("Changed name");
         assertEquals("Changed name",timetrigger.getNameTrigger());
@@ -89,7 +81,7 @@ public class TimeTriggerTest {
     }
     
     @Test
-    public void testcheck() {
+    public void testCheck() {
                
         assertEquals(false, timetrigger.check());
         
