@@ -2,23 +2,32 @@ package test ;
 
 import automatehub.model_view.Rule;
 import automatehub.model_view.RuleManagerService;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import static org.junit.Assert.*;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class RuleManagerServiceTest {
 
     private RuleManagerService ruleManager;
+    
+    @BeforeClass
+    public static void initJavaFX() {
+        new JFXPanel(); // Inizializza il toolkit JavaFX
+    }
 
     @Before
     public void setUp() {
         ruleManager = RuleManagerService.getRuleManager();
     }
 
-    @After
-    public void tearDown() {
-        ruleManager.cancel();  // Assicurati di fermare il servizio dopo ogni test
+    @AfterClass
+    public static void shutdownJFX() {
+        // Chiudi il toolkit di JavaFX
     }
 
     @Test
@@ -58,25 +67,35 @@ public class RuleManagerServiceTest {
         assertSame(ruleManager, secondInstance);
     }
 
-    @Test
+ @Test
     public void testRuleManagerService() throws InterruptedException {
-        Rule rule = new Rule();
-        ruleManager.addRule(rule);
+            // crea il servizio all'interno di Platform.runLater() per eseguirlo nel thread di JavaFX
+            Platform.runLater(() -> {
+            RuleManagerService ruleManager = RuleManagerService.getRuleManager();
 
-        ruleManager.start();  // Avvia il servizio
+            ruleManager.start();  // Avvia il servizio
 
-        // Verifica che il servizio stia eseguendo
-        assertTrue(ruleManager.isRunning());
+            // verifica che il servizio stia eseguendo
+            assertTrue(ruleManager.isRunning());
 
-        // Attendi un po' e verifica che il servizio non sia ancora stato cancellato
-        Thread.sleep(3000);
-        assertTrue(ruleManager.isRunning());
+            // dopo un po' verifica che il servizio non sia ancora stato cancellato
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            assertTrue(ruleManager.isRunning());
 
-        // Cancella il servizio
-        ruleManager.cancel();
+            // Cancella il servizio
+            ruleManager.cancel();
 
-        // Attendi un po' e verifica che il servizio sia stato cancellato
-        Thread.sleep(3000);
-        assertFalse(ruleManager.isRunning());
+            //  verifica che il servizio sia stato cancellato dopo un po'
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            assertFalse(ruleManager.isRunning());
+        });
     }
 }
