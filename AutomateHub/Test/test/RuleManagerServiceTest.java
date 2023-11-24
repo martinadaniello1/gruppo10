@@ -1,4 +1,4 @@
-package test ;
+package test;
 
 import automatehub.model_view.Rule;
 import automatehub.model_view.RuleManagerService;

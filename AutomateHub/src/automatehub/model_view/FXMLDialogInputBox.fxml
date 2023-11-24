@@ -1,46 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ButtonType?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<DialogPane fx:id="dialogBoxFX" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="automatehub.model_view.FXMLDialogInputBoxController">
-   <graphic>
-      <VBox alignment="CENTER" prefHeight="300.0" prefWidth="400.0">
+<DialogPane fx:id="rulesDialogPane" headerText="Add new rule" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="382.0" prefWidth="484.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="automatehub.controller.FXMLDialogInputBoxController">
+   <buttonTypes>
+      <ButtonType fx:constant="APPLY" />
+      <ButtonType fx:constant="CANCEL" />
+   </buttonTypes>
+   <content>
+      <VBox alignment="CENTER" prefHeight="330.0" prefWidth="480.0">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Label text="Nome dell'azione: " />
-                  <TextField fx:id="ruleNameFX" />
+                  <Label fx:id="actionNameLabel" alignment="CENTER" text="Set the action name:">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin></Label>
+                  <TextField fx:id="actionNameTextField" HBox.hgrow="NEVER">
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin></TextField>
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox layoutX="30.0" layoutY="30.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Label prefHeight="17.0" prefWidth="170.0" text="Definisci l'azione:" />
-                  <HBox prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <TextField fx:id="filePathFX" prefHeight="25.0" prefWidth="78.0" />
-                        <Button fx:id="buttonFilePickerFX" mnemonicParsing="false" onAction="#chooseFile" text="..." />
-                     </children>
-                  </HBox>
-                  <TextField fx:id="textMessageForDialogBoxFX" promptText="Testo da mostrare" />
+                  <Label fx:id="actionLabel" alignment="CENTER" text="Set the action:">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="actionTextField">
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                  </TextField>
                </children>
             </HBox>
-            <HBox prefHeight="118.0" prefWidth="414.0">
+            <HBox layoutX="30.0" layoutY="75.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Label text="Scegliere il trigger:" />
-                  <DatePicker fx:id="datePickerFX" />
+                  <Label fx:id="triggerNameLabel" alignment="CENTER" text="Set the trigger name:">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="triggerNameTextField">
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox layoutX="30.0" layoutY="224.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Label fx:id="triggerLabel" alignment="CENTER" text="Set the trigger:">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="triggerTextField">
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                  </TextField>
                </children>
             </HBox>
          </children>
+         <padding>
+            <Insets left="20.0" top="20.0" />
+         </padding>
       </VBox>
-   </graphic>
-   <buttonTypes>
-      <ButtonType fx:constant="APPLY" />
-   </buttonTypes>
+   </content>
+   <header>
+      <Label alignment="CENTER" contentDisplay="CENTER" text="Set up the new rule">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </header>
 </DialogPane>
