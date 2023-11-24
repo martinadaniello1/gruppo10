@@ -35,7 +35,7 @@ public class RuleManagerService extends Service{
         return instance;
     }
     
-       @Override
+    @Override
     protected Task<Void> createTask() {
         return new Task<Void>() {
             @Override

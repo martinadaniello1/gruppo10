@@ -12,9 +12,16 @@ import java.time.temporal.ChronoUnit;
 public class TimeTrigger implements Trigger{
     private String nameTrigger;
     private LocalDateTime time;
+    private String nameTrigger;
+    
 
+<<<<<<< HEAD
     public TimeTrigger(String nameTrigger, String timeInserted) {
         nameTrigger=nameTrigger;
+=======
+    public TimeTrigger(String timeInserted, String nameTrigger) {
+        this.nameTrigger=nameTrigger;
+>>>>>>> cbed19c3accced5b49038a41fb75945689be96a8
         DateTimeFormatter dtf= DateTimeFormatter.ofPattern("yyyy/MM/dd/HH:mm");
         this.time = LocalDateTime.parse(timeInserted,dtf).truncatedTo(ChronoUnit.MINUTES);  
     }

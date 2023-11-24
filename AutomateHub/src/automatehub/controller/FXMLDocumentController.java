@@ -33,15 +33,24 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TableColumn<Rule, Boolean> disableColumn;
     
-    private ObservableList<Rule> rulesList;
+    private RuleManagerService ruleManager = RuleManagerService.getRuleManager();
+    
+    private ObservableList<Rule> rulesList = ruleManager.getRuleList();
     private ObservableList<String> actionsList;
     private ObservableList<String> triggersList;
     
- 
+
+    
+    @FXML
+    public void startAction(){
+        //ruleManager.setOnSucceeded();
+        ruleManager.start();
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        rulesList = FXCollections.observableArrayList();
+    //  rulesList = FXCollections.observableArrayList(); istanziato sopra
         actionsList = FXCollections.observableArrayList();
         triggersList = FXCollections.observableArrayList();
         
@@ -49,13 +58,13 @@ public class FXMLDocumentController implements Initializable {
         triggersList.addAll("When the clock hits ...");
         actionsBox.setItems(actionsList);
         triggersBox.setItems(triggersList);
-  
+        
         
         rulesTable.setItems(rulesList);
         
         
         
-//        disableColumn.setCellValueFactory(cellData -> cellData.getValue().selectedProperty());
+//      disableColumn.setCellValueFactory(cellData -> cellData.getValue().selectedProperty());
         
         disableColumn.setCellFactory(CheckBoxTableCell.forTableColumn(disableColumn));
         
@@ -65,8 +74,9 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void addAction(ActionEvent event) {
-        
-
+//        Rule provaRule = new Rule("Regola di prova", new Action(), new TimeTrigger(), Boolean.TRUE); 
+//        ruleManager.addRule(provaRule);
+        System.out.println("AddAction Excecuted");
     }
    
 }
