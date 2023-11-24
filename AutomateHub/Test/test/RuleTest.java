@@ -23,9 +23,21 @@ public class RuleTest {
     
     @BeforeClass
     public static void setUpClass() {
-        a=new AudioAction("Test rule action","C:\\Users\\mapic\\Desktop\\Progetto\\ONE MORE TIME.wav");
-        t = new TimeTrigger("Test rule trigger","2023/11/22/10:47");
+        a = new AudioAction("Test rule action","C:\\Users\\mapic\\Desktop\\Progetto\\ONE MORE TIME.wav");
+        t = new TimeTrigger("2023/11/22/10:47","Test rule trigger");
         rule= new Rule("Test rule",a,t,true);
+    }
+    
+    @Test 
+    public void testGetNameRule(){
+        assertEquals("Test rule",rule.getNameRule());
+    }
+    
+    @Test
+    public void testSetNameRule(){
+        String nameExp="Test Set rule";
+        rule.setNameRule(nameExp);
+        assertEquals(nameExp,rule.getNameRule());
     }
     
     @Test
@@ -49,7 +61,7 @@ public class RuleTest {
     
     @Test
     public void testSetTrigger(){
-        TimeTrigger t1= new TimeTrigger("2023/11/24/10:47");
+        TimeTrigger t1= new TimeTrigger("2023/11/24/10:47","Test");
         assertNotEquals(t1,rule.getTrigger());
         rule.setTrigger(t1);
         assertEquals(t1,rule.getTrigger());
