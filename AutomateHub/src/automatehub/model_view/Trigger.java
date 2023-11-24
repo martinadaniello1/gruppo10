@@ -9,5 +9,4 @@ public interface Trigger {
     public boolean check();
     public void setNameTrigger(String nameTrigger);
     public String getNameTrigger(); 
-    public void setNameTrigger(String nameTrigger);
 }

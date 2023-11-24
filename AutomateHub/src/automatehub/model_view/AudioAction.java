@@ -104,8 +104,7 @@ public class AudioAction implements Action {
         } else {
             return false;
         }
-    }
-    
+    }    
     
     public void startPlaying(Runnable atEnd) {
         setAtEnd(atEnd);

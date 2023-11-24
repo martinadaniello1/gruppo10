@@ -20,8 +20,7 @@ public class AudioActionTest {
     @BeforeClass
     public static void SetUpClass(){
         filePath="C:\\Users\\mapic\\Desktop\\Progetto\\ONE MORE TIME.wav";
-        a = new AudioAction("Test AudioAction",filePath);
-        
+        a = new AudioAction("Test AudioAction",filePath);        
     }
     
     @Test
