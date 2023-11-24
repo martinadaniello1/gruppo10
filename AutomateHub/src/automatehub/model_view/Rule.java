@@ -21,6 +21,14 @@ public class Rule {
         this.trigger = trigger;
         this.active = active;
     }
+
+    public String getNameRule() {
+        return nameRule;
+    }
+
+    public void setNameRule(String nameRule) {
+        this.nameRule = nameRule;
+    }
     
 
     public Action getAction() {
