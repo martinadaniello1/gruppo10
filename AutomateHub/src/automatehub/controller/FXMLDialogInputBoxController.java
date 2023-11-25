@@ -72,7 +72,7 @@ public class FXMLDialogInputBoxController implements Initializable {
     
         //if(triggerType.equals("When the clock hits ..."));     
         Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
-        b.setOnAction(event -> createRule(actionType, triggerType, ruleNameLabel.getText()));
+        b.setOnAction(event -> createRule(actionType, triggerType, ruleTextField.getText()));
     }   
     
     
