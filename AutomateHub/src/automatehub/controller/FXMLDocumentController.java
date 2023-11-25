@@ -41,9 +41,9 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TableColumn<Rule, String> nameColumn;
     @FXML
-    private TableColumn<Rule, String> triggerColumn;
+    private TableColumn<Rule, Trigger> triggerColumn;
     @FXML
-    private TableColumn<Rule, String> actionColumn;
+    private TableColumn<Rule, Action> actionColumn;
     @FXML
     private TableColumn<Rule, Boolean> activeColumn;
     
@@ -65,7 +65,6 @@ public class FXMLDocumentController implements Initializable {
         actionsBox.setItems(actionsList);
         triggersBox.setItems(triggersList);
         
-        
         rulesTable.setItems(rulesList);
      
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("nameRule"));
@@ -73,7 +72,39 @@ public class FXMLDocumentController implements Initializable {
         actionColumn.setCellValueFactory(new PropertyValueFactory<>("action"));
         activeColumn.setCellValueFactory(new PropertyValueFactory<>("active"));
         
+        triggerColumn.setCellFactory(column -> {
+            return new TableCell<Rule, Trigger>() {
+                @Override
+                protected void updateItem(Trigger trigger, boolean empty) {
+                    super.updateItem(trigger, empty);
+                    if (trigger == null || empty) {
+                        setText(null);
+                        setGraphic(null);
+                    } else {
+                        setText(trigger.getNameTrigger());
+                    }
+                }
+            };
+        });
+        
+        actionColumn.setCellFactory(column -> {
+            return new TableCell<Rule, Action>() {
+                @Override
+                protected void updateItem(Action action, boolean empty) {
+                    super.updateItem(action, empty);
+                    if (action == null || empty) {
+                        setText(null);
+                        setGraphic(null);
+                    } else {
+                        setText(action.getNameAction());
+                    }
+                }
+            };
+        });
+        
+
         //Definisco l'interazione con il tasto destro sulle righe della tabella
+
         rulesTable.setRowFactory(
         new Callback<TableView<Rule>, TableRow<Rule>>() {
             @Override
@@ -93,15 +124,15 @@ public class FXMLDocumentController implements Initializable {
             });
             rowMenu.getItems().addAll(/*editItem,*/ removeItem);
             
-            // mostrare il menu contestuale solo per le righe che non sono vuote
+            // mostrare il menu contestuale solo per le righe che non sono vuote 
             row.contextMenuProperty().bind(
               Bindings.when(row.emptyProperty())
               .then((ContextMenu) null)
               .otherwise(rowMenu));
             return row;
             }
-        });
-        
+        }); 
+       
                 
         activeColumn.setCellFactory(CheckBoxTableCell.forTableColumn(activeColumn));
         

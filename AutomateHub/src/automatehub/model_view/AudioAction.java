@@ -101,5 +101,4 @@ public class AudioAction implements Action {
         setAtEnd(null);
         clip.stop();
     }
-    
 }
