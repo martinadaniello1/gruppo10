@@ -93,18 +93,7 @@ public class AudioAction implements Action {
     public String getNameAction() {
         return nameAction;
     }
-    
-    public boolean isEqual(Action o){
-        if (o == null || o.getClass() != this.getClass()) {
-            return false; 
-        }
-        AudioAction or = (AudioAction) o;
-        if (this.nameAction.equals(or.getNameAction()) && this.file.equals(or.getFile())) {
-            return true;
-        } else {
-            return false;
-        }
-    }    
+     
     
     public void startPlaying(Runnable atEnd) {
         setAtEnd(atEnd);
