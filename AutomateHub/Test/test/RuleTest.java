@@ -5,13 +5,12 @@
 package test;
 
 
-import automatehub.model_view.AudioAction;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import org.junit.*;
 import static org.junit.Assert.*;
 import automatehub.model_view.Rule;
 import automatehub.model_view.TimeTrigger;
+import automatehub.model_view.AudioAction;
+
 /**
  *
  * @author mapic
@@ -21,11 +20,23 @@ public class RuleTest {
     public static AudioAction a;
     public static TimeTrigger t;
     
-    @BeforeClass
-    public static void setUpClass() {
-        a = new AudioAction("Test rule action","C:\\Users\\mapic\\Desktop\\Progetto\\ONE MORE TIME.wav");
+    @Before
+    public void setUp() {
+        a = new AudioAction("Test rule action",
+                "C:\\Users\\mapic\\Desktop\\Progetto\\ONE MORE TIME.wav");
         t = new TimeTrigger("2023/11/22/10:47","Test rule trigger");
         rule= new Rule("Test rule",a,t,true);
+    }
+        
+    @Test
+    public void testRule(){
+        //Verifico che l'istanza non sia nulla
+        assertNotNull(rule);
+        
+        assertEquals(a,rule.getAction());
+        assertEquals(t,rule.getTrigger());
+        assertEquals("Test rule",rule.getNameRule());
+        assertEquals(true,rule.getActive());
     }
     
     @Test 
@@ -48,7 +59,8 @@ public class RuleTest {
     
     @Test
     public void testSetAction(){
-        AudioAction a1= new AudioAction("Test rule SetAction","C:\\Users\\mapic\\Desktop\\Progetto\\ONE MORE TIME.wav");
+        AudioAction a1= new AudioAction("Test rule SetAction",
+                "C:\\Users\\mapic\\Desktop\\Progetto\\ONE MORE TIME.wav");
         assertNotEquals(a1,rule.getAction());
         rule.setAction(a1);
         assertEquals(a1,rule.getAction());
@@ -70,15 +82,16 @@ public class RuleTest {
     @Test
     public void testGetActive(){
         assertEquals(true,rule.getActive());
+        rule.setActive(false);
+        assertEquals(false,rule.getActive());
     } 
     
     @Test
     public void testSetActive(){
+        rule.setActive(true);
         assertEquals(true,rule.getActive());
         rule.setActive(false);
         assertEquals(false,rule.getActive());
-        rule.setActive(true);
-        assertEquals(true,rule.getActive());
     } 
     
 }

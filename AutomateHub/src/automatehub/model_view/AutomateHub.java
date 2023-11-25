@@ -25,7 +25,6 @@ public class AutomateHub extends Application {
         
         stage.setScene(scene);
         stage.show();     
-    
         
         
     }

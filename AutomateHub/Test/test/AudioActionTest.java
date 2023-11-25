@@ -16,11 +16,23 @@ public class AudioActionTest {
     
     private static AudioAction a;
     private static String filePath;
+    private static File file;
     
     @BeforeClass
     public static void SetUpClass(){
         filePath="C:\\Users\\mapic\\Desktop\\Progetto\\ONE MORE TIME.wav";
+        file = new File(filePath);
         a = new AudioAction("Test AudioAction",filePath);        
+    }
+    
+    @Test
+    public void testAudioAction(){
+        //Verifico che l'istanza non sia nulla
+        assertNotNull(a);
+        
+        assertEquals(file,a.getFile());
+        assertEquals("Test AudioAction",a.getNameAction());
+        assertEquals(filePath,a.getFile().getPath());
     }
     
     @Test
