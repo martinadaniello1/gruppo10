@@ -10,7 +10,7 @@ import javafx.concurrent.Task;
  * applicativo, controllandone le condizioni periodicamente. 
  * Si implementa il pattern singleton. Tale implementazione del pattern singleton
  * risulta valido fintanto stiamo lavorando in ambito single-thread.
- * Come collezione per gestire l'insieme di regole si è scelta una ObservableList,
+ * Come collezione per gestire l'insieme di regole si è scelta una ArrayList.
  * @author adc01
  */
 
@@ -41,13 +41,16 @@ public class RuleManagerService extends Service{
             @Override
             protected Void call() throws Exception {
                 while (!isCancelled()) {
-                    // Verifica le condizioni e esegui le azioni per ogni regola
+                    // Verifica le condizioni e esegui le azioni per ogni regola attiva
                     for (Rule regola : ruleList) {
-                        if(regola.getTrigger().check())
+                        if(regola.getActive() && regola.getTrigger().check()){
                             regola.getAction().execute();
+                            System.out.println("regola verficata con esito positivo:" + regola.toString()); //Logging
+                        }
+                        else System.out.println("regola verficata con esito negativo:" + regola.toString()); //Logging
                     }
-                    //Si attendono 2 secondi prima della prossima verifica
-                    Thread.sleep(2000);
+                    //Si attendono 3 secondi prima della prossima verifica
+                    Thread.sleep(3000);
                 }
                 return null;
             }
@@ -59,7 +62,10 @@ public class RuleManagerService extends Service{
             throw new IllegalArgumentException("Regola non valida");
         synchronized(ruleList){
         this.ruleList.add(r);
-        }
+        //Logging
+        System.out.println("addRule in RuleManagerService eseguita correttamente");
+        System.out.println(r.toString());
+        }           
     }
     
     public void removeRule (Rule r){
@@ -67,6 +73,9 @@ public class RuleManagerService extends Service{
         if(this.ruleList.remove(r)==false)
             throw new IllegalArgumentException("Regola non presente");
         }
+        //Logging
+        System.out.println("removeRule in RuleManagerService eseguita correttamente");
+        System.out.println(r.toString());
     }    
     
     public ObservableList<Rule> getRuleList(){

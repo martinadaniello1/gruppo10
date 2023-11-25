@@ -1,16 +1,11 @@
 package automatehub.model_view;
 
-/**
- *
- * @author mapic
- */
-
 public class Rule {
     private String nameRule;
     private Action action;
     private Trigger trigger;
     private Boolean active;
-    
+
     public Rule(String nameRule, Action action, Trigger trigger, Boolean active) {
         this.nameRule = nameRule;
         this.action = action;
