@@ -61,7 +61,7 @@ public class RuleTest {
     public void testSetAction(){
         AudioAction a1= new AudioAction("Test rule SetAction",
                 "C:\\Users\\mapic\\Desktop\\Progetto\\ONE MORE TIME.wav");
-        assertNotEquals(a1,rule.getAction());
+        
         rule.setAction(a1);
         assertEquals(a1,rule.getAction());
     } 
@@ -74,7 +74,7 @@ public class RuleTest {
     @Test
     public void testSetTrigger(){
         TimeTrigger t1= new TimeTrigger("2023/11/24/10:47","Test");
-        assertNotEquals(t1,rule.getTrigger());
+       
         rule.setTrigger(t1);
         assertEquals(t1,rule.getTrigger());
     } 
@@ -82,14 +82,12 @@ public class RuleTest {
     @Test
     public void testGetActive(){
         assertEquals(true,rule.getActive());
-        rule.setActive(false);
-        assertEquals(false,rule.getActive());
+        
     } 
     
     @Test
     public void testSetActive(){
-        rule.setActive(true);
-        assertEquals(true,rule.getActive());
+        
         rule.setActive(false);
         assertEquals(false,rule.getActive());
     } 

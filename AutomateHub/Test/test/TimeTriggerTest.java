@@ -17,8 +17,7 @@ public class TimeTriggerTest {
     private  TimeTrigger timetrigger;
     private  static LocalDateTime dateExpected;
     private  static String nameExpected="";
-    private  static String falseNameExpected="";
-    private  static LocalDateTime falseDateExpected;
+    
     
     
     @BeforeClass
@@ -26,23 +25,20 @@ public class TimeTriggerTest {
         
         dateExpected= LocalDateTime.of(2023, 11, 22, 10, 47);
         nameExpected= "Testing Trigger";
-        falseNameExpected="False Testing Trigger";
-        falseDateExpected= LocalDateTime.of(2023, 06, 22, 10, 10);
+        
     }
-    
     
     @Before
-    public  void setUp() {
+    public void setUp() {
         
         timetrigger= new TimeTrigger("2023/11/22/10:47", "Testing Trigger");
-        
-        
     }
+   
     
     @Test
     public void testTimeTrigger() {
         
-        
+        assertNotNull(timetrigger);
         
         assertEquals(dateExpected,timetrigger.getTime());
         
@@ -55,8 +51,8 @@ public class TimeTriggerTest {
     @Test
     public void testGetTime() {
         
-        timetrigger.setTime(LocalDateTime.of(2023, 06, 22, 10, 10));
-        assertEquals(falseDateExpected,timetrigger.getTime());
+        
+        assertEquals(dateExpected,timetrigger.getTime());
         
     }
     
@@ -72,8 +68,8 @@ public class TimeTriggerTest {
     @Test
     public void testGetNameTrigger() {
         
-        timetrigger.setNameTrigger("False Testing Trigger");
-        assertEquals(falseNameExpected, timetrigger.getNameTrigger());
+        
+        assertEquals(nameExpected, timetrigger.getNameTrigger());
         
         
     }

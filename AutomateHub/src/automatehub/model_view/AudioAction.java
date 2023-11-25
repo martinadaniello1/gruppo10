@@ -17,9 +17,6 @@ public class AudioAction implements Action {
     private Clip clip;
     private Runnable atEnd;
 
-    public AudioAction(){
-        
-    }
     
     public AudioAction(String nameAction, String filePath) {
         this.nameAction = nameAction;
