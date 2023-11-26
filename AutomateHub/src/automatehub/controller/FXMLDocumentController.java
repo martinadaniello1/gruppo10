@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -102,9 +103,39 @@ public class FXMLDocumentController implements Initializable {
             };
         });
         
-
+        activeColumn.setCellFactory(new Callback<TableColumn<Rule, Boolean>, TableCell<Rule, Boolean>>() {
+            @Override
+            public TableCell<Rule, Boolean> call(TableColumn<Rule, Boolean> column) {
+                return new CheckBoxTableCell <Rule, Boolean> (){
+                     
+                    @Override 
+                    public void updateItem(Boolean active, boolean empty) {
+                        super.updateItem(active, empty);
+                        
+                        if(empty || active == null) {
+                            setGraphic(null);
+                            setText(null);
+                        }
+                        else {
+                            CheckBox p= new CheckBox();
+                            p.setSelected(active);
+                            setGraphic(p);
+                            p.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent event) {
+                                    Rule selectedRule = (Rule) getTableRow().getItem();
+                                    ActiveAction(p.isSelected(), selectedRule);
+                                }
+                            });
+                        }
+                        
+                    }
+                };
+            }
+            
+        });
+        
         //Definisco l'interazione con il tasto destro sulle righe della tabella
-
         rulesTable.setRowFactory(
         new Callback<TableView<Rule>, TableRow<Rule>>() {
             @Override
@@ -134,7 +165,7 @@ public class FXMLDocumentController implements Initializable {
         }); 
        
                 
-        activeColumn.setCellFactory(CheckBoxTableCell.forTableColumn(activeColumn));
+        
         
         addButton.disableProperty().bind(triggersBox.valueProperty().isNull().or(actionsBox.valueProperty().isNull()));
             
@@ -160,6 +191,14 @@ public class FXMLDocumentController implements Initializable {
         // Mostra la nuova finestra
         nuovoStage.show();
         
+        
+    }
+    
+    private void ActiveAction (Boolean state, Rule r) {
+        
+        r.setActive(state);
+        
+        System.out.println(r.getActive() ? "Regola attivata con successo" : "Regola disattivata con successo");
         
     }
    
