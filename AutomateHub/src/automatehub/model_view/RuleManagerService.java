@@ -1,5 +1,6 @@
 package automatehub.model_view;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
@@ -45,9 +46,11 @@ public class RuleManagerService extends Service{
                     for (Rule regola : ruleList) {
                         if(regola.getActive()){
                             if(regola.getTrigger().check()){
-                                regola.getAction().execute();
-                                System.out.println("regola verficata con esito positivo:" + regola.toString()); //Logging
-                                regola.setActive(false);
+                                Platform.runLater(() -> {
+                                    regola.getAction().execute();
+                                    System.out.println("regola verificata con esito positivo:" + regola.toString()); //Logging
+                                    regola.setActive(false);
+                                });
                             } else 
                                 System.out.println("regola verficata con esito negativo:" + regola.toString()); //Logging
                         }
