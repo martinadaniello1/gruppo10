@@ -9,16 +9,6 @@ AutomateHub is an application that aims to provide users with the ability to aut
 The development of the application involves a team of 4 people (Apicella Mario, Concilio Luca, D'Aniello Martina, Della Corte Andrea), who are following the agile SCRUM process for project implementation. More information can be found in the links provided below.
 
 
-## Screenshots:
-### Windows:
-
-
-
-### MacOS:
-
-
-
-
 
 ## Scrum Artifacts
 <ul>
@@ -28,8 +18,8 @@ The development of the application involves a team of 4 people (Apicella Mario, 
 
 ### I Sprint
 <ul>
-<li><a href="">Retrospective report</a></li>
-<li><a href="">Review report</a></li>
+<li><a href="https://docs.google.com/document/d/1HWIP2-dBY9p7ofwQpYxo1QIxZwOWurrSB5x9rJ6TCHE/edit?usp=sharing">Retrospective report</a></li>
+<li><a href="https://docs.google.com/document/d/1y1-JsGMiV2cOWaA4XIKasQvUer0S78DD5kEUbDrX2eM/edit?usp=sharing">Review report</a></li>
 </ul>
 
 
