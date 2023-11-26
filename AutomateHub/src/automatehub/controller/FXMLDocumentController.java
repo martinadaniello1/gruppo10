@@ -19,10 +19,6 @@ import javafx.scene.control.cell.*;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-/**
- *
- * @author adc01
- */
 public class FXMLDocumentController implements Initializable {
     
     @FXML
@@ -51,7 +47,7 @@ public class FXMLDocumentController implements Initializable {
     
     
     public void startAction(){
-        //ruleManager.setOnSucceeded();
+        
         ruleManager.start();
         
     }
@@ -125,7 +121,6 @@ public class FXMLDocumentController implements Initializable {
                             p.setOnAction(new EventHandler<ActionEvent>() {
                                 @Override
                                 public void handle(ActionEvent event) {
-                                    
                                     selectedRule.setActive(p.isSelected());
                                     System.out.println(selectedRule.getActive() ? "Regola attivata con successo" : "Regola disattivata con successo");
                                 }
@@ -165,13 +160,10 @@ public class FXMLDocumentController implements Initializable {
               .otherwise(rowMenu));
             return row;
             }
-        }); 
-       
-                
-        
+        });   
         
         addButton.disableProperty().bind(triggersBox.valueProperty().isNull().or(actionsBox.valueProperty().isNull()));
-            
+        rulesTable.refresh();
     }    
 
     @FXML

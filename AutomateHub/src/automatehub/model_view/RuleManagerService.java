@@ -47,10 +47,10 @@ public class RuleManagerService extends Service{
                         if(regola.getActive()){
                             if(regola.getTrigger().check()){
                                 Platform.runLater(() -> {
-    regola.getAction().execute();
-    System.out.println("regola verificata con esito positivo:" + regola.toString()); //Logging
-    regola.setActive(false);
-});
+                                    regola.getAction().execute();
+                                    System.out.println("regola verificata con esito positivo:" + regola.toString()); //Logging
+                                    regola.setActive(false);
+                                });
                             } else 
                                 System.out.println("regola verficata con esito negativo:" + regola.toString()); //Logging
                         }
