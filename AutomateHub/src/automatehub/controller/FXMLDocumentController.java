@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -117,16 +119,10 @@ public class FXMLDocumentController implements Initializable {
                             setText(null);
                         }
                         else {
-                            CheckBox p= new CheckBox();
-                            p.setSelected(active);
-                            setGraphic(p);
-                            p.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent event) {
-                                    Rule selectedRule = (Rule) getTableRow().getItem();
-                                    ActiveAction(p.isSelected(), selectedRule);
-                                }
-                            });
+                            CheckBox p= new CheckBox();                            
+                            Rule selectedRule = (Rule) getTableRow().getItem();
+                            p.selectedProperty().bindBidirectional(selectedRule.activeProperty());
+                            setGraphic(p);                            
                         }
                         
                     }
@@ -191,14 +187,6 @@ public class FXMLDocumentController implements Initializable {
         // Mostra la nuova finestra
         nuovoStage.show();
         
-        
-    }
-    
-    private void ActiveAction (Boolean state, Rule r) {
-        
-        r.setActive(state);
-        
-        System.out.println(r.getActive() ? "Regola attivata con successo" : "Regola disattivata con successo");
         
     }
    
