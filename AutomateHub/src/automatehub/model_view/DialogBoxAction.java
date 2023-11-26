@@ -26,7 +26,7 @@ public class DialogBoxAction implements Action {
             alert.setContentText(this.getMessage());
             alert.getButtonTypes().setAll(ButtonType.OK);
             // Visualizza la finestra di avviso e aspetta che l'utente la chiuda
-            alert.showAndWait(); 
+            alert.show(); 
         }
         return 0;
     }
