@@ -11,6 +11,7 @@ import automatehub.model_view.RuleManagerService;
 import automatehub.model_view.TimeTrigger;
 import java.io.File;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -69,17 +70,22 @@ public class FXMLDialogInputBoxController implements Initializable {
         
         if(actionType.equals("Play an audio file"))
             addFileChooser(actionBox);
-        //else if(actionType.equals("Show a message"));
-    
-        //if(triggerType.equals("When the clock hits ..."));     
+         
         Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
+        b.disableProperty().bind(ruleTextField.textProperty().isEmpty().or(actionNameTextField.textProperty().isEmpty().or(actionTextField.textProperty().isEmpty().or(triggerNameTextField.textProperty().isEmpty().or(triggerTextField.textProperty().isEmpty())))));
         b.setOnAction(event -> createRule(actionType, triggerType, ruleTextField.getText()));
     }   
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    
+        triggerTextField.focusedProperty().addListener((arg0, oldValue, newValue) ->{
+            if (!newValue) {
+                if(!triggerTextField.getText().matches("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")) {
+                    triggerTextField.setText("");
+            } 
+            }
+        });
     }    
     
     private void addFileChooser(HBox box){
@@ -101,7 +107,7 @@ public class FXMLDialogInputBoxController implements Initializable {
             AudioAction action = new AudioAction(actionNameTextField.getText(), actionTextField.getText());
             TimeTrigger trigger = new TimeTrigger(triggerTextField.getText(), triggerNameTextField.getText());
             Rule r = new Rule(ruleName,action, trigger, true);
-            ruleManager.addRule(r);
+            ruleManager.addRule(r);  
         }
         if(actionType.equals("Show a message") && triggerType.equals("When the clock hits ...")){
             DialogBoxAction action = new DialogBoxAction(actionNameTextField.getText(), actionTextField.getText());
@@ -112,7 +118,7 @@ public class FXMLDialogInputBoxController implements Initializable {
         
         Stage currentStage = (Stage)rulesDialogPane.getScene().getWindow();
         currentStage.close();
-        
+       
     }
 
     

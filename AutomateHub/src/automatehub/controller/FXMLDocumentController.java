@@ -21,10 +21,6 @@ import javafx.scene.control.cell.*;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-/**
- *
- * @author adc01
- */
 public class FXMLDocumentController implements Initializable {
     
     @FXML
@@ -53,8 +49,9 @@ public class FXMLDocumentController implements Initializable {
     
     
     public void startAction(){
-        //ruleManager.setOnSucceeded();
+        
         ruleManager.start();
+        
     }
         
     @Override
@@ -119,7 +116,7 @@ public class FXMLDocumentController implements Initializable {
                             setText(null);
                         }
                         else {
-                            CheckBox p= new CheckBox();                            
+                            CheckBox p = new CheckBox();                            
                             Rule selectedRule = (Rule) getTableRow().getItem();
                             p.selectedProperty().bindBidirectional(selectedRule.activeProperty());
                             setGraphic(p);                            
@@ -158,13 +155,10 @@ public class FXMLDocumentController implements Initializable {
               .otherwise(rowMenu));
             return row;
             }
-        }); 
-       
-                
-        
+        });   
         
         addButton.disableProperty().bind(triggersBox.valueProperty().isNull().or(actionsBox.valueProperty().isNull()));
-            
+        
     }    
 
     @FXML
@@ -186,7 +180,6 @@ public class FXMLDocumentController implements Initializable {
 
         // Mostra la nuova finestra
         nuovoStage.show();
-        
         
     }
    

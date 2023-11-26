@@ -1,7 +1,7 @@
 package automatehub.model_view;
 
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
@@ -11,20 +11,20 @@ import java.time.temporal.ChronoUnit;
  */
 public class TimeTrigger implements Trigger{
     private String nameTrigger;
-    private LocalDateTime time;
+    private LocalTime time;
     
 
     public TimeTrigger(String timeInserted, String nameTrigger) {
         this.nameTrigger=nameTrigger;
-        DateTimeFormatter dtf= DateTimeFormatter.ofPattern("yyyy/MM/dd/HH:mm");
-        this.time = LocalDateTime.parse(timeInserted,dtf).truncatedTo(ChronoUnit.MINUTES);  
+        DateTimeFormatter dtf= DateTimeFormatter.ofPattern("HH:mm");
+        this.time = LocalTime.parse(timeInserted,dtf).truncatedTo(ChronoUnit.MINUTES);  
     }
    
-    public LocalDateTime getTime() {
+    public LocalTime getTime() {
         return time;
     }
 
-    public void setTime(LocalDateTime time) {
+    public void setTime(LocalTime time) {
         this.time = time;
     }
     
@@ -41,9 +41,9 @@ public class TimeTrigger implements Trigger{
     @Override
     public boolean check() {
         
-        LocalDateTime actualTime= LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+        LocalTime actualTime= LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
                 
-        return actualTime.isEqual(time);
+        return actualTime.equals(this.time);
     }
     
     

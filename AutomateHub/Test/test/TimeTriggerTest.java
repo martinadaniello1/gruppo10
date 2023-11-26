@@ -1,11 +1,11 @@
 package test;
 
 import automatehub.model_view.TimeTrigger;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import org.junit.*;
 import static org.junit.Assert.*;
 import automatehub.model_view.TimeTrigger;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 public class TimeTriggerTest {
     
     private  TimeTrigger timetrigger;
-    private  static LocalDateTime dateExpected;
+    private  static LocalTime timeExpected;
     private  static String nameExpected="";
     
     
@@ -23,7 +23,7 @@ public class TimeTriggerTest {
     @BeforeClass
     public static void setUpClass() {
         
-        dateExpected= LocalDateTime.of(2023, 11, 22, 10, 47);
+        timeExpected= LocalTime.of(10, 47);
         nameExpected= "Testing Trigger";
         
     }
@@ -31,7 +31,7 @@ public class TimeTriggerTest {
     @Before
     public void setUp() {
         
-        timetrigger= new TimeTrigger("2023/11/22/10:47", "Testing Trigger");
+        timetrigger= new TimeTrigger("10:47", "Testing Trigger");
     }
    
     
@@ -40,7 +40,7 @@ public class TimeTriggerTest {
         
         assertNotNull(timetrigger);
         
-        assertEquals(dateExpected,timetrigger.getTime());
+        assertEquals(timeExpected,timetrigger.getTime());
         
         assertEquals(nameExpected, timetrigger.getNameTrigger());
         
@@ -52,7 +52,7 @@ public class TimeTriggerTest {
     public void testGetTime() {
         
         
-        assertEquals(dateExpected,timetrigger.getTime());
+        assertEquals(timeExpected,timetrigger.getTime());
         
     }
     
@@ -60,8 +60,8 @@ public class TimeTriggerTest {
     public void testSetTime() {
         
         
-        timetrigger.setTime(LocalDateTime.of(2023,10, 23, 10, 38));
-        assertEquals(LocalDateTime.of(2023,10, 23, 10, 38),timetrigger.getTime());
+        timetrigger.setTime(LocalTime.of(10, 38));
+        assertEquals(LocalTime.of(10, 38),timetrigger.getTime());
         
     }
     
@@ -88,7 +88,7 @@ public class TimeTriggerTest {
                
         assertEquals(false, timetrigger.check());
         
-        timetrigger.setTime(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
+        timetrigger.setTime(LocalTime.now().truncatedTo(ChronoUnit.MINUTES));
 
         assertEquals(true, timetrigger.check());
     }
