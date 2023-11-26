@@ -4,6 +4,7 @@
  */
 package automatehub.controller;
 
+import automatehub.model_view.AudioAction;
 import automatehub.model_view.DialogBoxAction;
 import automatehub.model_view.Rule;
 import automatehub.model_view.RuleManagerService;
@@ -97,10 +98,10 @@ public class FXMLDialogInputBoxController implements Initializable {
 
     private void createRule(String actionType, String triggerType, String ruleName) {
         if(actionType.equals("Play an audio file") && triggerType.equals("When the clock hits ...")){
-            //AudioAcion action = new AudioAction(actionNameTextField.getText(), actionTextField.getText());
-            //TimeTrigger trigger = new TimeTrigger(triggerTextField.getText(), triggerNameTextField.getText());
-            //Rule r = new Rule(ruleName,action, trigger, true);
-            //ruleManager.addRule(r);
+            AudioAction action = new AudioAction(actionNameTextField.getText(), actionTextField.getText());
+            TimeTrigger trigger = new TimeTrigger(triggerTextField.getText(), triggerNameTextField.getText());
+            Rule r = new Rule(ruleName,action, trigger, true);
+            ruleManager.addRule(r);
         }
         if(actionType.equals("Show a message") && triggerType.equals("When the clock hits ...")){
             DialogBoxAction action = new DialogBoxAction(actionNameTextField.getText(), actionTextField.getText());

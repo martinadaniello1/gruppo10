@@ -43,11 +43,14 @@ public class RuleManagerService extends Service{
                 while (!isCancelled()) {
                     // Verifica le condizioni e esegui le azioni per ogni regola attiva
                     for (Rule regola : ruleList) {
-                        if(regola.getActive() && regola.getTrigger().check()){
-                            regola.getAction().execute();
-                            System.out.println("regola verficata con esito positivo:" + regola.toString()); //Logging
+                        if(regola.getActive()){
+                            if(regola.getTrigger().check()){
+                                regola.getAction().execute();
+                                System.out.println("regola verficata con esito positivo:" + regola.toString()); //Logging
+                                regola.setActive(false);
+                            } else 
+                                System.out.println("regola verficata con esito negativo:" + regola.toString()); //Logging
                         }
-                        else System.out.println("regola verficata con esito negativo:" + regola.toString()); //Logging
                     }
                     //Si attendono 3 secondi prima della prossima verifica
                     Thread.sleep(3000);
