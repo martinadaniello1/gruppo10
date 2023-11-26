@@ -53,6 +53,7 @@ public class FXMLDocumentController implements Initializable {
     public void startAction(){
         //ruleManager.setOnSucceeded();
         ruleManager.start();
+        
     }
         
     @Override
@@ -118,13 +119,15 @@ public class FXMLDocumentController implements Initializable {
                         }
                         else {
                             CheckBox p= new CheckBox();
+                            Rule selectedRule = (Rule) getTableRow().getItem();
                             p.setSelected(active);
                             setGraphic(p);
                             p.setOnAction(new EventHandler<ActionEvent>() {
                                 @Override
                                 public void handle(ActionEvent event) {
-                                    Rule selectedRule = (Rule) getTableRow().getItem();
-                                    ActiveAction(p.isSelected(), selectedRule);
+                                    
+                                    selectedRule.setActive(p.isSelected());
+                                    System.out.println(selectedRule.getActive() ? "Regola attivata con successo" : "Regola disattivata con successo");
                                 }
                             });
                         }
@@ -192,14 +195,5 @@ public class FXMLDocumentController implements Initializable {
         nuovoStage.show();
         
         
-    }
-    
-    private void ActiveAction (Boolean state, Rule r) {
-        
-        r.setActive(state);
-        
-        System.out.println(r.getActive() ? "Regola attivata con successo" : "Regola disattivata con successo");
-        
-    }
-   
+    }   
 }

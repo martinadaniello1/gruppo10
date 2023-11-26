@@ -73,6 +73,7 @@ public class FXMLDialogInputBoxController implements Initializable {
     
         //if(triggerType.equals("When the clock hits ..."));     
         Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
+        b.disableProperty().bind(ruleTextField.textProperty().isEmpty().or(actionNameTextField.textProperty().isEmpty().or(actionTextField.textProperty().isEmpty().or(triggerNameTextField.textProperty().isEmpty().or(triggerTextField.textProperty().isEmpty())))));
         b.setOnAction(event -> createRule(actionType, triggerType, ruleTextField.getText()));
     }   
     
@@ -101,7 +102,7 @@ public class FXMLDialogInputBoxController implements Initializable {
             AudioAction action = new AudioAction(actionNameTextField.getText(), actionTextField.getText());
             TimeTrigger trigger = new TimeTrigger(triggerTextField.getText(), triggerNameTextField.getText());
             Rule r = new Rule(ruleName,action, trigger, true);
-            ruleManager.addRule(r);
+            ruleManager.addRule(r);  
         }
         if(actionType.equals("Show a message") && triggerType.equals("When the clock hits ...")){
             DialogBoxAction action = new DialogBoxAction(actionNameTextField.getText(), actionTextField.getText());
@@ -112,7 +113,7 @@ public class FXMLDialogInputBoxController implements Initializable {
         
         Stage currentStage = (Stage)rulesDialogPane.getScene().getWindow();
         currentStage.close();
-        
+       
     }
 
     
