@@ -24,7 +24,7 @@ public class RuleTest {
     public void setUp() {
         a = new AudioAction("Test rule action",
                 "C:\\Users\\mapic\\Desktop\\Progetto\\ONE MORE TIME.wav");
-        t = new TimeTrigger("2023/11/22/10:47","Test rule trigger");
+        t = new TimeTrigger("10:47","Test rule trigger");
         rule= new Rule("Test rule",a,t,true);
     }
         
@@ -73,7 +73,7 @@ public class RuleTest {
     
     @Test
     public void testSetTrigger(){
-        TimeTrigger t1= new TimeTrigger("2023/11/24/10:47","Test");
+        TimeTrigger t1= new TimeTrigger("10:47","Test");
        
         rule.setTrigger(t1);
         assertEquals(t1,rule.getTrigger());
