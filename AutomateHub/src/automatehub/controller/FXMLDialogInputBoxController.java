@@ -92,11 +92,11 @@ public class FXMLDialogInputBoxController implements Initializable {
         Button fileChooserButton = new Button("...");
         box.getChildren().add(fileChooserButton);
         fileChooserButton.setOnAction(event -> { 
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Seleziona il file audio");
-            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Audio files (*.wav)","*.wav");
-            fileChooser.getExtensionFilters().add(extFilter);
-            File f = fileChooser.showOpenDialog(box.getScene().getWindow());
+            FileChooser fileChooser = new FileChooser(); //apro un fileChooser
+            fileChooser.setTitle("Seleziona il file audio"); //definisco il titolo della finestra da cui scegliere il file
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Audio files (*.wav)","*.wav"); //definizion dei filtri per la selezione dei file
+            fileChooser.getExtensionFilters().add(extFilter); 
+            File f = fileChooser.showOpenDialog(box.getScene().getWindow()); //apro la finestra di dialogo per la scelta del file
             if(f!=null)
                 actionTextField.setText(f.getAbsolutePath());
         });

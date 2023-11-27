@@ -37,6 +37,7 @@ public class FXMLDocumentController implements Initializable {
     private ObservableList<Rule> rulesList = ruleManager.getRuleList();
     private ObservableList<String> actionsList;
     private ObservableList<String> triggersList;
+    private ObservableList<Rule> selectedRules; 
     @FXML
     private TableColumn<Rule, String> nameColumn;
     @FXML
@@ -45,6 +46,8 @@ public class FXMLDocumentController implements Initializable {
     private TableColumn<Rule, Action> actionColumn;
     @FXML
     private TableColumn<Rule, Boolean> activeColumn;
+    @FXML
+    private Button removeButton;
     
     
     
@@ -66,13 +69,14 @@ public class FXMLDocumentController implements Initializable {
         triggersBox.setItems(triggersList);
         
         rulesTable.setItems(rulesList);
-     
+        selectedRules=rulesTable.getSelectionModel().getSelectedItems(); //memorizzo in tale array la riga selezionata dall'utente
+        
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("nameRule"));
         triggerColumn.setCellValueFactory(new PropertyValueFactory<>("trigger"));
         actionColumn.setCellValueFactory(new PropertyValueFactory<>("action"));
         activeColumn.setCellValueFactory(new PropertyValueFactory<>("active"));
         
-        triggerColumn.setCellFactory(column -> {
+        triggerColumn.setCellFactory(column ->  {
             return new TableCell<Rule, Trigger>() {
                 @Override
                 protected void updateItem(Trigger trigger, boolean empty) {
@@ -182,5 +186,10 @@ public class FXMLDocumentController implements Initializable {
         nuovoStage.show();
         
     }
-   
+
+    @FXML
+    private void removeAction(ActionEvent event) {
+        ruleManager.removeRule(selectedRules.get(0)); //rimuovo il primo (e unico) elemento della lista
+    }
+      
 }
