@@ -69,6 +69,7 @@ public class FXMLDocumentController implements Initializable {
         triggersBox.setItems(triggersList);
         
         rulesTable.setItems(rulesList);
+        rulesTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         selectedRules=rulesTable.getSelectionModel().getSelectedItems(); //memorizzo in tale array la riga selezionata dall'utente
         
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("nameRule"));
@@ -162,6 +163,8 @@ public class FXMLDocumentController implements Initializable {
         });   
         
         addButton.disableProperty().bind(triggersBox.valueProperty().isNull().or(actionsBox.valueProperty().isNull()));
+        //removeButton.disableProperty().bind(selectedRules.isEmpty());
+        
         
     }    
 
@@ -189,7 +192,9 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void removeAction(ActionEvent event) {
-        ruleManager.removeRule(selectedRules.get(0)); //rimuovo il primo (e unico) elemento della lista
+        System.out.println(selectedRules.size());
+        for (int i = selectedRules.size() - 1; i >= 0; i--)
+        ruleManager.removeRule(selectedRules.get(i)); //rimuovi gli elementi selezionati
     }
       
 }
