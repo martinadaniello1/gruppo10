@@ -3,6 +3,7 @@ package automatehub.controller;
 import automatehub.model_view.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
@@ -191,9 +192,15 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void removeAction(ActionEvent event) {
-        System.out.println(selectedRules.size());
-        for (int i = selectedRules.size() - 1; i >= 0; i--)
-        ruleManager.removeRule(selectedRules.get(i)); //rimuovi gli elementi selezionati
-    }
-      
+        System.out.println(selectedRules.size()); //Log
+        Alert confirmRemoval = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmRemoval.setTitle("Messaggio");
+        confirmRemoval.setHeaderText(null);
+        confirmRemoval.setContentText("Sei sicuro di voler cancellare le regole selezionate?");
+        Optional<ButtonType> result = confirmRemoval.showAndWait();
+        if(result.isPresent() && result.get() ==ButtonType.OK){
+            for (int i = selectedRules.size() - 1; i >= 0; i--)
+            ruleManager.removeRule(selectedRules.get(i)); //rimuovi gli elementi selezionati
+        }
+    } 
 }
