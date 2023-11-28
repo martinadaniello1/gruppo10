@@ -14,21 +14,16 @@ import javafx.scene.control.Button;
 import static javafx.scene.control.ContentDisplay.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import sun.audio.AudioPlayer;
-/**
- *
- * @author mapic
- */
+import javax.sound.sampled.*;
+        
 public class AudioAction implements Action {
     
-    public String nameAction;
     public File file;
     private Clip clip;
     private Runnable atEnd;
 
     
-    public AudioAction(String nameAction, String filePath) {
-        this.nameAction = nameAction;
+    public AudioAction(String filePath) {
         this.file = new File(filePath);
     }  
 
@@ -109,17 +104,6 @@ public class AudioAction implements Action {
             return -1;
         }
     }
-
-    @Override
-    public void setNameAction(String nameAction) {
-         this.nameAction=nameAction;
-    }
-
-    @Override
-    public String getNameAction() {
-        return nameAction;
-    }
-     
     
     public void startPlaying(Runnable atEnd) {
         setAtEnd(atEnd);
@@ -130,4 +114,10 @@ public class AudioAction implements Action {
         setAtEnd(null);
         clip.stop();
     }
+    
+    @Override
+    public String toString() {
+        return this.getFile().getPath();
+    }
+
 }

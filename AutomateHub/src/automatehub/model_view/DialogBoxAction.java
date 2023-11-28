@@ -9,11 +9,9 @@ import javafx.scene.control.ButtonType;
  * @author martinadaniello
  */
 public class DialogBoxAction implements Action {
-    private String nameAction;
     private String message;
 
-    public DialogBoxAction(String nameAction, String message) {
-        this.nameAction = nameAction;
+    public DialogBoxAction(String message) {
         this.message = message;
     }
 
@@ -31,16 +29,6 @@ public class DialogBoxAction implements Action {
         return 0;
     }
 
-    @Override
-    public void setNameAction(String nameAction) {
-        this.nameAction = nameAction;
-    }
-
-    @Override
-    public String getNameAction() {
-        return this.nameAction;
-    }
-
     public String getMessage() {
         return message;
     }
@@ -48,6 +36,10 @@ public class DialogBoxAction implements Action {
     public void setMessage(String message) {
         this.message = message;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return this.getMessage();
+    }
+   
 }
