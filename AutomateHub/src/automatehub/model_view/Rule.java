@@ -3,7 +3,7 @@ package automatehub.model_view;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
-public class Rule {
+public class Rule implements Comparable{
     private String nameRule;
     private Action action;
     private Trigger trigger;
@@ -55,6 +55,12 @@ public class Rule {
     @Override
     public String toString() {
         return "La regola " + this.getNameRule() + ", azione: " + this.getAction() + ", trigger: " + this.getTrigger() + ", active: " + this.getActive();
+    }
+    
+    @Override
+    public int compareTo(Object o) {
+        Rule otherRule = (Rule) o;
+        return this.nameRule.compareTo(otherRule.getNameRule());
     }
     
     
