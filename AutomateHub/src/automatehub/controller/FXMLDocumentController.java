@@ -53,9 +53,7 @@ public class FXMLDocumentController implements Initializable {
     
     
     public void startAction(){
-        
         ruleManager.start();
-        
     }
         
     @Override
