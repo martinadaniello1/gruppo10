@@ -141,18 +141,23 @@ public class FXMLDocumentController implements Initializable {
             public TableRow<Rule> call(TableView<Rule> tableView) {
             final TableRow<Rule> row = new TableRow<>();
             final ContextMenu rowMenu = new ContextMenu();
-        //    MenuItem editItem = new MenuItem("Edit");
-        //    editItem.setOnAction(new EventHandler<ActionEvent>(){});
+            MenuItem editItem = new MenuItem("Edit");
+            editItem.setOnAction(new EventHandler<ActionEvent>(){
+                
+                @Override
+                public void handle(ActionEvent event) {
+                    //rulesTable.getItems().edit(row.getItem()) ;
+                }
+            });
             MenuItem removeItem = new MenuItem("Delete");
             removeItem.setOnAction(new EventHandler<ActionEvent>() {
         
                 @Override
                 public void handle(ActionEvent event) {
-                    rulesTable.getItems().remove(row.getItem());
-                    rulesList.remove(row.getItem());
+                    removeAction();
                 }
             });
-            rowMenu.getItems().addAll(/*editItem,*/ removeItem);
+            rowMenu.getItems().addAll(editItem, removeItem);
             
             // mostrare il menu contestuale solo per le righe che non sono vuote 
             row.contextMenuProperty().bind(
@@ -165,12 +170,12 @@ public class FXMLDocumentController implements Initializable {
         
         addButton.disableProperty().bind(triggersBox.valueProperty().isNull().or(actionsBox.valueProperty().isNull()));
         removeButton.disableProperty().bind(Bindings.createBooleanBinding(() -> selectedRules.isEmpty(),selectedRules));
-
+        
     }    
 
     @FXML
     private void addAction(ActionEvent event) throws IOException  {
-            // carica il nuovo FXML
+        // carica il nuovo FXML
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/automatehub/model_view/FXMLDialogInputBox.fxml"));
         Parent nuovoRoot = loader.load();
 
@@ -179,20 +184,20 @@ public class FXMLDocumentController implements Initializable {
 
         // inizializza parametri
         nuovoController.initData(actionsBox.getValue(),triggersBox.getValue());
-
+        
         // Crea una nuova finestra per il nuovo FXML
         Stage nuovoStage = new Stage();
         Scene nuovoScene = new Scene(nuovoRoot);
         nuovoStage.setScene(nuovoScene);
-
+        
         // Mostra la nuova finestra
         nuovoStage.show();
         
-    }
+    }   
 
     @FXML
-    private void removeAction(ActionEvent event) {
-        System.out.println(selectedRules.size()); //Log
+    private void removeAction() {
+        System.out.println(selectedRules.toString()); //Log
         Alert confirmRemoval = new Alert(Alert.AlertType.CONFIRMATION);
         confirmRemoval.setTitle("Messaggio");
         confirmRemoval.setHeaderText(null);
@@ -202,5 +207,11 @@ public class FXMLDocumentController implements Initializable {
             for (int i = selectedRules.size() - 1; i >= 0; i--)
             ruleManager.removeRule(selectedRules.get(i)); //rimuovi gli elementi selezionati
         }
-    } 
+    }   
+    
+    @FXML
+    private void editAction(){
+        
+    }   
+    
 }
