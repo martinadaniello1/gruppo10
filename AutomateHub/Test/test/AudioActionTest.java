@@ -22,7 +22,7 @@ public class AudioActionTest {
     public static void SetUpClass(){
         filePath="C:\\Users\\mapic\\Desktop\\Progetto\\ONE MORE TIME.wav";
         file = new File(filePath);
-        a = new AudioAction("Test AudioAction",filePath);        
+        a = new AudioAction(filePath);        
     }
     
     @Test
@@ -31,7 +31,6 @@ public class AudioActionTest {
         assertNotNull(a);
         
         assertEquals(file,a.getFile());
-        assertEquals("Test AudioAction",a.getNameAction());
         assertEquals(filePath,a.getFile().getPath());
     }
     
@@ -47,18 +46,6 @@ public class AudioActionTest {
         File fileExp = new File(filePath1);
         a.setFile(filePath1);
         assertEquals(fileExp,a.getFile());
-    }
-    
-    @Test
-    public void testGetNameAction(){
-        assertEquals("Test AudioAction",a.getNameAction());
-    }
-    
-    @Test
-    public void testSetNameAction(){
-        String nameExp = "Test SetName AudioAction";
-        a.setNameAction(nameExp);
-        assertEquals(nameExp,a.getNameAction());
     }
     
 }

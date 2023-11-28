@@ -6,32 +6,26 @@ import org.junit.*;
 import static org.junit.Assert.*;
 import automatehub.model_view.TimeTrigger;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
-/**
- *
- * @author Luca
- */
+
+
 public class TimeTriggerTest {
     
     private  TimeTrigger timetrigger;
     private  static LocalTime timeExpected;
-    private  static String nameExpected="";
-    
     
     
     @BeforeClass
     public static void setUpClass() {
         
         timeExpected= LocalTime.of(10, 47);
-        nameExpected= "Testing Trigger";
         
     }
     
     @Before
     public void setUp() {
         
-        timetrigger= new TimeTrigger("10:47", "Testing Trigger");
+        timetrigger= new TimeTrigger("10:47");
     }
    
     
@@ -41,8 +35,6 @@ public class TimeTriggerTest {
         assertNotNull(timetrigger);
         
         assertEquals(timeExpected,timetrigger.getTime());
-        
-        assertEquals(nameExpected, timetrigger.getNameTrigger());
         
         
     }
@@ -65,24 +57,7 @@ public class TimeTriggerTest {
         
     }
     
-    @Test
-    public void testGetNameTrigger() {
-        
-        
-        assertEquals(nameExpected, timetrigger.getNameTrigger());
-        
-        
-    }
-    
-    @Test
-    public void testSetNameTrigger() {
-        
-        timetrigger.setNameTrigger("Changed name");
-        assertEquals("Changed name",timetrigger.getNameTrigger());
-       
-        
-    }
-    
+  
     @Test
     public void testCheck() {
                
