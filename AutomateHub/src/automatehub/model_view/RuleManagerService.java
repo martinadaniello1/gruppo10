@@ -1,10 +1,17 @@
 package automatehub.model_view;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 /**
  *Tale classe ha lo scopo di andare a gestire l'insieme di regole presenti nell'
@@ -15,7 +22,7 @@ import javafx.concurrent.Task;
  * @author adc01
  */
 
-public class RuleManagerService extends Service{
+public class RuleManagerService extends Service implements Serializable{
     
     private ObservableList<Rule> ruleList;
     
@@ -87,4 +94,34 @@ public class RuleManagerService extends Service{
     public ObservableList<Rule> getRuleList(){
         return this.ruleList;
     }
+    
+    public void importRule() throws IOException{
+        FileInputStream fis = new FileInputStream("SavedRule.txt");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        
+        try {
+            
+        }finally{
+            ois.close();
+        }
+    }
+    
+    public void exportRule() throws FileNotFoundException, IOException {
+        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("SavedRule.txt"));       
+        try  {
+             for (Rule regola : ruleList){
+                 out.writeChars(regola.getNameRule());
+                 out.writeChars(regola.getAction().toString());
+                 out.writeChars(regola.getTrigger().toString());
+                 out.writeBoolean(regola.getActive());
+             }
+            
+            System.out.println("Salvataggio completato");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally{
+            out.close();
+        }
+    }
+    ///throws FileNotFoundException, IOException 
 }

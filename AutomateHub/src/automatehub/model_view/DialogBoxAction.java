@@ -1,5 +1,6 @@
 package automatehub.model_view;
 
+import java.io.Serializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
@@ -8,7 +9,7 @@ import javafx.scene.control.ButtonType;
  *
  * @author martinadaniello
  */
-public class DialogBoxAction implements Action {
+public class DialogBoxAction implements Action, Serializable {
     private String message;
 
     public DialogBoxAction(String message) {

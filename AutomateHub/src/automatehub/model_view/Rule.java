@@ -1,9 +1,10 @@
 package automatehub.model_view;
 
+import java.io.Serializable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
-public class Rule {
+public class Rule implements Serializable{
     private String nameRule;
     private Action action;
     private Trigger trigger;

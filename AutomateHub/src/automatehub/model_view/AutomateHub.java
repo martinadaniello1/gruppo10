@@ -21,6 +21,8 @@ public class AutomateHub extends Application {
         stage.show();  
  
         controller.startAction();
+        
+        stage.setOnCloseRequest(event -> controller.handleCloseRequest(event));
              
     }
 

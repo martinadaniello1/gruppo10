@@ -16,7 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javax.sound.sampled.*;
         
-public class AudioAction implements Action {
+public class AudioAction implements Action, Serializable {
     
     public File file;
     private Clip clip;

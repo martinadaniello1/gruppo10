@@ -1,6 +1,7 @@
 package automatehub.model_view;
 
 
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -9,7 +10,7 @@ import java.time.temporal.ChronoUnit;
  *
  * @author Luca
  */
-public class TimeTrigger implements Trigger{
+public class TimeTrigger implements Trigger, Serializable{
     
     private LocalTime time;
     

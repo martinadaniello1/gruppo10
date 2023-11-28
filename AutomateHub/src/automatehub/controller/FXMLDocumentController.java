@@ -1,10 +1,21 @@
 package automatehub.controller;
 
 import automatehub.model_view.*;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -20,6 +31,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.*;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 
 public class FXMLDocumentController implements Initializable {
@@ -55,7 +67,7 @@ public class FXMLDocumentController implements Initializable {
     public void startAction(){
         ruleManager.start();
     }
-        
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -76,7 +88,7 @@ public class FXMLDocumentController implements Initializable {
         actionColumn.setCellValueFactory(new PropertyValueFactory<>("action"));
         activeColumn.setCellValueFactory(new PropertyValueFactory<>("active"));
         
-
+       
     /*    triggerColumn.setCellFactory(column -> {
             return new TableCell<Rule, Trigger>() {
                 @Override
@@ -207,6 +219,18 @@ public class FXMLDocumentController implements Initializable {
             ruleManager.removeRule(selectedRules.get(i)); //rimuovi gli elementi selezionati
         }
     }   
+    
+    public void handleCloseRequest(WindowEvent event)  {
+        try{ 
+            // Salva le regole quando il programma viene chiuso
+            ruleManager.exportRule();
+
+        }catch (IOException exc) {
+            System.out.printf("IOException: "+exc);
+        }   
+        // Chiudi l'applicazione
+        Platform.exit();
+    }
     
     @FXML
     private void editAction(){
