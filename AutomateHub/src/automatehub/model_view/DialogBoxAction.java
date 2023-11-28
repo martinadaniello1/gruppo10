@@ -13,6 +13,7 @@ public class DialogBoxAction implements Action, Serializable {
     private String message;
 
     public DialogBoxAction(String message) {
+        
         this.message = message;
     }
 

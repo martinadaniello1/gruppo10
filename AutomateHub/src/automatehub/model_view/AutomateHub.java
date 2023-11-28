@@ -7,17 +7,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 public class AutomateHub extends Application {
     
     @Override
-    public void start(Stage stage) throws Exception {    
+    public void start(Stage stage) throws Exception {  
+        
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         FXMLDocumentController controller = new FXMLDocumentController();
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
+        stage.setOnShowing(event -> controller.handleOpenRequest(event));
         stage.show();  
  
         controller.startAction();

@@ -12,6 +12,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *Tale classe ha lo scopo di andare a gestire l'insieme di regole presenti nell'
@@ -95,33 +99,77 @@ public class RuleManagerService extends Service implements Serializable{
         return this.ruleList;
     }
     
-    public void importRule() throws IOException{
-        FileInputStream fis = new FileInputStream("SavedRule.txt");
+    public void importRule() throws IOException, ClassNotFoundException{
+        FileInputStream fis = new FileInputStream("SavedRule.dat");
         ObjectInputStream ois = new ObjectInputStream(fis);
-        
+        System.out.println("File aperto");
+        if(ois==null){
+            return ;
+        }
+
         try {
-            
+            while (true) {
+                String name = ois.readUTF();
+                String actionClassName = ois.readUTF();
+                String actionMsg = ois.readUTF();
+                String triggerClassName = ois.readUTF();
+                String triggerMsg = ois.readUTF();
+                boolean active = ois.readBoolean();
+                System.out.println("Lettura effettuata");
+                // Ottieni la classe Action e Trigger usando il nome della classe
+                Class<?> actionClass = Class.forName(actionClassName);
+                Class<?> triggerClass = Class.forName(triggerClassName);
+                System.out.println("Lettura classe effettuata");
+                // Ottieni il costruttore delle classi Action e Trigger
+                Constructor<?> actionConstructor = actionClass.getConstructor(String.class);
+                Constructor<?> triggerConstructor = triggerClass.getConstructor(String.class);
+                System.out.println("Costruttore ricevuto");
+                // Usa reflection per creare un'istanza delle classi Action e Trigger
+                Action action = (Action) actionConstructor.newInstance(actionMsg);
+                Trigger trigger = (Trigger) triggerConstructor.newInstance(triggerMsg);
+                System.out.println("Conversione effettuata");
+                // Crea un nuovo oggetto Rule con le istanze Action e Trigger create
+                Rule importedRule = new Rule(name, action, trigger,active);
+                // Aggiungi la regola importata alla ruleList
+                addRule(importedRule);
+                System.out.println("Importazione regola "+ importedRule.getNameRule()+" effettuata");
+
+            }
+        }catch (IOException e) {
+            System.out.println("Raggiunta la fine del file");
+        } catch (NoSuchMethodException ex) {
+            Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SecurityException ex) {
+            Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
             ois.close();
         }
     }
     
     public void exportRule() throws FileNotFoundException, IOException {
-        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("SavedRule.txt"));       
+        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("SavedRule.dat"));       
         try  {
              for (Rule regola : ruleList){
-                 out.writeChars(regola.getNameRule());
-                 out.writeChars(regola.getAction().toString());
-                 out.writeChars(regola.getTrigger().toString());
-                 out.writeBoolean(regola.getActive());
+                out.writeUTF(regola.getNameRule());
+                out.writeUTF(regola.getAction().getClass().getName()); // Salva il nome della classe Action
+                out.writeUTF(regola.getAction().toString()); 
+                out.writeUTF(regola.getTrigger().getClass().getName()); // Salva il nome della classe Trigger
+                out.writeUTF(regola.getTrigger().toString()); 
+                out.writeBoolean(regola.getActive());
              }
             
-            System.out.println("Salvataggio completato");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Salvataggio completato");
         }finally{
             out.close();
         }
     }
-    ///throws FileNotFoundException, IOException 
 }

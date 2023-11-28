@@ -1,15 +1,7 @@
 package automatehub.controller;
 
 import automatehub.model_view.*;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -17,15 +9,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -219,6 +208,18 @@ public class FXMLDocumentController implements Initializable {
             ruleManager.removeRule(selectedRules.get(i)); //rimuovi gli elementi selezionati
         }
     }   
+    
+    public void handleOpenRequest(WindowEvent event)  {
+        try{ 
+            // Importa le regole quando il programma viene avviato
+            ruleManager.importRule();
+
+        }catch (IOException exc) {
+            System.out.printf("IOException: "+exc);
+        } catch (ClassNotFoundException ex) {   
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     public void handleCloseRequest(WindowEvent event)  {
         try{ 
