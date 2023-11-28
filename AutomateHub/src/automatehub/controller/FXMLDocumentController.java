@@ -3,22 +3,14 @@ package automatehub.controller;
 import automatehub.model_view.*;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.*;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.event.*;
+import javafx.fxml.*;
+import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.*;
 import javafx.stage.Stage;
@@ -51,6 +43,8 @@ public class FXMLDocumentController implements Initializable {
     private TableColumn<Rule, Boolean> activeColumn;
     @FXML
     private Button removeButton;
+    @FXML
+    private Button editButton;
     
     
     
@@ -160,7 +154,14 @@ public class FXMLDocumentController implements Initializable {
         
         addButton.disableProperty().bind(triggersBox.valueProperty().isNull().or(actionsBox.valueProperty().isNull()));
         removeButton.disableProperty().bind(Bindings.createBooleanBinding(() -> selectedRules.isEmpty(),selectedRules));
-        
+        editButton.disableProperty().bind(Bindings.createBooleanBinding(() -> selectedRules.size() != 1, selectedRules));
+        editButton.setOnAction((ActionEvent event) -> {
+            try {
+                editAction();
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
     }    
 
     @FXML
@@ -189,9 +190,9 @@ public class FXMLDocumentController implements Initializable {
     private void removeAction() {
         System.out.println(selectedRules.toString()); //Log
         Alert confirmRemoval = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmRemoval.setTitle("Messaggio");
+        confirmRemoval.setTitle("Alert");
         confirmRemoval.setHeaderText(null);
-        confirmRemoval.setContentText("Sei sicuro di voler cancellare le regole selezionate?");
+        confirmRemoval.setContentText("Are you sure you want to delete the selected rules?");
         Optional<ButtonType> result = confirmRemoval.showAndWait();
         if(result.isPresent() && result.get() ==ButtonType.OK){
             for (int i = selectedRules.size() - 1; i >= 0; i--)
@@ -199,7 +200,6 @@ public class FXMLDocumentController implements Initializable {
         }
     }   
     
-    @FXML
     private void editAction() throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/automatehub/model_view/FXMLDialogInputBox.fxml"));
         Parent nuovoRoot = loader.load();

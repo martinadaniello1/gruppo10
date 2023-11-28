@@ -10,10 +10,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="658.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="automatehub.controller.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="658.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="automatehub.controller.FXMLDocumentController">
     <children>
-      <Button fx:id="removeButton" layoutX="472.0" layoutY="466.0" onAction="#removeAction" text="Remove Rule" textAlignment="CENTER" AnchorPane.bottomAnchor="68.0" AnchorPane.rightAnchor="30.0" />
-        <Button fx:id="addButton" layoutX="505.0" layoutY="455.0" onAction="#addAction" text="Add new rule" textAlignment="CENTER" AnchorPane.bottomAnchor="68.0" AnchorPane.rightAnchor="160.0" />
+      <Button fx:id="removeButton" layoutX="472.0" layoutY="466.0" onAction="#removeAction" text="Delete " textAlignment="CENTER" textFill="#e44949" AnchorPane.bottomAnchor="68.0" AnchorPane.rightAnchor="30.0" />
+        <Button fx:id="addButton" defaultButton="true" layoutX="505.0" layoutY="455.0" onAction="#addAction" text="Add new rule" textAlignment="CENTER" AnchorPane.bottomAnchor="68.0" AnchorPane.rightAnchor="160.0" />
       <ChoiceBox fx:id="triggersBox" layoutX="43.0" layoutY="455.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="150.0" AnchorPane.bottomAnchor="68.0" AnchorPane.leftAnchor="30.0" />
       <ChoiceBox fx:id="actionsBox" layoutX="257.0" layoutY="455.0" prefHeight="27.0" prefWidth="150.0" AnchorPane.bottomAnchor="68.0" AnchorPane.leftAnchor="217.0" />
       <Label layoutX="95.0" layoutY="430.0" text="Triggers" AnchorPane.bottomAnchor="103.0" AnchorPane.leftAnchor="85.0" />
@@ -36,6 +36,7 @@
             </TableView>
          </center>
       </BorderPane>
+      <Button fx:id="editButton" layoutX="516.0" layoutY="455.0" mnemonicParsing="false" text="Edit" AnchorPane.bottomAnchor="68.0" AnchorPane.rightAnchor="104.5" />
     </children>
    <effect>
       <Blend />

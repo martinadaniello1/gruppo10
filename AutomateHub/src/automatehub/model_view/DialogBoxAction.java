@@ -19,7 +19,7 @@ public class DialogBoxAction implements Action {
     public int execute() {
         if(this.getMessage() != null) {
             Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Messaggio");
+            alert.setTitle("Message");
             alert.setHeaderText(null);
             alert.setContentText(this.getMessage());
             alert.getButtonTypes().setAll(ButtonType.OK);

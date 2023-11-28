@@ -60,6 +60,7 @@ public class FXMLDialogInputBoxController implements Initializable {
             this.actionLabel.setText("Insert the file audio's path:");
             addFileChooser(actionBox);
             actionTextField.setEditable(false);
+            actionTextField.focusTraversableProperty().set(false); 
         }
         else if(actionType.equals("Show a message")){
             this.actionLabel.setText("Insert the text to display:");
@@ -70,6 +71,7 @@ public class FXMLDialogInputBoxController implements Initializable {
         }
         
         Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
+        b.setDefaultButton(true);
         b.disableProperty().bind(ruleTextField.textProperty().isEmpty().or(actionTextField.textProperty().isEmpty().or(triggerTextField.textProperty().isEmpty())));
         b.setOnAction(event -> createRule(actionType, triggerType, ruleTextField.getText()));
     }   
@@ -91,22 +93,24 @@ public class FXMLDialogInputBoxController implements Initializable {
         
         if(triggerType.equals("When the clock hits ...")){
             this.triggerLabel.setText("Select the time");
-        }
-        
-        Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
-        b.disableProperty().bind(ruleTextField.textProperty().isEmpty().or(actionTextField.textProperty().isEmpty().or(triggerTextField.textProperty().isEmpty())));
-        b.setOnAction(event -> updateRule(oldRule, triggerTextField.getText(), actionTextField.getText() ,ruleTextField.getText(), actionType, triggerType));
-    }
-    
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        triggerTextField.focusedProperty().addListener((arg0, oldValue, newValue) ->{
+            triggerTextField.focusedProperty().addListener((arg0, oldValue, newValue) ->{
             if (!newValue) {
                 if(!triggerTextField.getText().matches("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")) {
                     triggerTextField.setText("");
             } 
             }
         });
+        }
+        
+        Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
+        b.setDefaultButton(true);
+        b.disableProperty().bind(ruleTextField.textProperty().isEmpty().or(actionTextField.textProperty().isEmpty().or(triggerTextField.textProperty().isEmpty())));
+        b.setOnAction(event -> updateRule(oldRule, triggerTextField.getText(), actionTextField.getText() ,ruleTextField.getText(), actionType, triggerType));
+    }
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+       
     }    
     
     private void addFileChooser(HBox box){
