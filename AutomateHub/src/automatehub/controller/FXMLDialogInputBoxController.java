@@ -37,15 +37,11 @@ public class FXMLDialogInputBoxController implements Initializable {
     @FXML
     private DialogPane rulesDialogPane;
     @FXML
-    private Label actionNameLabel;
-    @FXML
     private TextField actionNameTextField;
     @FXML
     private Label actionLabel;
     @FXML
     private TextField actionTextField;
-    @FXML
-    private Label triggerNameLabel;
     @FXML
     private TextField triggerNameTextField;
     @FXML
@@ -72,7 +68,7 @@ public class FXMLDialogInputBoxController implements Initializable {
             addFileChooser(actionBox);
          
         Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
-        b.disableProperty().bind(ruleTextField.textProperty().isEmpty().or(actionNameTextField.textProperty().isEmpty().or(actionTextField.textProperty().isEmpty().or(triggerNameTextField.textProperty().isEmpty().or(triggerTextField.textProperty().isEmpty())))));
+        b.disableProperty().bind(ruleTextField.textProperty().isEmpty().or(actionTextField.textProperty().isEmpty().or(triggerTextField.textProperty().isEmpty())));
         b.setOnAction(event -> createRule(actionType, triggerType, ruleTextField.getText()));
     }   
     
@@ -104,14 +100,14 @@ public class FXMLDialogInputBoxController implements Initializable {
 
     private void createRule(String actionType, String triggerType, String ruleName) {
         if(actionType.equals("Play an audio file") && triggerType.equals("When the clock hits ...")){
-            AudioAction action = new AudioAction(actionNameTextField.getText(), actionTextField.getText());
-            TimeTrigger trigger = new TimeTrigger(triggerTextField.getText(), triggerNameTextField.getText());
+            AudioAction action = new AudioAction(actionTextField.getText());
+            TimeTrigger trigger = new TimeTrigger(triggerTextField.getText());
             Rule r = new Rule(ruleName,action, trigger, true);
             ruleManager.addRule(r);  
         }
         if(actionType.equals("Show a message") && triggerType.equals("When the clock hits ...")){
-            DialogBoxAction action = new DialogBoxAction(actionNameTextField.getText(), actionTextField.getText());
-            TimeTrigger trigger = new TimeTrigger(triggerTextField.getText(), triggerNameTextField.getText());
+            DialogBoxAction action = new DialogBoxAction(actionTextField.getText());
+            TimeTrigger trigger = new TimeTrigger(triggerTextField.getText());
             Rule r = new Rule(ruleName,action, trigger, true);
             ruleManager.addRule(r);
         }

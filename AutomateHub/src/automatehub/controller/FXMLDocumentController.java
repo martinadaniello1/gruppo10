@@ -72,7 +72,7 @@ public class FXMLDocumentController implements Initializable {
         actionColumn.setCellValueFactory(new PropertyValueFactory<>("action"));
         activeColumn.setCellValueFactory(new PropertyValueFactory<>("active"));
         
-        triggerColumn.setCellFactory(column -> {
+    /*    triggerColumn.setCellFactory(column -> {
             return new TableCell<Rule, Trigger>() {
                 @Override
                 protected void updateItem(Trigger trigger, boolean empty) {
@@ -81,7 +81,7 @@ public class FXMLDocumentController implements Initializable {
                         setText(null);
                         setGraphic(null);
                     } else {
-                        setText(trigger.getNameTrigger());
+                        setText(trigger.toString());
                     }
                 }
             };
@@ -101,7 +101,7 @@ public class FXMLDocumentController implements Initializable {
                 }
             };
         });
-        
+        */
         activeColumn.setCellFactory(new Callback<TableColumn<Rule, Boolean>, TableCell<Rule, Boolean>>() {
             @Override
             public TableCell<Rule, Boolean> call(TableColumn<Rule, Boolean> column) {

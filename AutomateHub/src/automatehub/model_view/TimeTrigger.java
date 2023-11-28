@@ -10,14 +10,15 @@ import java.time.temporal.ChronoUnit;
  * @author Luca
  */
 public class TimeTrigger implements Trigger{
-    private String nameTrigger;
+    
     private LocalTime time;
     
 
-    public TimeTrigger(String timeInserted, String nameTrigger) {
-        this.nameTrigger=nameTrigger;
+    public TimeTrigger(String timeInserted) {
+        
         DateTimeFormatter dtf= DateTimeFormatter.ofPattern("HH:mm");
         this.time = LocalTime.parse(timeInserted,dtf).truncatedTo(ChronoUnit.MINUTES);  
+        
     }
    
     public LocalTime getTime() {
@@ -26,16 +27,6 @@ public class TimeTrigger implements Trigger{
 
     public void setTime(LocalTime time) {
         this.time = time;
-    }
-    
-    @Override
-    public String getNameTrigger(){
-        return nameTrigger;
-    }
-    
-    @Override
-    public void setNameTrigger(String nameTrigger){
-        this.nameTrigger= nameTrigger;
     }
        
     @Override
@@ -46,5 +37,9 @@ public class TimeTrigger implements Trigger{
         return actualTime.equals(this.time);
     }
     
-    
+    @Override
+    public String toString() {
+        return this.getTime().toString();
+    }
+
 }
