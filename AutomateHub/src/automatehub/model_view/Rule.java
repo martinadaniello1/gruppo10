@@ -54,9 +54,9 @@ public class Rule {
 
     @Override
     public String toString() {
-        return "La regola " + nameRule + " è composta dal trigger " + trigger.getNameTrigger() + " e dall'azione " + action.getNameAction();
-    }   
-
+        return "La regola " + this.getNameRule() + ", azione: " + this.getAction() + ", trigger: " + this.getTrigger() + ", active: " + this.getActive();
+    }
+    
     
     
 }

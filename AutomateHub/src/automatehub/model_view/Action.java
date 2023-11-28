@@ -8,6 +8,8 @@ package automatehub.model_view;
 public interface Action {
 
     public int execute();
-    public void setNameAction(String nameAction);    
-    public String getNameAction();    
+
+    /*@Override
+    public String toString();*/
+    
 }

@@ -7,6 +7,8 @@ package automatehub.model_view;
 public interface Trigger {
     
     public boolean check();
-    public void setNameTrigger(String nameTrigger);
-    public String getNameTrigger(); 
+
+   /* @Override
+    public String toString();*/
+    
 }
