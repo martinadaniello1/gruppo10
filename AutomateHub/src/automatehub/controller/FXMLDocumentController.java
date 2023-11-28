@@ -163,9 +163,8 @@ public class FXMLDocumentController implements Initializable {
         });   
         
         addButton.disableProperty().bind(triggersBox.valueProperty().isNull().or(actionsBox.valueProperty().isNull()));
-        removeButton.disableProperty().bind(selectedRules.isEmpty());
-        
-        
+        removeButton.disableProperty().bind(Bindings.createBooleanBinding(() -> selectedRules.isEmpty(),selectedRules));
+
     }    
 
     @FXML
