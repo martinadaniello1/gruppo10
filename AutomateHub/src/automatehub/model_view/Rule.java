@@ -63,6 +63,9 @@ public class Rule implements Comparable{
         return this.nameRule.compareTo(otherRule.getNameRule());
     }
     
-    
-    
+    @Override
+    public boolean equals(Object o) {
+        Rule r = (Rule) o ;
+        return action.toString().equals(r.getAction().toString()) && trigger.toString().equals(r.getTrigger().toString()) && nameRule.equals(r.getNameRule());
+    }
 }

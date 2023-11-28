@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -76,37 +78,6 @@ public class FXMLDocumentController implements Initializable {
         actionColumn.setCellValueFactory(new PropertyValueFactory<>("action"));
         activeColumn.setCellValueFactory(new PropertyValueFactory<>("active"));
         
-
-    /*    triggerColumn.setCellFactory(column -> {
-            return new TableCell<Rule, Trigger>() {
-                @Override
-                protected void updateItem(Trigger trigger, boolean empty) {
-                    super.updateItem(trigger, empty);
-                    if (trigger == null || empty) {
-                        setText(null);
-                        setGraphic(null);
-                    } else {
-                        setText(trigger.toString());
-                    }
-                }
-            };
-        });
-        
-        actionColumn.setCellFactory(column -> {
-            return new TableCell<Rule, Action>() {
-                @Override
-                protected void updateItem(Action action, boolean empty) {
-                    super.updateItem(action, empty);
-                    if (action == null || empty) {
-                        setText(null);
-                        setGraphic(null);
-                    } else {
-                        setText(action.getNameAction());
-                    }
-                }
-            };
-        });
-        */
         activeColumn.setCellFactory(new Callback<TableColumn<Rule, Boolean>, TableCell<Rule, Boolean>>() {
             @Override
             public TableCell<Rule, Boolean> call(TableColumn<Rule, Boolean> column) {
@@ -134,38 +105,58 @@ public class FXMLDocumentController implements Initializable {
         });
         
         //Definisco l'interazione con il tasto destro sulle righe della tabella
-        rulesTable.setRowFactory(
-        new Callback<TableView<Rule>, TableRow<Rule>>() {
-            @Override
-            public TableRow<Rule> call(TableView<Rule> tableView) {
+       rulesTable.setRowFactory(
+    new Callback<TableView<Rule>, TableRow<Rule>>() {
+        @Override
+        public TableRow<Rule> call(TableView<Rule> tableView) {
             final TableRow<Rule> row = new TableRow<>();
-            final ContextMenu rowMenu = new ContextMenu();
+            
+            // menu contestuale per una singola riga
+            final ContextMenu singleRowMenu = new ContextMenu();
             MenuItem editItem = new MenuItem("Edit");
-            editItem.setOnAction(new EventHandler<ActionEvent>(){
-                
+            editItem.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    //rulesTable.getItems().edit(row.getItem()) ;
+                    try {
+                        editAction();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             });
             MenuItem removeItem = new MenuItem("Delete");
             removeItem.setOnAction(new EventHandler<ActionEvent>() {
-        
                 @Override
                 public void handle(ActionEvent event) {
                     removeAction();
                 }
             });
-            rowMenu.getItems().addAll(editItem, removeItem);
-            
+            singleRowMenu.getItems().addAll(editItem, removeItem);
+
+            // menu contestuale per più righe
+            final ContextMenu multipleRowsMenu = new ContextMenu();
+            MenuItem removeMultipleItem = new MenuItem("Delete");
+            removeMultipleItem.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    removeAction();
+                }
+            });
+            multipleRowsMenu.getItems().add(removeMultipleItem);
+
             // mostrare il menu contestuale solo per le righe che non sono vuote 
             row.contextMenuProperty().bind(
-              Bindings.when(row.emptyProperty())
-              .then((ContextMenu) null)
-              .otherwise(rowMenu));
+                Bindings.when(row.emptyProperty())
+                .then((ContextMenu) null)
+                .otherwise(Bindings.when(Bindings.size(selectedRules).isEqualTo(1))
+                    .then(singleRowMenu)
+                    .otherwise(multipleRowsMenu)
+                )
+            );
             return row;
-            }
-        });   
+        }
+    }
+);
         
         addButton.disableProperty().bind(triggersBox.valueProperty().isNull().or(actionsBox.valueProperty().isNull()));
         removeButton.disableProperty().bind(Bindings.createBooleanBinding(() -> selectedRules.isEmpty(),selectedRules));
@@ -209,8 +200,23 @@ public class FXMLDocumentController implements Initializable {
     }   
     
     @FXML
-    private void editAction(){
+    private void editAction() throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/automatehub/model_view/FXMLDialogInputBox.fxml"));
+        Parent nuovoRoot = loader.load();
         
+        // carica il controller del nuovo FXML
+        FXMLDialogInputBoxController  nuovoController = loader.getController();
+
+        // inizializza parametri
+        nuovoController.updateData(actionsBox.getValue(),triggersBox.getValue(),selectedRules.get(0));
+        
+        // Crea una nuova finestra per il nuovo FXML
+        Stage nuovoStage = new Stage();
+        Scene nuovoScene = new Scene(nuovoRoot);
+        nuovoStage.setScene(nuovoScene);
+        
+        // Mostra la nuova finestra
+        nuovoStage.show();
     }   
     
 }

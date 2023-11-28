@@ -56,22 +56,47 @@ public class FXMLDialogInputBoxController implements Initializable {
     private TextField ruleTextField;
         
     public void initData(String actionType, String triggerType){
-        if(actionType.equals("Play an audio file"))
+        if(actionType.equals("Play an audio file")){
             this.actionLabel.setText("Insert the file audio's path:");
-        else if(actionType.equals("Show a message"))
-            this.actionLabel.setText("Insert the text to display:");
-        
-        if(triggerType.equals("When the clock hits ..."))
-            this.triggerLabel.setText("Select the time");
-        
-        if(actionType.equals("Play an audio file"))
             addFileChooser(actionBox);
-         
+            actionTextField.setEditable(false);
+        }
+        else if(actionType.equals("Show a message")){
+            this.actionLabel.setText("Insert the text to display:");
+        }
+        
+        if(triggerType.equals("When the clock hits ...")){
+            this.triggerLabel.setText("Select the time");
+        }
+        
         Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
         b.disableProperty().bind(ruleTextField.textProperty().isEmpty().or(actionTextField.textProperty().isEmpty().or(triggerTextField.textProperty().isEmpty())));
         b.setOnAction(event -> createRule(actionType, triggerType, ruleTextField.getText()));
     }   
     
+    public void updateData(String actionType, String triggerType, Rule oldRule){
+   
+        ruleTextField.setText(oldRule.getNameRule());
+        triggerTextField.setText(oldRule.getTrigger().toString());
+        actionTextField.setText(oldRule.getAction().toString());
+        
+        if(actionType.equals("Play an audio file")){
+            this.actionLabel.setText("Insert the file audio's path:");
+            addFileChooser(actionBox);
+            actionTextField.setEditable(false);
+        }
+        else if(actionType.equals("Show a message")){
+            this.actionLabel.setText("Insert the text to display:");
+        }
+        
+        if(triggerType.equals("When the clock hits ...")){
+            this.triggerLabel.setText("Select the time");
+        }
+        
+        Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
+        b.disableProperty().bind(ruleTextField.textProperty().isEmpty().or(actionTextField.textProperty().isEmpty().or(triggerTextField.textProperty().isEmpty())));
+        b.setOnAction(event -> updateRule(oldRule, triggerTextField.getText(), actionTextField.getText() ,ruleTextField.getText(), actionType, triggerType));
+    }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -119,5 +144,26 @@ public class FXMLDialogInputBoxController implements Initializable {
        
     }
 
-    
+    private void updateRule(Rule oldRule, String triggerString, String actionString, String ruleName, String actionType, String triggerType) {
+        Rule r = null;
+        if(actionType.equals("Play an audio file") && triggerType.equals("When the clock hits ...")){
+            AudioAction action = new AudioAction(actionTextField.getText());
+            TimeTrigger trigger = new TimeTrigger(triggerTextField.getText());
+            r = new Rule(ruleName,action, trigger, true);  
+        }
+        if(actionType.equals("Show a message") && triggerType.equals("When the clock hits ...")){
+            DialogBoxAction action = new DialogBoxAction(actionTextField.getText());
+            TimeTrigger trigger = new TimeTrigger(triggerTextField.getText());
+            r = new Rule(ruleName,action, trigger, true);
+        }
+        
+        if(!oldRule.equals(r)){
+            ruleManager.removeRule(oldRule);
+            ruleManager.addRule(r);
+        }
+        
+        Stage currentStage = (Stage)rulesDialogPane.getScene().getWindow();
+        currentStage.close();
+    }
+
 }
