@@ -13,10 +13,12 @@ import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
@@ -58,6 +60,16 @@ public class FXMLDialogInputBoxController implements Initializable {
     private Label ruleNameLabel;
     @FXML
     private TextField ruleTextField;
+    @FXML
+    private Label repetitionLabel;
+    @FXML
+    private CheckBox repetitionBox;
+    @FXML
+    private Label intervalLabel;
+    @FXML
+    private TextField intervalTextField;
+    @FXML
+    private HBox intervalHBox;
         
     public void initData(String actionType, String triggerType){
         if(actionType.equals("Play an audio file"))
@@ -74,6 +86,10 @@ public class FXMLDialogInputBoxController implements Initializable {
         Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
         b.disableProperty().bind(ruleTextField.textProperty().isEmpty().or(actionNameTextField.textProperty().isEmpty().or(actionTextField.textProperty().isEmpty().or(triggerNameTextField.textProperty().isEmpty().or(triggerTextField.textProperty().isEmpty())))));
         b.setOnAction(event -> createRule(actionType, triggerType, ruleTextField.getText()));
+        
+        //intervalHBox.disableProperty().bind(Bindings.createBooleanBinding(()-> !repetitionBox.isSelected(), repetitionBox.selectedProperty()));
+        intervalHBox.disableProperty().bind(repetitionBox.selectedProperty().not());
+        
     }   
     
     
