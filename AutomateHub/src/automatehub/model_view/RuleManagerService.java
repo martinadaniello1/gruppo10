@@ -99,45 +99,61 @@ public class RuleManagerService extends Service implements Serializable{
         return this.ruleList;
     }
     
+     private CreatorAction createAction(String className, String message) {
+        try {
+            Class<?> actionFactoryClass = Class.forName(className+"Creator");
+            System.out.println(className);
+            CreatorAction actionFactory = (CreatorAction) actionFactoryClass.getConstructor(String.class).
+                    newInstance(message);
+            return actionFactory;
+        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException
+                | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private CreatorTrigger createTrigger(String className, String message) {
+        try {
+            Class<?> triggerFactoryClass = Class.forName(className+"Creator" );
+            CreatorTrigger triggerFactory = (CreatorTrigger) triggerFactoryClass.getConstructor(String.class).
+                    newInstance(message);
+            return triggerFactory;
+        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException
+                | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
     public void importRule() throws IOException, ClassNotFoundException{
+        System.out.println("Recupero Rule salvate ***********");
+
         FileInputStream fis = new FileInputStream("SavedRule.dat");
         ObjectInputStream ois = new ObjectInputStream(fis);
-        System.out.println("File aperto");
+        System.out.println("        File aperto");
         if(ois==null){
             return ;
         }
 
         try {
-            while (true) {
+            while (true) {                
                 String name = ois.readUTF();
                 String actionClassName = ois.readUTF();
                 String actionMsg = ois.readUTF();
                 String triggerClassName = ois.readUTF();
                 String triggerMsg = ois.readUTF();
                 boolean active = ois.readBoolean();
-                System.out.println("Lettura effettuata");
-                // Ottieni la classe Action e Trigger usando il nome della classe
-                Class<?> actionClass = Class.forName(actionClassName);
-                Class<?> triggerClass = Class.forName(triggerClassName);
-                System.out.println("Lettura classe effettuata");
-                // Ottieni il costruttore delle classi Action e Trigger
-                Constructor<?> actionConstructor = actionClass.getConstructor(String.class);
-                Constructor<?> triggerConstructor = triggerClass.getConstructor(String.class);
-                System.out.println("Costruttore ricevuto");
-                // Usa reflection per creare un'istanza delle classi Action e Trigger
-                Action action = (Action) actionConstructor.newInstance(actionMsg);
-                Trigger trigger = (Trigger) triggerConstructor.newInstance(triggerMsg);
-                System.out.println("Conversione effettuata");
-                // Crea un nuovo oggetto Rule con le istanze Action e Trigger create
-                Rule importedRule = new Rule(name, action, trigger,active);
-                // Aggiungi la regola importata alla ruleList
-                addRule(importedRule);
-                System.out.println("Importazione regola "+ importedRule.getNameRule()+" effettuata");
+                CreatorAction ac = createAction(actionClassName,actionMsg);
+                CreatorTrigger tr = createTrigger(triggerClassName,triggerMsg);
 
+                Rule importedRule = new Rule(name, ac.create(), tr.create(),active);
+                addRule(importedRule);                
+                System.out.println("        Importazione regola "+ importedRule.getNameRule()+" effettuata");
             }
         }catch (IOException e) {
-            System.out.println("Raggiunta la fine del file");
-        } catch (NoSuchMethodException ex) {
+            System.out.println("Importazione completata");
+        }/* catch (NoSuchMethodException ex) {
             Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SecurityException ex) {
             Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
@@ -149,7 +165,7 @@ public class RuleManagerService extends Service implements Serializable{
             Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvocationTargetException ex) {
             Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
+        }*/finally{
             ois.close();
         }
     }
@@ -158,6 +174,7 @@ public class RuleManagerService extends Service implements Serializable{
         ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("SavedRule.dat"));       
         try  {
              for (Rule regola : ruleList){
+                
                 out.writeUTF(regola.getNameRule());
                 out.writeUTF(regola.getAction().getClass().getName()); // Salva il nome della classe Action
                 out.writeUTF(regola.getAction().toString()); 
@@ -172,4 +189,6 @@ public class RuleManagerService extends Service implements Serializable{
             out.close();
         }
     }
+    
+    
 }

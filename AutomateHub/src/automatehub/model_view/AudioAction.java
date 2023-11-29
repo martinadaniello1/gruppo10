@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import static javafx.scene.control.ContentDisplay.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javax.sound.sampled.*;
         
 public class AudioAction implements Action, Serializable {
@@ -87,7 +88,7 @@ public class AudioAction implements Action, Serializable {
             Stage s = new Stage();
             s.setScene(scene);
             s.show();
-            
+            s.setOnCloseRequest(event ->handleCloseRequest(event));
             return 0;
 
         } catch (LineUnavailableException exc) {
@@ -119,5 +120,10 @@ public class AudioAction implements Action, Serializable {
     public String toString() {
         return this.getFile().getPath();
     }
+    
+    public void handleCloseRequest(WindowEvent event)  {
+        stopPlaying();
+    }
+    
 
 }
