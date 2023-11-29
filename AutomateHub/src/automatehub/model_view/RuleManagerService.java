@@ -14,8 +14,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *Tale classe ha lo scopo di andare a gestire l'insieme di regole presenti nell'
@@ -87,24 +85,30 @@ public class RuleManagerService extends Service implements Serializable{
     
     public void removeRule (Rule r){
         synchronized(ruleList){
-        if(this.ruleList.remove(r)==false)
-            throw new IllegalArgumentException("Regola non presente");
+        try {
+            ruleList.remove(r);
+        } catch(IllegalArgumentException e) {
+            System.out.println("Rule not present");
+        } catch(NullPointerException e){
+            e.printStackTrace();
         }
+
         //Logging
         System.out.println("removeRule in RuleManagerService eseguita correttamente");
-        System.out.println(r.toString());
-    }    
+    }  
+    }
     
     public ObservableList<Rule> getRuleList(){
         return this.ruleList;
     }
     
-     private CreatorAction createAction(String className, String message) {
+    private CreatorAction createAction(String className, String[] message) {
         try {
-            Class<?> actionFactoryClass = Class.forName(className+"Creator");
-            System.out.println(className);
-            CreatorAction actionFactory = (CreatorAction) actionFactoryClass.getConstructor(String.class).
-                    newInstance(message);
+            Class<?> actionFactoryClass = Class.forName(className + "Creator");
+            Constructor<?> actionConstructor = actionFactoryClass.getConstructor(String[].class);
+            Object[] parameters = new Object[]{message}; // Creoo un array di oggetti (Object[]) e assegno un singolo elemento message
+
+            CreatorAction actionFactory = (CreatorAction) actionConstructor.newInstance(parameters);
             return actionFactory;
         } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException
                 | IllegalAccessException | InvocationTargetException e) {
@@ -113,11 +117,13 @@ public class RuleManagerService extends Service implements Serializable{
         }
     }
 
-    private CreatorTrigger createTrigger(String className, String message) {
+    private CreatorTrigger createTrigger(String className, String[] message) {
         try {
             Class<?> triggerFactoryClass = Class.forName(className+"Creator" );
-            CreatorTrigger triggerFactory = (CreatorTrigger) triggerFactoryClass.getConstructor(String.class).
-                    newInstance(message);
+            Constructor<?> triggerConstructor = triggerFactoryClass.getConstructor(String[].class);
+            Object[] parameters = new Object[]{message}; // Creoo un array di oggetti (Object[]) e assegno un singolo elemento message
+
+            CreatorTrigger triggerFactory = (CreatorTrigger) triggerConstructor.newInstance(parameters);
             return triggerFactory;
         } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException
                 | IllegalAccessException | InvocationTargetException e) {
@@ -126,7 +132,7 @@ public class RuleManagerService extends Service implements Serializable{
         }
     }
     
-    public void importRule() throws IOException, ClassNotFoundException{
+    public void importRule() throws IOException  {
         System.out.println("Recupero Rule salvate ***********");
 
         FileInputStream fis = new FileInputStream("SavedRule.dat");
@@ -144,28 +150,20 @@ public class RuleManagerService extends Service implements Serializable{
                 String triggerClassName = ois.readUTF();
                 String triggerMsg = ois.readUTF();
                 boolean active = ois.readBoolean();
-                CreatorAction ac = createAction(actionClassName,actionMsg);
-                CreatorTrigger tr = createTrigger(triggerClassName,triggerMsg);
+                String[] actionMsgArray =  actionMsg.split(";");
+                String[] trigerrMsgArray = triggerMsg.split(";");
+                
+                CreatorAction ac = createAction(actionClassName,actionMsgArray);
+                CreatorTrigger tr = createTrigger(triggerClassName,trigerrMsgArray);
 
-                Rule importedRule = new Rule(name, ac.create(), tr.create(),active);
+                Rule importedRule = new Rule(name, ac.create(), tr.create(), active);
+                
                 addRule(importedRule);                
                 System.out.println("        Importazione regola "+ importedRule.getNameRule()+" effettuata");
             }
         }catch (IOException e) {
             System.out.println("Importazione completata");
-        }/* catch (NoSuchMethodException ex) {
-            Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SecurityException ex) {
-            Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
-        }*/finally{
+        } finally{
             ois.close();
         }
     }
@@ -182,7 +180,7 @@ public class RuleManagerService extends Service implements Serializable{
                 out.writeUTF(regola.getTrigger().toString()); 
                 out.writeBoolean(regola.getActive());
              }
-            
+            System.out.println("Salvataggio completato");
         } catch (IOException e) {
             System.out.println("Salvataggio completato");
         }finally{

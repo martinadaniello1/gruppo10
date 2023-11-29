@@ -1,6 +1,7 @@
 package automatehub.model_view;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
@@ -43,5 +44,24 @@ public class DialogBoxAction implements Action, Serializable {
     public String toString() {
         return this.getMessage();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final DialogBoxAction other = (DialogBoxAction) obj;
+        if (!Objects.equals(this.message, other.message)) {
+            return false;
+        }
+        return true;
+    }
    
+    
 }

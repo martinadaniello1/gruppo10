@@ -11,8 +11,8 @@ package automatehub.model_view;
 public class DialogBoxActionCreator implements CreatorAction {
     private String message;
 
-    public DialogBoxActionCreator(String message) {
-        this.message = message;
+    public DialogBoxActionCreator(String[] message) {
+        this.message = message[0];
     }
 
     @Override

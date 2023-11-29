@@ -1,6 +1,7 @@
 package automatehub.model_view;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
@@ -57,7 +58,42 @@ public class Rule implements Serializable{
     public String toString() {
         return "La regola " + this.getNameRule() + ", azione: " + this.getAction() + ", trigger: " + this.getTrigger() + ", active: " + this.getActive();
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Rule other = (Rule) obj;
+        if (!Objects.equals(this.nameRule, other.nameRule)) {
+            return false;
+        }
+        if (!Objects.equals(this.action, other.action)) {
+            return false;
+        }
+        if (!Objects.equals(this.trigger, other.trigger)) {
+            return false;
+        }
+        if (!Objects.equals(this.active, other.active)) {
+            return false;
+        }
+        return true;
+    }
     
+    
+   
     
     
 }

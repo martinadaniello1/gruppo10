@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.*;
@@ -124,8 +122,10 @@ public class FXMLDocumentController implements Initializable {
                         else {
                             CheckBox p = new CheckBox();                            
                             Rule selectedRule = (Rule) getTableRow().getItem();
-                            p.selectedProperty().bindBidirectional(selectedRule.activeProperty());
-                            setGraphic(p);                            
+                            if (selectedRule != null && selectedRule.activeProperty() != null) {
+                                p.selectedProperty().bindBidirectional(selectedRule.activeProperty());
+                                setGraphic(p);
+                            }                           
                         }
                         
                     }
@@ -203,9 +203,20 @@ public class FXMLDocumentController implements Initializable {
         confirmRemoval.setHeaderText(null);
         confirmRemoval.setContentText("Sei sicuro di voler cancellare le regole selezionate?");
         Optional<ButtonType> result = confirmRemoval.showAndWait();
-        if(result.isPresent() && result.get() ==ButtonType.OK){
-            for (int i = selectedRules.size() - 1; i >= 0; i--)
-            ruleManager.removeRule(selectedRules.get(i)); //rimuovi gli elementi selezionati
+        if(result.isPresent() && result.get() == ButtonType.OK){
+            selectedRules.toString();
+            int i=0;
+            while(i<=selectedRules.size()){
+                try{
+                selectedRules.get(i).toString();
+
+                ruleManager.removeRule(selectedRules.get(i)); //rimuovi gli elementi selezionati
+                i++;
+                } catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+                   
         }
     }   
     
@@ -216,8 +227,6 @@ public class FXMLDocumentController implements Initializable {
 
         }catch (IOException exc) {
             System.out.printf("IOException: "+exc);
-        } catch (ClassNotFoundException ex) {   
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
