@@ -14,6 +14,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 /**
  *Tale classe ha lo scopo di andare a gestire l'insieme di regole presenti nell'
@@ -50,20 +51,24 @@ public class RuleManagerService extends Service implements Serializable{
         return new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                while (!isCancelled()) {
-                    // Verifica le condizioni e esegui le azioni per ogni regola attiva
-                    for (Rule regola : ruleList) {
-                        if(regola.getActive()){
-                            if(regola.getTrigger().check()){
-                                Platform.runLater(() -> {
-                                    regola.getAction().execute();
-                                    System.out.println("regola verificata con esito positivo:" + regola.toString()); //Logging
-                                    regola.setActive(false);
-                                });
-                            } else 
-                                System.out.println("regola verficata con esito negativo:" + regola.toString()); //Logging
+                while (!isCancelled()) {                 
+                
+                        synchronized (ruleList) {
+                            for (Rule regola : ruleList) {
+                                if(regola.getActive()){
+                                    if(regola.getTrigger().check()){
+                                        Platform.runLater(() -> {
+                                            regola.getAction().execute();
+                                            System.out.println("regola verificata con esito positivo:" + regola.toString()); //Logging
+                                            regola.setActive(false);
+                                        });
+                                    } else 
+                                        System.out.println("regola verficata con esito negativo:" + regola.toString()); //Logging
+                                }
+                            }
                         }
-                    }
+                    // Verifica le condizioni e esegui le azioni per ogni regola attiva
+                    
                     //Si attendono 3 secondi prima della prossima verifica
                     Thread.sleep(3000);
                 }
@@ -84,18 +89,16 @@ public class RuleManagerService extends Service implements Serializable{
     }
     
     public void removeRule (Rule r){
-        synchronized(ruleList){
-        try {
-            ruleList.remove(r);
-        } catch(IllegalArgumentException e) {
-            System.out.println("Rule not present");
-        } catch(NullPointerException e){
-            e.printStackTrace();
+        synchronized (ruleList) {
+            try {
+                ruleList.remove(r);
+                System.out.println("Regola rimossa con successo: " + r.toString());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Regola non presente");
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
-
-        //Logging
-        System.out.println("removeRule in RuleManagerService eseguita correttamente");
-    }  
     }
     
     public ObservableList<Rule> getRuleList(){
@@ -104,7 +107,9 @@ public class RuleManagerService extends Service implements Serializable{
     
     private CreatorAction createAction(String className, String[] message) {
         try {
+            // Ottieni la classe utilizzando className
             Class<?> actionFactoryClass = Class.forName(className + "Creator");
+            // Ottieni il costruttore della classe
             Constructor<?> actionConstructor = actionFactoryClass.getConstructor(String[].class);
             Object[] parameters = new Object[]{message}; // Creoo un array di oggetti (Object[]) e assegno un singolo elemento message
 

@@ -3,6 +3,8 @@ package automatehub.controller;
 import automatehub.model_view.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -197,28 +199,27 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void removeAction() {
-        System.out.println(selectedRules.toString()); //Log
+        System.out.println(selectedRules.toString()); // Log
         Alert confirmRemoval = new Alert(Alert.AlertType.CONFIRMATION);
         confirmRemoval.setTitle("Messaggio");
         confirmRemoval.setHeaderText(null);
         confirmRemoval.setContentText("Sei sicuro di voler cancellare le regole selezionate?");
         Optional<ButtonType> result = confirmRemoval.showAndWait();
-        if(result.isPresent() && result.get() == ButtonType.OK){
-            selectedRules.toString();
-            int i=0;
-            while(i<=selectedRules.size()){
-                try{
-                selectedRules.get(i).toString();
 
-                ruleManager.removeRule(selectedRules.get(i)); //rimuovi gli elementi selezionati
-                i++;
-                } catch(Exception e){
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            ArrayList<Rule> rulesToRemove = new ArrayList<>(selectedRules);
+            for (Rule rule : rulesToRemove) {
+                try {
+                    rule.toString();
+                    ruleManager.removeRule(rule); // Rimuovi gli elementi selezionati
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-                   
         }
-    }   
+    }
+
+
     
     public void handleOpenRequest(WindowEvent event)  {
         try{ 
