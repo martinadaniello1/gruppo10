@@ -72,6 +72,7 @@ public class FXMLDocumentController implements Initializable {
         actionColumn.setCellValueFactory(new PropertyValueFactory<>("action"));
         activeColumn.setCellValueFactory(new PropertyValueFactory<>("active"));
         
+    
         activeColumn.setCellFactory(new Callback<TableColumn<Rule, Boolean>, TableCell<Rule, Boolean>>() {
             @Override
             public TableCell<Rule, Boolean> call(TableColumn<Rule, Boolean> column) {
@@ -100,57 +101,57 @@ public class FXMLDocumentController implements Initializable {
         
         //Definisco l'interazione con il tasto destro sulle righe della tabella
        rulesTable.setRowFactory(
-    new Callback<TableView<Rule>, TableRow<Rule>>() {
-        @Override
-        public TableRow<Rule> call(TableView<Rule> tableView) {
-            final TableRow<Rule> row = new TableRow<>();
-            
-            // menu contestuale per una singola riga
-            final ContextMenu singleRowMenu = new ContextMenu();
-            MenuItem editItem = new MenuItem("Edit");
-            editItem.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    try {
-                        editAction();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+        new Callback<TableView<Rule>, TableRow<Rule>>() {
+            @Override
+            public TableRow<Rule> call(TableView<Rule> tableView) {
+                final TableRow<Rule> row = new TableRow<>();
+
+                // menu contestuale per una singola riga
+                final ContextMenu singleRowMenu = new ContextMenu();
+                MenuItem editItem = new MenuItem("Edit");
+                editItem.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        try {
+                            editAction();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     }
-                }
-            });
-            MenuItem removeItem = new MenuItem("Delete");
-            removeItem.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    removeAction();
-                }
-            });
-            singleRowMenu.getItems().addAll(editItem, removeItem);
+                });
+                MenuItem removeItem = new MenuItem("Delete");
+                removeItem.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        removeAction();
+                    }
+                });
+                singleRowMenu.getItems().addAll(editItem, removeItem);
 
-            // menu contestuale per più righe
-            final ContextMenu multipleRowsMenu = new ContextMenu();
-            MenuItem removeMultipleItem = new MenuItem("Delete");
-            removeMultipleItem.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    removeAction();
-                }
-            });
-            multipleRowsMenu.getItems().add(removeMultipleItem);
+                // menu contestuale per più righe
+                final ContextMenu multipleRowsMenu = new ContextMenu();
+                MenuItem removeMultipleItem = new MenuItem("Delete");
+                removeMultipleItem.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        removeAction();
+                    }
+                });
+                multipleRowsMenu.getItems().add(removeMultipleItem);
 
-            // mostrare il menu contestuale solo per le righe che non sono vuote 
-            row.contextMenuProperty().bind(
-                Bindings.when(row.emptyProperty())
-                .then((ContextMenu) null)
-                .otherwise(Bindings.when(Bindings.size(selectedRules).isEqualTo(1))
-                    .then(singleRowMenu)
-                    .otherwise(multipleRowsMenu)
-                )
-            );
-            return row;
+                // mostrare il menu contestuale solo per le righe che non sono vuote 
+                row.contextMenuProperty().bind(
+                    Bindings.when(row.emptyProperty())
+                    .then((ContextMenu) null)
+                    .otherwise(Bindings.when(Bindings.size(selectedRules).isEqualTo(1))
+                        .then(singleRowMenu)
+                        .otherwise(multipleRowsMenu)
+                    )
+                );
+                return row;
+            }
         }
-    }
-);
+    );
         
         addButton.disableProperty().bind(triggersBox.valueProperty().isNull().or(actionsBox.valueProperty().isNull()));
         removeButton.disableProperty().bind(Bindings.createBooleanBinding(() -> selectedRules.isEmpty(),selectedRules));

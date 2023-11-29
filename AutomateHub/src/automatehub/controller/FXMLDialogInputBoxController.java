@@ -68,6 +68,13 @@ public class FXMLDialogInputBoxController implements Initializable {
         
         if(triggerType.equals("When the clock hits ...")){
             this.triggerLabel.setText("Select the time");
+            triggerTextField.focusedProperty().addListener((arg0, oldValue, newValue) ->{
+            if (!newValue) {
+                if(!triggerTextField.getText().matches("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")) {
+                    triggerTextField.setText("");
+            } 
+            }
+        });
         }
         
         Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
@@ -103,7 +110,7 @@ public class FXMLDialogInputBoxController implements Initializable {
         }
         
         Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
-        b.setDefaultButton(true);
+        //b.setDefaultButton(true);
         b.disableProperty().bind(ruleTextField.textProperty().isEmpty().or(actionTextField.textProperty().isEmpty().or(triggerTextField.textProperty().isEmpty())));
         b.setOnAction(event -> updateRule(oldRule, triggerTextField.getText(), actionTextField.getText() ,ruleTextField.getText(), actionType, triggerType));
     }
