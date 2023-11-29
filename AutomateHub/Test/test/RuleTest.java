@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package test;
 
 
@@ -11,10 +7,7 @@ import automatehub.model_view.Rule;
 import automatehub.model_view.TimeTrigger;
 import automatehub.model_view.AudioAction;
 
-/**
- *
- * @author mapic
- */
+
 public class RuleTest {
     public static Rule rule;
     public static AudioAction a;
@@ -22,9 +15,8 @@ public class RuleTest {
     
     @Before
     public void setUp() {
-        a = new AudioAction("Test rule action",
-                "C:\\Users\\mapic\\Desktop\\Progetto\\ONE MORE TIME.wav");
-        t = new TimeTrigger("2023/11/22/10:47","Test rule trigger");
+        a = new AudioAction("C:\\Users\\mapic\\Desktop\\Progetto\\ONE MORE TIME.wav");
+        t = new TimeTrigger("10:47");
         rule= new Rule("Test rule",a,t,true);
     }
         
@@ -59,8 +51,7 @@ public class RuleTest {
     
     @Test
     public void testSetAction(){
-        AudioAction a1= new AudioAction("Test rule SetAction",
-                "C:\\Users\\mapic\\Desktop\\Progetto\\ONE MORE TIME.wav");
+        AudioAction a1= new AudioAction("C:\\Users\\mapic\\Desktop\\Progetto\\ONE MORE TIME.wav");
         
         rule.setAction(a1);
         assertEquals(a1,rule.getAction());
@@ -73,7 +64,7 @@ public class RuleTest {
     
     @Test
     public void testSetTrigger(){
-        TimeTrigger t1= new TimeTrigger("2023/11/24/10:47","Test");
+        TimeTrigger t1= new TimeTrigger("10:47");
        
         rule.setTrigger(t1);
         assertEquals(t1,rule.getTrigger());

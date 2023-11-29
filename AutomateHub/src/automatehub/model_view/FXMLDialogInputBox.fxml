@@ -30,20 +30,9 @@
                      </HBox.margin>
                   </TextField>
                </children>
-            </HBox>
-            <HBox layoutX="30.0" layoutY="75.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-               <children>
-                  <Label fx:id="triggerNameLabel" alignment="CENTER" text="Set the trigger name:">
-                     <HBox.margin>
-                        <Insets right="10.0" />
-                     </HBox.margin>
-                  </Label>
-                  <TextField fx:id="triggerNameTextField">
-                     <HBox.margin>
-                        <Insets left="50.0" />
-                     </HBox.margin>
-                  </TextField>
-               </children>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
             </HBox>
             <HBox layoutX="30.0" layoutY="224.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
@@ -58,18 +47,9 @@
                      </HBox.margin>
                   </TextField>
                </children>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-               <children>
-                  <Label fx:id="actionNameLabel" alignment="CENTER" text="Set the action name:">
-                     <HBox.margin>
-                        <Insets right="10.0" />
-                     </HBox.margin></Label>
-                  <TextField fx:id="actionNameTextField" HBox.hgrow="NEVER">
-                     <HBox.margin>
-                        <Insets left="50.0" />
-                     </HBox.margin></TextField>
-               </children>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
             </HBox>
             <HBox fx:id="actionBox" layoutX="30.0" layoutY="30.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
@@ -84,6 +64,9 @@
                      </HBox.margin>
                   </TextField>
                </children>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
             </HBox>
             <HBox layoutX="30.0" layoutY="30.0" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
                <children>

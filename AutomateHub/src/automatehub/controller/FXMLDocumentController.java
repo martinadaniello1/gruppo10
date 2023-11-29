@@ -3,6 +3,7 @@ package automatehub.controller;
 import automatehub.model_view.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
@@ -37,6 +38,7 @@ public class FXMLDocumentController implements Initializable {
     private ObservableList<Rule> rulesList = ruleManager.getRuleList();
     private ObservableList<String> actionsList;
     private ObservableList<String> triggersList;
+    private ObservableList<Rule> selectedRules; 
     @FXML
     private TableColumn<Rule, String> nameColumn;
     @FXML
@@ -45,13 +47,13 @@ public class FXMLDocumentController implements Initializable {
     private TableColumn<Rule, Action> actionColumn;
     @FXML
     private TableColumn<Rule, Boolean> activeColumn;
+    @FXML
+    private Button removeButton;
     
     
     
     public void startAction(){
-        
         ruleManager.start();
-        
     }
         
     @Override
@@ -66,13 +68,16 @@ public class FXMLDocumentController implements Initializable {
         triggersBox.setItems(triggersList);
         
         rulesTable.setItems(rulesList);
-     
+        rulesTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        selectedRules=rulesTable.getSelectionModel().getSelectedItems(); //memorizzo in tale array la riga selezionata dall'utente
+        
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("nameRule"));
         triggerColumn.setCellValueFactory(new PropertyValueFactory<>("trigger"));
         actionColumn.setCellValueFactory(new PropertyValueFactory<>("action"));
         activeColumn.setCellValueFactory(new PropertyValueFactory<>("active"));
         
-        triggerColumn.setCellFactory(column -> {
+
+    /*    triggerColumn.setCellFactory(column -> {
             return new TableCell<Rule, Trigger>() {
                 @Override
                 protected void updateItem(Trigger trigger, boolean empty) {
@@ -81,7 +86,7 @@ public class FXMLDocumentController implements Initializable {
                         setText(null);
                         setGraphic(null);
                     } else {
-                        setText(trigger.getNameTrigger());
+                        setText(trigger.toString());
                     }
                 }
             };
@@ -101,7 +106,7 @@ public class FXMLDocumentController implements Initializable {
                 }
             };
         });
-        
+        */
         activeColumn.setCellFactory(new Callback<TableColumn<Rule, Boolean>, TableCell<Rule, Boolean>>() {
             @Override
             public TableCell<Rule, Boolean> call(TableColumn<Rule, Boolean> column) {
@@ -135,18 +140,23 @@ public class FXMLDocumentController implements Initializable {
             public TableRow<Rule> call(TableView<Rule> tableView) {
             final TableRow<Rule> row = new TableRow<>();
             final ContextMenu rowMenu = new ContextMenu();
-        //    MenuItem editItem = new MenuItem("Edit");
-        //    editItem.setOnAction(new EventHandler<ActionEvent>(){});
+            MenuItem editItem = new MenuItem("Edit");
+            editItem.setOnAction(new EventHandler<ActionEvent>(){
+                
+                @Override
+                public void handle(ActionEvent event) {
+                    //rulesTable.getItems().edit(row.getItem()) ;
+                }
+            });
             MenuItem removeItem = new MenuItem("Delete");
             removeItem.setOnAction(new EventHandler<ActionEvent>() {
         
                 @Override
                 public void handle(ActionEvent event) {
-                    rulesTable.getItems().remove(row.getItem());
-                    rulesList.remove(row.getItem());
+                    removeAction();
                 }
             });
-            rowMenu.getItems().addAll(/*editItem,*/ removeItem);
+            rowMenu.getItems().addAll(editItem, removeItem);
             
             // mostrare il menu contestuale solo per le righe che non sono vuote 
             row.contextMenuProperty().bind(
@@ -158,12 +168,13 @@ public class FXMLDocumentController implements Initializable {
         });   
         
         addButton.disableProperty().bind(triggersBox.valueProperty().isNull().or(actionsBox.valueProperty().isNull()));
+        removeButton.disableProperty().bind(Bindings.createBooleanBinding(() -> selectedRules.isEmpty(),selectedRules));
         
     }    
 
     @FXML
     private void addAction(ActionEvent event) throws IOException  {
-            // carica il nuovo FXML
+        // carica il nuovo FXML
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/automatehub/model_view/FXMLDialogInputBox.fxml"));
         Parent nuovoRoot = loader.load();
 
@@ -172,15 +183,34 @@ public class FXMLDocumentController implements Initializable {
 
         // inizializza parametri
         nuovoController.initData(actionsBox.getValue(),triggersBox.getValue());
-
+        
         // Crea una nuova finestra per il nuovo FXML
         Stage nuovoStage = new Stage();
         Scene nuovoScene = new Scene(nuovoRoot);
         nuovoStage.setScene(nuovoScene);
-
+        
         // Mostra la nuova finestra
         nuovoStage.show();
         
-    }
-   
+    }   
+
+    @FXML
+    private void removeAction() {
+        System.out.println(selectedRules.toString()); //Log
+        Alert confirmRemoval = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmRemoval.setTitle("Messaggio");
+        confirmRemoval.setHeaderText(null);
+        confirmRemoval.setContentText("Sei sicuro di voler cancellare le regole selezionate?");
+        Optional<ButtonType> result = confirmRemoval.showAndWait();
+        if(result.isPresent() && result.get() ==ButtonType.OK){
+            for (int i = selectedRules.size() - 1; i >= 0; i--)
+            ruleManager.removeRule(selectedRules.get(i)); //rimuovi gli elementi selezionati
+        }
+    }   
+    
+    @FXML
+    private void editAction(){
+        
+    }   
+    
 }
