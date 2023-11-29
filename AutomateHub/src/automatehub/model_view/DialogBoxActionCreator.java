@@ -15,6 +15,10 @@ public class DialogBoxActionCreator implements CreatorAction {
         this.message = message[0];
     }
 
+    public DialogBoxActionCreator(String message) {
+        this.message = message;
+    }
+
     @Override
     public Action create() {
         return new DialogBoxAction(message);

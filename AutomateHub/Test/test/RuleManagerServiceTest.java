@@ -46,10 +46,10 @@ public class RuleManagerServiceTest {
     }
     
     @Test
-    public void testImportRule() throws IOException {
+    public void testSavingRule() throws IOException {
         Rule rule = new Rule("nameRule", new DialogBoxAction("message"), new TimeTrigger("20:00"), true);
         ruleManager.addRule(rule);
-        ruleManager.exportRule();
+        ruleManager.exportRule(); 
         assertTrue(ruleManager.getRuleList().contains(rule));
 
         ruleManager.removeRule(rule);

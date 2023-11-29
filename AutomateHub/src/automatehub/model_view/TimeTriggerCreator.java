@@ -15,6 +15,11 @@ public class TimeTriggerCreator implements CreatorTrigger {
         this.timeInserted = timeInserted[0];
     }
 
+    public TimeTriggerCreator(String timeInserted) {
+        this.timeInserted = timeInserted;
+    }
+    
+
     @Override
     public Trigger create() {
         return new TimeTrigger(timeInserted);
