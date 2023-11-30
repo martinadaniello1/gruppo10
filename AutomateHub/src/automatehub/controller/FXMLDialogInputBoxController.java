@@ -11,6 +11,7 @@ import automatehub.model_view.RuleManagerService;
 import automatehub.model_view.TimeTrigger;
 import java.io.File;
 import java.net.URL;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
@@ -66,7 +67,9 @@ public class FXMLDialogInputBoxController implements Initializable {
     private TextField intervalTextField;
     @FXML
     private HBox intervalHBox;
-        
+    
+    private Duration d = Duration.ZERO;
+      
     public void initData(String actionType, String triggerType){
         if(actionType.equals("Play an audio file"))
             this.actionLabel.setText("Insert the file audio's path:");
@@ -85,7 +88,7 @@ public class FXMLDialogInputBoxController implements Initializable {
         
         //intervalHBox.disableProperty().bind(Bindings.createBooleanBinding(()-> !repetitionBox.isSelected(), repetitionBox.selectedProperty()));
         intervalHBox.disableProperty().bind(repetitionBox.selectedProperty().not());
-        
+
     }   
     
     
@@ -120,13 +123,19 @@ public class FXMLDialogInputBoxController implements Initializable {
         if(actionType.equals("Play an audio file") && triggerType.equals("When the clock hits ...")){
             AudioAction action = new AudioAction(actionTextField.getText());
             TimeTrigger trigger = new TimeTrigger(triggerTextField.getText());
-            Rule r = new Rule(ruleName,action, trigger, true);
+            if(!intervalTextField.getText().isEmpty()) {
+                d= Duration.parse(intervalTextField.getText());
+            }
+            Rule r = new Rule(ruleName,action, trigger, true, repetitionBox.isSelected(), d);
             ruleManager.addRule(r);  
         }
         if(actionType.equals("Show a message") && triggerType.equals("When the clock hits ...")){
             DialogBoxAction action = new DialogBoxAction(actionTextField.getText());
             TimeTrigger trigger = new TimeTrigger(triggerTextField.getText());
-            Rule r = new Rule(ruleName,action, trigger, true);
+            if(!intervalTextField.getText().isEmpty()) {
+                d= Duration.parse(intervalTextField.getText());
+            }
+            Rule r = new Rule(ruleName,action, trigger, true, repetitionBox.isSelected(), d);
             ruleManager.addRule(r);
         }
         

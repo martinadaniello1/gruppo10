@@ -1,5 +1,10 @@
 package automatehub.model_view;
 
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +27,8 @@ public class RuleManagerService extends Service{
     //Unica istanza della classe
     private static RuleManagerService instance = null ;
     
+    private Duration interval;
+  
     //Costruttore privato
     private RuleManagerService(){
         this.ruleList = FXCollections.observableArrayList();
@@ -52,7 +59,21 @@ public class RuleManagerService extends Service{
                                     regola.setActive(false);
                                 });
                             } else 
-                                System.out.println("regola verficata con esito negativo:" + regola.toString()); //Logging
+                                System.out.println("regola verificata con esito negativo:" + regola.toString()); //Logging
+                        }
+                        else if (regola.getRepeteable()) {
+                            
+                            new Thread(() -> {
+                                
+                                try {
+                                    Thread.sleep(regola.getPeriod().toMillis());
+                                    regola.setActive(true);
+                                } catch (InterruptedException ex) {
+                                    Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                
+                            }).start();
+                            
                         }
                     }
                     //Si attendono 3 secondi prima della prossima verifica

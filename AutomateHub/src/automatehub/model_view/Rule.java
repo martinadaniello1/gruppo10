@@ -1,5 +1,6 @@
 package automatehub.model_view;
 
+import java.time.Duration;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
@@ -8,12 +9,16 @@ public class Rule {
     private Action action;
     private Trigger trigger;
     private final BooleanProperty active;
+    private final Boolean repeteable;
+    private Duration period;
 
-    public Rule(String nameRule, Action action, Trigger trigger, Boolean active) {
+    public Rule(String nameRule, Action action, Trigger trigger, Boolean active, Boolean repeteable, Duration period) {
         this.nameRule = nameRule;
         this.action = action;
         this.trigger = trigger;
         this.active = new SimpleBooleanProperty(active);
+        this.repeteable = repeteable;
+        this.period= period;
     }
 
     public String getNameRule() {
@@ -52,6 +57,18 @@ public class Rule {
          this.active.set(a);
     }
 
+    public Boolean getRepeteable() {
+        return repeteable;
+    }
+
+    public Duration getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(Duration period) {
+        this.period = period;
+    }
+   
     @Override
     public String toString() {
         return "La regola " + this.getNameRule() + ", azione: " + this.getAction() + ", trigger: " + this.getTrigger() + ", active: " + this.getActive();
