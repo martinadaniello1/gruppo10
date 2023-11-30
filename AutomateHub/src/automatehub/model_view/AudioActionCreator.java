@@ -11,10 +11,6 @@ package automatehub.model_view;
 public class AudioActionCreator implements CreatorAction{
     private String pathFile;
 
-    public AudioActionCreator(String[] pathFile) {
-        this.pathFile = pathFile[0];
-    }
-
     public AudioActionCreator(String pathFile) {
         this.pathFile = pathFile;
     }

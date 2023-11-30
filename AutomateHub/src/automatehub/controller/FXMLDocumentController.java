@@ -220,7 +220,7 @@ public class FXMLDocumentController implements Initializable {
 
 
     
-    public void handleOpenRequest(WindowEvent event)  {
+    public void handleOpenRequest(WindowEvent event) throws ClassNotFoundException  {
         try{ 
             // Importa le regole quando il programma viene avviato
             ruleManager.importRule();

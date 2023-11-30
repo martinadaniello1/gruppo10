@@ -4,11 +4,18 @@
  */
 package automatehub.controller;
 
+import automatehub.model_view.Action;
 import automatehub.model_view.AudioAction;
+import automatehub.model_view.AudioActionCreator;
+import automatehub.model_view.CreatorAction;
+import automatehub.model_view.CreatorTrigger;
 import automatehub.model_view.DialogBoxAction;
+import automatehub.model_view.DialogBoxActionCreator;
 import automatehub.model_view.Rule;
 import automatehub.model_view.RuleManagerService;
 import automatehub.model_view.TimeTrigger;
+import automatehub.model_view.TimeTriggerCreator;
+import automatehub.model_view.Trigger;
 import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
@@ -101,6 +108,7 @@ public class FXMLDialogInputBoxController implements Initializable {
     }
 
     private void createRule(String actionType, String triggerType, String ruleName) {
+        /*
         if(actionType.equals("Play an audio file") && triggerType.equals("When the clock hits ...")){
             AudioAction action = new AudioAction(actionTextField.getText());
             TimeTrigger trigger = new TimeTrigger(triggerTextField.getText());
@@ -108,12 +116,30 @@ public class FXMLDialogInputBoxController implements Initializable {
             ruleManager.addRule(r);  
         }
         if(actionType.equals("Show a message") && triggerType.equals("When the clock hits ...")){
-            DialogBoxAction action = new DialogBoxAction(actionTextField.getText());
+            DialogBoxActionCreator action = new DialogBoxActionCreator(actionTextField.getText());
             TimeTrigger trigger = new TimeTrigger(triggerTextField.getText());
-            Rule r = new Rule(ruleName,action, trigger, true);
+            Rule r = new Rule(ruleName,action.create(), trigger, true);
             ruleManager.addRule(r);
+        }*/
+        CreatorAction action=null;
+        CreatorTrigger trigger=null;
+        switch (triggerType){
+            case ("When the clock hits ..."):
+                trigger = new TimeTriggerCreator(triggerTextField.getText());
+                break;
         }
         
+        switch (actionType){
+            case ("Show a message"):
+                 action = (DialogBoxActionCreator) new DialogBoxActionCreator(actionTextField.getText());
+                break;
+            case "Play an audio file":
+                 action = new AudioActionCreator(actionTextField.getText());
+                 break;
+        }
+        
+        Rule r = new Rule(ruleName,action.create(), trigger.create(), true);
+        ruleManager.addRule(r);
         Stage currentStage = (Stage)rulesDialogPane.getScene().getWindow();
         currentStage.close();
        

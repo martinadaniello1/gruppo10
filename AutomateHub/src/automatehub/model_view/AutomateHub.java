@@ -1,6 +1,8 @@
 package automatehub.model_view;
 
 import automatehub.controller.FXMLDocumentController;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +20,13 @@ public class AutomateHub extends Application {
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
-        stage.setOnShowing(event -> controller.handleOpenRequest(event));
+        stage.setOnShowing(event -> {
+            try {
+                controller.handleOpenRequest(event);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(AutomateHub.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
         stage.show();  
  
         controller.startAction();

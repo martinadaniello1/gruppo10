@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  *Tale classe ha lo scopo di andare a gestire l'insieme di regole presenti nell'
@@ -104,39 +102,7 @@ public class RuleManagerService extends Service implements Serializable{
         return this.ruleList;
     }
     
-    private CreatorAction createAction(String className, String[] message) {
-        try {
-            // Ottieni la classe utilizzando className
-            Class<?> actionFactoryClass = Class.forName(className + "Creator");
-            // Ottieni il costruttore della classe
-            Constructor<?> actionConstructor = actionFactoryClass.getConstructor(String[].class);
-            Object[] parameters = new Object[]{message}; // Creoo un array di oggetti (Object[]) e assegno un singolo elemento message
-
-            CreatorAction actionFactory = (CreatorAction) actionConstructor.newInstance(parameters);
-            return actionFactory;
-        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException
-                | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private CreatorTrigger createTrigger(String className, String[] message) {
-        try {
-            Class<?> triggerFactoryClass = Class.forName(className+"Creator" );
-            Constructor<?> triggerConstructor = triggerFactoryClass.getConstructor(String[].class);
-            Object[] parameters = new Object[]{message}; // Creoo un array di oggetti (Object[]) e assegno un singolo elemento message
-
-            CreatorTrigger triggerFactory = (CreatorTrigger) triggerConstructor.newInstance(parameters);
-            return triggerFactory;
-        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException
-                | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-    
-    public void importRule() throws IOException  {
+    public void importRule() throws IOException, ClassNotFoundException  {
         System.out.println("Recupero Rule salvate ***********");
 
         FileInputStream fis = new FileInputStream("SavedRule.dat");
@@ -147,23 +113,15 @@ public class RuleManagerService extends Service implements Serializable{
         }
 
         try {
-            while (true) {                
+            while (true) { 
                 String name = ois.readUTF();
-                String actionClassName = ois.readUTF();
-                String actionMsg = ois.readUTF();
-                String triggerClassName = ois.readUTF();
-                String triggerMsg = ois.readUTF();
-                boolean active = ois.readBoolean();
-                String[] actionMsgArray =  actionMsg.split(";");
-                String[] trigerrMsgArray = triggerMsg.split(";");
+                Action action = (Action) ois.readObject();
+                Trigger trigger = (Trigger) ois.readObject();
+                boolean active = ois.readBoolean();               
                 
-                CreatorAction ac = createAction(actionClassName,actionMsgArray);
-                CreatorTrigger tr = createTrigger(triggerClassName,trigerrMsgArray);
-
-                Rule importedRule = new Rule(name, ac.create(), tr.create(), active);
-                
-                addRule(importedRule);                
-                System.out.println("        Importazione regola "+ importedRule.getNameRule()+" effettuata");
+                Rule rule = new Rule(name,action,trigger,active);
+                addRule(rule);               
+                System.out.println("        Importazione regola "+ rule.getNameRule()+" effettuata");
             }
         }catch (IOException e) {
             System.out.println("Importazione completata");
@@ -178,10 +136,8 @@ public class RuleManagerService extends Service implements Serializable{
              for (Rule regola : ruleList){
                 
                 out.writeUTF(regola.getNameRule());
-                out.writeUTF(regola.getAction().getClass().getName()); // Salva il nome della classe Action
-                out.writeUTF(regola.getAction().toString()); 
-                out.writeUTF(regola.getTrigger().getClass().getName()); // Salva il nome della classe Trigger
-                out.writeUTF(regola.getTrigger().toString()); 
+                out.writeObject(regola.getAction()); 
+                out.writeObject(regola.getTrigger()); 
                 out.writeBoolean(regola.getActive());
              }
             System.out.println("Salvataggio completato");
