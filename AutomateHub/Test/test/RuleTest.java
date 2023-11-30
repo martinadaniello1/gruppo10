@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 import automatehub.model_view.Rule;
 import automatehub.model_view.TimeTrigger;
 import automatehub.model_view.AudioAction;
+import java.time.Duration;
 
 
 public class RuleTest {
@@ -17,7 +18,7 @@ public class RuleTest {
     public void setUp() {
         a = new AudioAction("C:\\Users\\mapic\\Desktop\\Progetto\\ONE MORE TIME.wav");
         t = new TimeTrigger("10:47");
-        rule= new Rule("Test rule",a,t,true);
+        rule= new Rule("Test rule",a,t,true,Duration.ZERO);
     }
         
     @Test

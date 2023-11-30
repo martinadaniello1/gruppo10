@@ -124,7 +124,7 @@ public class FXMLDialogInputBoxController implements Initializable {
             if(!intervalTextField.getText().isEmpty()) {
                 d= Duration.parse(intervalTextField.getText());
             }
-            Rule r = new Rule(ruleName,action, trigger, true, repetitionBox.isSelected(), d);
+            Rule r = new Rule(ruleName,action, trigger, true,d);
             ruleManager.addRule(r);  
         }
         if(actionType.equals("Show a message") && triggerType.equals("When the clock hits ...")){
@@ -133,7 +133,7 @@ public class FXMLDialogInputBoxController implements Initializable {
             if(!intervalTextField.getText().isEmpty()) {
                 d= Duration.parse(intervalTextField.getText());
             }
-            Rule r = new Rule(ruleName,action, trigger, true, repetitionBox.isSelected(), d);
+            Rule r = new Rule(ruleName,action, trigger, true,d);
             ruleManager.addRule(r);
         }
         

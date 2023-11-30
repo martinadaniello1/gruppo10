@@ -6,6 +6,7 @@ import automatehub.model_view.RuleManagerService;
 import automatehub.model_view.TimeTrigger;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
+import java.time.Duration;
 import static org.junit.Assert.*;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -33,7 +34,7 @@ public class RuleManagerServiceTest {
 
     @Test
     public void testAddRule() {
-        Rule rule = new Rule("nameRule", new DialogBoxAction("message"), new TimeTrigger("00:00"), true);
+        Rule rule = new Rule("nameRule", new DialogBoxAction("message"), new TimeTrigger("00:00"), true, Duration.ZERO);
         ruleManager.addRule(rule);
 
         assertTrue(ruleManager.getRuleList().contains(rule));
@@ -46,7 +47,7 @@ public class RuleManagerServiceTest {
 
     @Test
     public void testRemoveRule() {
-        Rule rule = new Rule("nameRule", new DialogBoxAction("message"), new TimeTrigger("00:00"), true);
+        Rule rule = new Rule("nameRule", new DialogBoxAction("message"), new TimeTrigger("00:00"), true, Duration.ZERO);
         ruleManager.addRule(rule);
 
         assertTrue(ruleManager.getRuleList().contains(rule));
@@ -58,7 +59,7 @@ public class RuleManagerServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testRemoveNonExistingRule() {
-        Rule rule = new Rule("nameRule", new DialogBoxAction("message"), new TimeTrigger("00:00"), true);
+        Rule rule = new Rule("nameRule", new DialogBoxAction("message"), new TimeTrigger("00:00"), true, Duration.ZERO);
         ruleManager.removeRule(rule);  // Questa regola non è stata aggiunta, quindi dovrebbe lanciare un'eccezione
     }
 

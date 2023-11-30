@@ -59,7 +59,7 @@ public class RuleManagerService extends Service{
                             } else 
                                 System.out.println("regola verificata con esito negativo:" + regola.toString()); //Logging
                         }
-                        else if (regola.getRepeteable()) {
+                        else if (!regola.getPeriod().isZero()) {
                             
                             new Thread(() -> {
                                 

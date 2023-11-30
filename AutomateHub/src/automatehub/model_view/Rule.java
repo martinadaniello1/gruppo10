@@ -9,15 +9,13 @@ public class Rule {
     private Action action;
     private Trigger trigger;
     private final BooleanProperty active;
-    private final Boolean repeteable;
     private Duration period;
 
-    public Rule(String nameRule, Action action, Trigger trigger, Boolean active, Boolean repeteable, Duration period) {
+    public Rule(String nameRule, Action action, Trigger trigger, Boolean active,Duration period) {
         this.nameRule = nameRule;
         this.action = action;
         this.trigger = trigger;
         this.active = new SimpleBooleanProperty(active);
-        this.repeteable = repeteable;
         this.period= period;
     }
 
@@ -55,10 +53,6 @@ public class Rule {
 
     public void setActive(Boolean a) {      
          this.active.set(a);
-    }
-
-    public Boolean getRepeteable() {
-        return repeteable;
     }
 
     public Duration getPeriod() {
