@@ -85,8 +85,6 @@ public class FXMLDialogInputBoxController implements Initializable {
         Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
         b.disableProperty().bind(ruleTextField.textProperty().isEmpty().or(actionTextField.textProperty().isEmpty().or(triggerTextField.textProperty().isEmpty())));
         b.setOnAction(event -> createRule(actionType, triggerType, ruleTextField.getText()));
-        
-        //intervalHBox.disableProperty().bind(Bindings.createBooleanBinding(()-> !repetitionBox.isSelected(), repetitionBox.selectedProperty()));
         intervalHBox.disableProperty().bind(repetitionBox.selectedProperty().not());
 
     }   
