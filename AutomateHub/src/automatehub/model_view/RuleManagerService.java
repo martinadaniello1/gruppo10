@@ -26,8 +26,6 @@ public class RuleManagerService extends Service{
     
     //Unica istanza della classe
     private static RuleManagerService instance = null ;
-    
-    private Duration interval;
   
     //Costruttore privato
     private RuleManagerService(){
