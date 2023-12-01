@@ -1,11 +1,7 @@
 package automatehub.model_view;
 
 import java.io.*;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
+import java.util.ArrayList;
 
 /**
  *Tale classe ha lo scopo di andare a gestire l'insieme di regole presenti nell'
@@ -16,16 +12,18 @@ import javafx.concurrent.Task;
  * @author adc01
  */
 
-public class RuleManagerService extends Service implements Serializable{
+public class RuleManagerService  implements  Serializable{
     
-    private ObservableList<Rule> ruleList;
-    
+    private ArrayList<RuleObserver> observers;
+    private ArrayList<Rule> ruleList;
+    private boolean isCheckingRules = true;
     //Unica istanza della classe
     private static RuleManagerService instance = null ;
     
     //Costruttore privato
     private RuleManagerService(){
-        this.ruleList = FXCollections.observableArrayList();
+        this.observers = new ArrayList<RuleObserver>();
+        this.ruleList = new ArrayList<Rule>();
     };
     
     //Lazy initialization
@@ -37,59 +35,63 @@ public class RuleManagerService extends Service implements Serializable{
         return instance;
     }
     
-    @Override
-    protected Task<Void> createTask() {
-        return new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                while (!isCancelled()) {                 
-                
-                        synchronized (ruleList) {
-                            for (Rule regola : ruleList) {
-                                if(regola.getActive()){
-                                    if(regola.getTrigger().check()){
-                                        Platform.runLater(() -> {
-                                            regola.getAction().execute();
-                                            System.out.println("regola verificata con esito positivo:" + regola.toString()); //Logging
-                                            regola.setActive(false);
-                                        });
-                                    } else 
-                                        System.out.println("regola verficata con esito negativo:" + regola.toString()); //Logging
-                                }
+    public void start(){
+        new Thread(() -> {
+            while(isCheckingRules){
+                synchronized (ruleList) {
+                    for (Rule rule : ruleList) {
+                        if (rule.getActive()) {
+                            if (rule.getTrigger().check()) {
+                                notifyRuleVerified(rule);
+                            } else {
+                                System.out.println("Rule verification failed: " + rule.toString());
                             }
                         }
-                    // Verifica le condizioni e esegui le azioni per ogni regola attiva
-                    
-                    //Si attendono 3 secondi prima della prossima verifica
-                    Thread.sleep(3000);
+                    }
                 }
-                return null;
+                try {
+                    // Sleep for 3 seconds before the next rule check
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-        };
+            
+        }).start();
     }
+    
+    public void stop(){
+        isCheckingRules = false;
+    }
+    
+ 
     
     public void addRule(Rule r) {
         if(r == null)
             throw new IllegalArgumentException("Regola non valida");
-        synchronized(ruleList){
+        
         this.ruleList.add(r);
+        notifyRuleAdded(r);
+
         //Logging
         System.out.println("addRule in RuleManagerService eseguita correttamente");
         System.out.println(r.toString());
-        }           
+               
     }
     
     public void removeRule (Rule r){
-        synchronized (ruleList) {
+        
             try {
                 ruleList.remove(r);
+                notifyRuleRemoved(r);
+
                 System.out.println("Regola rimossa con successo: " + r.toString());
             } catch (IllegalArgumentException e) {
                 System.out.println("Regola non presente");
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
-        }
+        
     }
     
     public void editRule (Rule oldRule, Rule newRule) {
@@ -97,11 +99,12 @@ public class RuleManagerService extends Service implements Serializable{
             if(!newRule.equals(oldRule)) {
                 this.ruleList.remove(oldRule);
                 this.ruleList.add(newRule);
+                notifyRuleEdited(oldRule,newRule);
             }
         }
     }
     
-    public ObservableList<Rule> getRuleList(){
+    public ArrayList<Rule> getRuleList(){
         return this.ruleList;
     }
     
@@ -123,7 +126,7 @@ public class RuleManagerService extends Service implements Serializable{
                 boolean active = ois.readBoolean();               
                 
                 Rule rule = new Rule(name,action,trigger,active);
-                addRule(rule);               
+                addRule(rule);  
                 System.out.println("        Importazione regola "+ rule.getNameRule()+" effettuata");
             }
         }catch (IOException e) {
@@ -152,4 +155,47 @@ public class RuleManagerService extends Service implements Serializable{
     }
     
     
+    
+    //**************************************************************************
+    //*******************   METHODS OBSERVER PATTERN
+    public void addObserver(RuleObserver observer) {
+        observers.add(observer);
+    }
+
+    // Rimuovi un osservatore
+    public void removeObserver(RuleObserver observer) {
+        observers.remove(observer);
+    }
+
+    // Notifica gli osservatori quando una regola viene aggiunta
+    private void notifyRuleAdded(Rule rule) {
+        observers.forEach(observer -> {
+            observer.onRuleAdded(rule);
+        });
+    }
+
+    // Notifica gli osservatori quando una regola viene rimossa
+    private void notifyRuleRemoved(Rule rule) {
+        observers.forEach(observer -> {
+            observer.onRuleRemoved(rule);
+        });
+    }
+
+    // Notifica gli osservatori quando una regola viene modificata
+    private void notifyRuleEdited(Rule oldRule, Rule newRule) {
+        observers.forEach(observer -> {
+            observer.onRuleEdited(oldRule, newRule);
+        });
+    }
+    
+    private void notifyRuleVerified( Rule rule) {
+        observers.forEach(observer -> {
+            observer.onRuleVerified(rule);
+        });
+    }
+
+    
+
+    
+
 }

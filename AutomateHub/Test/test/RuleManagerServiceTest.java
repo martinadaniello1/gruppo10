@@ -83,36 +83,4 @@ public class RuleManagerServiceTest {
         RuleManagerService secondInstance = RuleManagerService.getRuleManager();
         assertSame(ruleManager, secondInstance);
     }
-
- @Test
-    public void testRuleManagerService() throws InterruptedException {
-            // crea il servizio all'interno di Platform.runLater() per eseguirlo nel thread di JavaFX
-            Platform.runLater(() -> {
-            RuleManagerService ruleManager = RuleManagerService.getRuleManager();
-
-            ruleManager.start();  // Avvia il servizio
-
-            // verifica che il servizio stia eseguendo
-            assertTrue(ruleManager.isRunning());
-
-            // dopo un po' verifica che il servizio non sia ancora stato cancellato
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            assertTrue(ruleManager.isRunning());
-
-            // Cancella il servizio
-            ruleManager.cancel();
-
-            //  verifica che il servizio sia stato cancellato dopo un po'
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            assertFalse(ruleManager.isRunning());
-        });
-    }
 }

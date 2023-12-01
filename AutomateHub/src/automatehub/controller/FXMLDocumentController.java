@@ -10,14 +10,16 @@ import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.*;
 import javafx.fxml.*;
+import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.*;
 
-public class FXMLDocumentController implements Initializable {
+public class FXMLDocumentController implements  Initializable, RuleObserver {
 
     @FXML
     private Button addButton;
@@ -30,7 +32,7 @@ public class FXMLDocumentController implements Initializable {
 
     private RuleManagerService ruleManager = RuleManagerService.getRuleManager();
 
-    private ObservableList<Rule> rulesList = ruleManager.getRuleList();
+    private ObservableList<Rule> rulesList = FXCollections.observableArrayList();
     private ObservableList<String> actionsList;
     private ObservableList<String> triggersList;
     private ObservableList<Rule> selectedRules;
@@ -51,7 +53,8 @@ public class FXMLDocumentController implements Initializable {
      * Starts the RuleManagerService.
      */
     public void startAction() {
-        ruleManager.start();
+            ruleManager.start();
+        
     }
 
     /**
@@ -62,7 +65,7 @@ public class FXMLDocumentController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        ruleManager.addObserver(this);
         //Setting up the choice boxes for the types of triggers and actions.
         actionsList = FXCollections.observableArrayList();
         triggersList = FXCollections.observableArrayList();
@@ -247,11 +250,13 @@ public class FXMLDocumentController implements Initializable {
         try {
             // Save the rules when the application is closed
             ruleManager.exportRule();
+            ruleManager.stop();
 
         } catch (IOException exc) {
             System.out.printf("IOException: " + exc);
         }
         // Close the application
+        
         Platform.exit();
     }
 
@@ -274,5 +279,79 @@ public class FXMLDocumentController implements Initializable {
         // Show it
         nuovoStage.show();
     }
+    
+    @Override
+    public void onRuleAdded(Rule rule) {
+        // Aggiorna la TableView quando una nuova regola viene aggiunta
+        rulesList.add(rule);
+    }
+
+    @Override
+    public void onRuleRemoved(Rule rule) {
+        // Aggiorna la TableView quando una regola viene rimossa
+        rulesList.remove(rule);
+    }
+
+    @Override
+    public void onRuleEdited(Rule oldRule, Rule newRule) {
+        // Aggiorna la TableView quando una regola viene modificata
+        rulesList.remove(oldRule);
+        rulesList.add(newRule);
+    }
+    
+    @Override
+    public void onRuleVerified(Rule rule){
+        Platform.runLater(() -> {
+            System.out.println("regola verificata con esito positivo:" + rule.toString()); //Logging            
+            rule.getAction().execute();
+            onActionExecuted(rule);
+            rule.setActive(false);
+        });                    
+    }
+    
+    @Override
+    public void onActionExecuted(Rule rule){
+        switch(rule.getAction().getType()){
+            case "Show a message":
+                DialogBoxAction action = (DialogBoxAction) rule.getAction();
+                if( action.getMessage() != null) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText(action.getMessage());
+                    alert.getButtonTypes().setAll(ButtonType.OK);
+                    // Show the dialog box 
+                    alert.show(); 
+                }
+                break;
+            case "Play an audio file":
+                AudioAction audioAction = (AudioAction) rule.getAction();
+                VBox root = new VBox();
+                Scene scene = new Scene(root, 128, 128);
+                Button btn = new Button();
+                btn.setText("Stop Sound");
+                btn.setOnAction(new EventHandler<ActionEvent>() {
+
+                    @Override
+                    public void handle(ActionEvent event) {
+                        audioAction.stopPlaying();
+                    }
+                });
+                root.setAlignment(Pos.CENTER); // Center aligns its children
+                root.setSpacing(10); // You can adjust the spacing as needed
+                root.getChildren().add(btn);
+                Stage s = new Stage();
+                s.setScene(scene);
+                s.setOnCloseRequest(e -> {
+                    // Interrompi la riproduzione audio quando lo stage viene chiuso
+                    audioAction.stopPlaying();
+                });
+                s.show();
+                
+
+        }
+    }
+    
+
 
 }

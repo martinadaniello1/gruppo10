@@ -2,9 +2,6 @@ package automatehub.model_view;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
 
 
 public class DialogBoxAction implements Action, Serializable {
@@ -19,15 +16,7 @@ public class DialogBoxAction implements Action, Serializable {
     @Override
     public int execute() {
         //Setting up the alert message to show
-        if(this.getMessage() != null) {
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Message");
-            alert.setHeaderText(null);
-            alert.setContentText(this.getMessage());
-            alert.getButtonTypes().setAll(ButtonType.OK);
-            // Show the dialog box 
-            alert.show(); 
-        }
+        
         return 0;
     }
 

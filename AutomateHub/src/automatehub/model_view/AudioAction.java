@@ -3,14 +3,6 @@ package automatehub.model_view;
 import javax.sound.sampled.*;
 import java.io.*;
 import java.util.Objects;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
         
 public class AudioAction implements Action, Serializable {
     
@@ -54,9 +46,6 @@ public class AudioAction implements Action, Serializable {
     @Override
     public int execute() {
         try {
-            VBox root = new VBox();
-            Scene scene = new Scene(root, 128, 128);
-            
             clip = AudioSystem.getClip();
             AudioInputStream ais = AudioSystem.getAudioInputStream(file);
 
@@ -72,22 +61,6 @@ public class AudioAction implements Action, Serializable {
             });
             startPlaying(getAtEnd());
             
-            Button btn = new Button();
-            btn.setText("Stop Sound");
-            btn.setOnAction(new EventHandler<ActionEvent>() {
-
-                @Override
-                public void handle(ActionEvent event) {
-                    stopPlaying();
-                }
-            });
-            root.setAlignment(Pos.CENTER); // Center aligns its children
-            root.setSpacing(10); // You can adjust the spacing as needed
-            root.getChildren().add(btn);
-            Stage s = new Stage();
-            s.setScene(scene);
-            s.show();
-            s.setOnCloseRequest(event ->handleCloseRequest(event));
             return 0;
 
         } catch (LineUnavailableException exc) {
@@ -102,7 +75,7 @@ public class AudioAction implements Action, Serializable {
         } catch (IOException exc) {
             System.out.printf("IOException: "+exc);
             return -1;
-        }
+        } 
     }
     
     public void startPlaying(Runnable atEnd) {
@@ -119,11 +92,6 @@ public class AudioAction implements Action, Serializable {
     public String toString() {
         return this.getFile().getPath();
     }
-    
-    public void handleCloseRequest(WindowEvent event)  {
-        stopPlaying();
-    }
-
 
     @Override
     public boolean equals(Object obj) {
