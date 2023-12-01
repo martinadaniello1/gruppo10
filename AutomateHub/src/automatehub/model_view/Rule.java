@@ -1,9 +1,13 @@
 package automatehub.model_view;
 
+import java.io.Serializable;
+import java.util.Objects;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
-public class Rule implements Comparable{
+
+public class Rule implements Comparable, Serializable{
+
     private String nameRule;
     private Action action;
     private Trigger trigger;
@@ -56,6 +60,39 @@ public class Rule implements Comparable{
     public String toString() {
         return "La regola " + this.getNameRule() + ", azione: " + this.getAction() + ", trigger: " + this.getTrigger() + ", active: " + this.getActive();
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Rule other = (Rule) obj;
+        if (!Objects.equals(this.nameRule, other.nameRule)) {
+            return false;
+        }
+        if (!Objects.equals(this.action, other.action)) {
+            return false;
+        }
+        if (!Objects.equals(this.trigger, other.trigger)) {
+            return false;
+        }
+        if (!Objects.equals(this.active, other.active)) {
+            return false;
+        }
+        return true;
+    }
     
     @Override
     public int compareTo(Object o) {
@@ -63,9 +100,5 @@ public class Rule implements Comparable{
         return this.nameRule.compareTo(otherRule.getNameRule());
     }
     
-    @Override
-    public boolean equals(Object o) {
-        Rule r = (Rule) o ;
-        return action.toString().equals(r.getAction().toString()) && trigger.toString().equals(r.getTrigger().toString()) && nameRule.equals(r.getNameRule());
-    }
+
 }
