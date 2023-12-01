@@ -84,6 +84,15 @@ public class RuleManagerService extends Service{
         System.out.println(r.toString());
     }    
     
+    public void editRule (Rule oldRule, Rule newRule) {
+        synchronized(ruleList) {
+            if(!newRule.equals(oldRule)) {
+                this.ruleList.remove(oldRule);
+                this.ruleList.add(newRule);
+            }
+        }
+    }
+    
     public ObservableList<Rule> getRuleList(){
         return this.ruleList;
     }

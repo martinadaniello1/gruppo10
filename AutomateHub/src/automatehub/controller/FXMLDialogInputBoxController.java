@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package automatehub.controller;
 
 import automatehub.model_view.AudioAction;
@@ -11,13 +7,11 @@ import automatehub.model_view.RuleManagerService;
 import automatehub.model_view.TimeTrigger;
 import java.io.File;
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -25,11 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-/**
- * FXML Controller class
- *
- * @author adc01
- */
+
 public class FXMLDialogInputBoxController implements Initializable {
 
     private RuleManagerService ruleManager = RuleManagerService.getRuleManager();
@@ -110,9 +100,9 @@ public class FXMLDialogInputBoxController implements Initializable {
         }
         
         Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
-        //b.setDefaultButton(true);
+        b.setDefaultButton(true);
         b.disableProperty().bind(ruleTextField.textProperty().isEmpty().or(actionTextField.textProperty().isEmpty().or(triggerTextField.textProperty().isEmpty())));
-        b.setOnAction(event -> updateRule(oldRule, triggerTextField.getText(), actionTextField.getText() ,ruleTextField.getText(), actionType, triggerType));
+        b.setOnAction(event -> editRule(oldRule, triggerTextField.getText(), actionTextField.getText() ,ruleTextField.getText(), actionType, triggerType));
     }
     
     @Override
@@ -155,7 +145,7 @@ public class FXMLDialogInputBoxController implements Initializable {
        
     }
 
-    private void updateRule(Rule oldRule, String triggerString, String actionString, String ruleName, String actionType, String triggerType) {
+    private void editRule(Rule oldRule, String triggerString, String actionString, String ruleName, String actionType, String triggerType) {
         Rule r = null;
         if(actionType.equals("Play an audio file") && triggerType.equals("When the clock hits ...")){
             AudioAction action = new AudioAction(actionTextField.getText());
@@ -168,10 +158,7 @@ public class FXMLDialogInputBoxController implements Initializable {
             r = new Rule(ruleName,action, trigger, true);
         }
         
-        if(!oldRule.equals(r)){
-            ruleManager.removeRule(oldRule);
-            ruleManager.addRule(r);
-        }
+        ruleManager.editRule(oldRule, r);
         
         Stage currentStage = (Stage)rulesDialogPane.getScene().getWindow();
         currentStage.close();
