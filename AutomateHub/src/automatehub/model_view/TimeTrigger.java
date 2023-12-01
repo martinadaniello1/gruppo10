@@ -22,6 +22,10 @@ public class TimeTrigger implements Trigger, Serializable{
         this.time = LocalTime.parse(timeInserted,dtf).truncatedTo(ChronoUnit.MINUTES);  
         
     }
+    
+    public String getType() {
+        return "When the clock hits ...";
+    }
    
     public LocalTime getTime() {
         return time;

@@ -79,7 +79,13 @@ public class FXMLDocumentController implements Initializable {
         triggerColumn.setCellValueFactory(new PropertyValueFactory<>("trigger"));
         actionColumn.setCellValueFactory(new PropertyValueFactory<>("action"));
         activeColumn.setCellValueFactory(new PropertyValueFactory<>("active"));
-        
+        rulesTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        if (newValue != null) {
+            // Quando una riga viene selezionata, imposta i valori nelle caselle di scelta
+            actionsBox.setValue(newValue.getAction().getType()); 
+            triggersBox.setValue(newValue.getTrigger().getType()); 
+        }
+    });
 
         activeColumn.setCellFactory(new Callback<TableColumn<Rule, Boolean>, TableCell<Rule, Boolean>>() {
             @Override
@@ -252,7 +258,7 @@ public class FXMLDocumentController implements Initializable {
         
         
         // inizializza parametri
-        nuovoController.updateData(selectedRules.get(0).getAction().getClass().toString(),selectedRules.get(0).getTrigger().getClass().toString(),selectedRules.get(0));
+        nuovoController.updateData(actionsBox.getValue(),triggersBox.getValue(),selectedRules.get(0));
         
         // Crea una nuova finestra per il nuovo FXML
         Stage nuovoStage = new Stage();

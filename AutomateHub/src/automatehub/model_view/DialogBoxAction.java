@@ -35,6 +35,10 @@ public class DialogBoxAction implements Action, Serializable {
     public String getMessage() {
         return message;
     }
+    
+    public String getType() {
+        return "Show a message";
+    }
 
     public void setMessage(String message) {
         this.message = message;

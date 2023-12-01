@@ -51,6 +51,10 @@ public class AudioAction implements Action, Serializable {
         this.atEnd = atEnd;
     }
     
+    public String getType() {
+        return "Play an audio file";
+    }
+    
     @Override
     public int execute() {
         try {

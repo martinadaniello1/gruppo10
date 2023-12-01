@@ -84,7 +84,7 @@ public class FXMLDialogInputBoxController implements Initializable {
         triggerTextField.setText(oldRule.getTrigger().toString());
         actionTextField.setText(oldRule.getAction().toString());
 
-        if (actionType.equals("AudioAction")) {
+        if (actionType.equals("Play an audio file")) {
             this.actionLabel.setText("Insert the file audio's path:");
             addFileChooser(actionBox);
             actionTextField.setEditable(false);
