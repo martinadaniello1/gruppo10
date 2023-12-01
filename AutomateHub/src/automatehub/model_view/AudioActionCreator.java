@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package automatehub.model_view;
 
-/**
- *
- * @author mapic
- */
 public class AudioActionCreator implements CreatorAction{
     private String pathFile;
 
@@ -15,8 +7,6 @@ public class AudioActionCreator implements CreatorAction{
         this.pathFile = pathFile;
     }
     
-    
-
     @Override
     public Action create() {
         return new AudioAction(pathFile);

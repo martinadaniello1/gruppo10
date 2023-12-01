@@ -3,29 +3,22 @@ package automatehub.controller;
 import automatehub.model_view.*;
 import java.io.IOException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.*;
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.logging.*;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.event.*;
+import javafx.fxml.*;
+import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.*;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import javafx.util.Callback;
+import javafx.util.*;
 
 public class FXMLDocumentController implements Initializable {
-    
+
     @FXML
     private Button addButton;
     @FXML
@@ -34,13 +27,13 @@ public class FXMLDocumentController implements Initializable {
     private ChoiceBox<String> actionsBox;
     @FXML
     private TableView<Rule> rulesTable;
-    
+
     private RuleManagerService ruleManager = RuleManagerService.getRuleManager();
-    
+
     private ObservableList<Rule> rulesList = ruleManager.getRuleList();
     private ObservableList<String> actionsList;
     private ObservableList<String> triggersList;
-    private ObservableList<Rule> selectedRules; 
+    private ObservableList<Rule> selectedRules;
     @FXML
     private TableColumn<Rule, String> nameColumn;
     @FXML
@@ -53,76 +46,87 @@ public class FXMLDocumentController implements Initializable {
     private Button removeButton;
     @FXML
     private Button editButton;
-    
-    
-    
-    public void startAction(){
+
+    /**
+     * Starts the RuleManagerService.
+     */
+    public void startAction() {
         ruleManager.start();
     }
-    
+
+    /**
+     * Initializes all the UI elements of the window.
+     *
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
+        //Setting up the choice boxes for the types of triggers and actions.
         actionsList = FXCollections.observableArrayList();
         triggersList = FXCollections.observableArrayList();
-        
+
         actionsList.addAll("Play an audio file", "Show a message");
         triggersList.addAll("When the clock hits ...");
         actionsBox.setItems(actionsList);
         triggersBox.setItems(triggersList);
-        
+
+        //Setting up the TableView that contains all the rules, in order to show them.
         rulesTable.setItems(rulesList);
         rulesTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        selectedRules=rulesTable.getSelectionModel().getSelectedItems(); //memorizzo in tale array la riga selezionata dall'utente
-        
+        selectedRules = rulesTable.getSelectionModel().getSelectedItems(); //The selectedRules ArrayList contains all the rows selected by the user.
+
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("nameRule"));
         triggerColumn.setCellValueFactory(new PropertyValueFactory<>("trigger"));
         actionColumn.setCellValueFactory(new PropertyValueFactory<>("action"));
         activeColumn.setCellValueFactory(new PropertyValueFactory<>("active"));
         rulesTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-        if (newValue != null) {
-            // Quando una riga viene selezionata, imposta i valori nelle caselle di scelta
-            actionsBox.setValue(newValue.getAction().getType()); 
-            triggersBox.setValue(newValue.getTrigger().getType()); 
-        }
-    });
-
+            if (newValue != null) {
+                // When a row is selected, set the choice boxes to the rule's action type/trigger type.
+                actionsBox.setValue(newValue.getAction().getType());
+                triggersBox.setValue(newValue.getTrigger().getType());
+            }
+        });
+        //Set the active column with a checkbox in each cell.
         activeColumn.setCellFactory(new Callback<TableColumn<Rule, Boolean>, TableCell<Rule, Boolean>>() {
             @Override
             public TableCell<Rule, Boolean> call(TableColumn<Rule, Boolean> column) {
-                return new CheckBoxTableCell <Rule, Boolean> (){
-                     
-                    @Override 
+                return new CheckBoxTableCell<Rule, Boolean>() {
+
+                    @Override
                     public void updateItem(Boolean active, boolean empty) {
                         super.updateItem(active, empty);
-                        
-                        if(empty || active == null) {
+
+                        if (empty || active == null) {
                             setGraphic(null);
                             setText(null);
-                        }
-                        else {
-                            CheckBox p = new CheckBox();                            
+                        } else {
+                            CheckBox p = new CheckBox();
                             Rule selectedRule = (Rule) getTableRow().getItem();
                             if (selectedRule != null && selectedRule.activeProperty() != null) {
                                 p.selectedProperty().bindBidirectional(selectedRule.activeProperty());
                                 setGraphic(p);
-                            }                           
+                            }
                         }
-                        
+
                     }
                 };
             }
-            
+
         });
-        
-        //Definisco l'interazione con il tasto destro sulle righe della tabella
-       rulesTable.setRowFactory(
-        new Callback<TableView<Rule>, TableRow<Rule>>() {
+
+        /*Defining the ContextMenu with two buttons: Edit and Delete, which can be opened by the user 
+        clicking the right button of the mouse on the table's rows.
+        The Edit action is visualized only when the user selects one row; the Delete action 
+        is visualized when the user selects multiple rows as well.*/
+        rulesTable.setRowFactory(
+                new Callback<TableView<Rule>, TableRow<Rule>>() {
             @Override
             public TableRow<Rule> call(TableView<Rule> tableView) {
                 final TableRow<Rule> row = new TableRow<>();
 
-                // menu contestuale per una singola riga
+                // Context Menu for a single row
                 final ContextMenu singleRowMenu = new ContextMenu();
                 MenuItem editItem = new MenuItem("Edit");
                 editItem.setOnAction(new EventHandler<ActionEvent>() {
@@ -144,7 +148,7 @@ public class FXMLDocumentController implements Initializable {
                 });
                 singleRowMenu.getItems().addAll(editItem, removeItem);
 
-                // menu contestuale per più righe
+                // ContextMenu for multiple rows
                 final ContextMenu multipleRowsMenu = new ContextMenu();
                 MenuItem removeMultipleItem = new MenuItem("Delete");
                 removeMultipleItem.setOnAction(new EventHandler<ActionEvent>() {
@@ -155,22 +159,26 @@ public class FXMLDocumentController implements Initializable {
                 });
                 multipleRowsMenu.getItems().add(removeMultipleItem);
 
-                // mostrare il menu contestuale solo per le righe che non sono vuote 
+                //Show the ContextMenu only for non empty rows.
                 row.contextMenuProperty().bind(
-                    Bindings.when(row.emptyProperty())
-                    .then((ContextMenu) null)
-                    .otherwise(Bindings.when(Bindings.size(selectedRules).isEqualTo(1))
-                        .then(singleRowMenu)
-                        .otherwise(multipleRowsMenu)
-                    )
+                        Bindings.when(row.emptyProperty())
+                                .then((ContextMenu) null)
+                                .otherwise(Bindings.when(Bindings.size(selectedRules).isEqualTo(1))
+                                        .then(singleRowMenu)
+                                        .otherwise(multipleRowsMenu)
+                                )
                 );
                 return row;
             }
         }
-    );
-        
+        );
+
+        /*Setting up the buttons' bindings properly. The Add Button is enabled only when the user 
+        selects both a trigger and an action; the Remove Button is enabled when the user selects
+        at least a row from the table; the edit Button is enabled when the user selects only one row.
+        */
         addButton.disableProperty().bind(triggersBox.valueProperty().isNull().or(actionsBox.valueProperty().isNull()));
-        removeButton.disableProperty().bind(Bindings.createBooleanBinding(() -> selectedRules.isEmpty(),selectedRules));
+        removeButton.disableProperty().bind(Bindings.createBooleanBinding(() -> selectedRules.isEmpty(), selectedRules));
         editButton.disableProperty().bind(Bindings.createBooleanBinding(() -> selectedRules.size() != 1, selectedRules));
         editButton.setOnAction((ActionEvent event) -> {
             try {
@@ -179,29 +187,29 @@ public class FXMLDocumentController implements Initializable {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-    }    
+    }
 
     @FXML
-    private void addAction(ActionEvent event) throws IOException  {
-        // carica il nuovo FXML
+    private void addAction(ActionEvent event) throws IOException {
+        //Load the new FXML
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/automatehub/model_view/FXMLDialogInputBox.fxml"));
         Parent nuovoRoot = loader.load();
 
-        // carica il controller del nuovo FXML
-        FXMLDialogInputBoxController  nuovoController = loader.getController();
+        //Load the corresponding controller 
+        FXMLDialogInputBoxController nuovoController = loader.getController();
 
-        // inizializza parametri
-        nuovoController.initData(actionsBox.getValue(),triggersBox.getValue());
-        
-        // Crea una nuova finestra per il nuovo FXML
+        //Pass the trigger and action types to the new controller
+        nuovoController.initData(actionsBox.getValue(), triggersBox.getValue());
+
+        // Create a new window
         Stage nuovoStage = new Stage();
         Scene nuovoScene = new Scene(nuovoRoot);
         nuovoStage.setScene(nuovoScene);
-        
-        // Mostra la nuova finestra
+
+        // Show it
         nuovoStage.show();
-        
-    }   
+
+    }
 
     @FXML
     private void removeAction() {
@@ -217,7 +225,7 @@ public class FXMLDocumentController implements Initializable {
             for (Rule rule : rulesToRemove) {
                 try {
                     rule.toString();
-                    ruleManager.removeRule(rule); // Rimuovi gli elementi selezionati
+                    ruleManager.removeRule(rule); // Remove the selected items
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -225,48 +233,46 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-
-    
-    public void handleOpenRequest(WindowEvent event) throws ClassNotFoundException  {
-        try{ 
-            // Importa le regole quando il programma viene avviato
+    public void handleOpenRequest(WindowEvent event) throws ClassNotFoundException {
+        try {
+            // Import the rules when the application is opened
             ruleManager.importRule();
 
-        }catch (IOException exc) {
-            System.out.printf("IOException: "+exc);
+        } catch (IOException exc) {
+            System.out.printf("IOException: " + exc);
         }
     }
-    
-    public void handleCloseRequest(WindowEvent event)  {
-        try{ 
-            // Salva le regole quando il programma viene chiuso
+
+    public void handleCloseRequest(WindowEvent event) {
+        try {
+            // Save the rules when the application is closed
             ruleManager.exportRule();
 
-        }catch (IOException exc) {
-            System.out.printf("IOException: "+exc);
-        }   
-        // Chiudi l'applicazione
+        } catch (IOException exc) {
+            System.out.printf("IOException: " + exc);
+        }
+        // Close the application
         Platform.exit();
     }
-    
-    private void editAction() throws IOException{
+
+    private void editAction() throws IOException {
+        //Load the new FXML
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/automatehub/model_view/FXMLDialogInputBox.fxml"));
         Parent nuovoRoot = loader.load();
-        
-        // carica il controller del nuovo FXML
-        FXMLDialogInputBoxController  nuovoController = loader.getController();
-        
-        
-        // inizializza parametri
-        nuovoController.updateData(actionsBox.getValue(),triggersBox.getValue(),selectedRules.get(0));
-        
-        // Crea una nuova finestra per il nuovo FXML
+
+        // load the controller
+        FXMLDialogInputBoxController nuovoController = loader.getController();
+
+        // pass the action and trigger types and the selected rule to edit
+        nuovoController.updateData(actionsBox.getValue(), triggersBox.getValue(), selectedRules.get(0));
+
+        // Create a new window for this controller
         Stage nuovoStage = new Stage();
         Scene nuovoScene = new Scene(nuovoRoot);
         nuovoStage.setScene(nuovoScene);
-        
-        // Mostra la nuova finestra
+
+        // Show it
         nuovoStage.show();
-    }   
-    
+    }
+
 }

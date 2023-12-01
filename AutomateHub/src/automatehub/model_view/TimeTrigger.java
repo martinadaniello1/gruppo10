@@ -7,10 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
-/**
- *
- * @author Luca
- */
+
 public class TimeTrigger implements Trigger, Serializable{
     
     private LocalTime time;
