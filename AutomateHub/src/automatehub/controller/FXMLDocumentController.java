@@ -223,11 +223,10 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
         Optional<ButtonType> result = confirmRemoval.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            ArrayList<Rule> rulesToRemove = new ArrayList<>(selectedRules);
-            for (Rule rule : rulesToRemove) {
+            for (Object rule : selectedRules.toArray()) {
                 try {
                     rule.toString();
-                    ruleManager.removeRule(rule); // Remove the selected items
+                    ruleManager.removeRule((Rule) rule); // Remove the selected items
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -97,9 +97,11 @@ public class RuleManagerService implements Serializable {
     }
 
     public void removeRule(Rule r) {
-        synchronized (ruleList) {
+        
             try {
-                ruleList.remove(r);
+                synchronized (ruleList) {
+                    ruleList.remove(r);
+                }
                 notifyRuleRemoved(r);
 
                 System.out.println("Regola rimossa con successo: " + r.toString());
@@ -108,7 +110,7 @@ public class RuleManagerService implements Serializable {
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
-        }
+        
     }
 
     public void editRule(Rule oldRule, Rule newRule) {

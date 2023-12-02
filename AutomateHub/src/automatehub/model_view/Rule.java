@@ -75,9 +75,14 @@ public class Rule implements Comparable, Serializable{
 
     @Override
     public int hashCode() {
-        int hash = 7;
+        int hash = 5;
+        hash = 17 * hash + Objects.hashCode(this.nameRule);
+        hash = 17 * hash + Objects.hashCode(this.action);
+        hash = 17 * hash + Objects.hashCode(this.trigger);
+        hash = 17 * hash + Objects.hashCode(this.active);
+        hash = 17 * hash + Objects.hashCode(this.period);
         return hash;
-    }
+    } 
 
     @Override
     public boolean equals(Object obj) {
@@ -93,13 +98,13 @@ public class Rule implements Comparable, Serializable{
         final Rule other = (Rule) obj;
         if (!Objects.equals(this.nameRule, other.nameRule)) {
             return false;
-        }
+        }/*
         if (!Objects.equals(this.action, other.action)) {
             return false;
         }
         if (!Objects.equals(this.trigger, other.trigger)) {
             return false;
-        }
+        }*/
         if (!Objects.equals(this.active, other.active)) {
             return false;
         }

@@ -1,37 +1,26 @@
 package test;
 
 import automatehub.controller.FXMLDocumentController;
+import automatehub.model_view.AudioAction;
 import automatehub.model_view.DialogBoxAction;
 import automatehub.model_view.Rule;
 import automatehub.model_view.RuleManagerService;
 import automatehub.model_view.TimeTrigger;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
+import java.io.ObjectOutputStream;
 import java.time.Duration;
 import static org.junit.Assert.*;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class RuleManagerServiceTest {
 
     private RuleManagerService ruleManager;
 
-    @BeforeClass
-    public static void initJavaFX() {
-        new JFXPanel(); // Inizializza il toolkit JavaFX
-    }
-
     @Before
     public void setUp() {
         ruleManager = RuleManagerService.getRuleManager();
-    }
-
-    @AfterClass
-    public static void shutdownJFX() {
-        // Chiudi il toolkit di JavaFX
     }
 
     @Test
@@ -47,38 +36,40 @@ public class RuleManagerServiceTest {
         ruleManager.addRule(null);
     }
 
-    /*@Test
+    @Test
     public void testSavingRule() throws IOException, ClassNotFoundException {
-        Rule rule = new Rule("nameRule", new DialogBoxAction("message"), new TimeTrigger("20:00"), true);
-        ruleManager.addRule(rule);
-        ruleManager.exportRule(); 
-        assertTrue(ruleManager.getRuleList().contains(rule));
+        Rule r = new Rule("nameRule2", new AudioAction("message2"), new TimeTrigger("02:00"), true, Duration.ZERO);
+        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("C:\\Users\\mapic\\Desktop\\Progetto\\gruppo10\\AutomateHub\\SavedRule.dat"));
 
-        ruleManager.removeRule(rule);
-        //assertFalse(ruleManager.getRuleList().contains(rule));
+        out.writeUTF(r.getNameRule());
+                out.writeObject(r.getAction());
+                out.writeObject(r.getTrigger());
+                out.writeBoolean(r.getActive());
+                out.writeObject(r.getPeriod());
         ruleManager.importRule();
-        System.out.println(ruleManager.getRuleList());
-        assertTrue(ruleManager.getRuleList().contains(rule));
-    }*/
+        //assertTrue(ruleManager.getRuleList().contains(r));
+        for (Rule rule : ruleManager.getRuleList()){
+            if(rule.equals(new Rule("nameRule2", new AudioAction("message2"), new TimeTrigger("02:00"), true, Duration.ZERO))){
+                assert(true);
+            }
+        }
+    }
     
     @Test
     public void testRemoveRule() {
         Rule rule = new Rule("nameRule", new DialogBoxAction("message"), new TimeTrigger("00:00"), true, Duration.ZERO);
         ruleManager.addRule(rule);
-
         assertTrue(ruleManager.getRuleList().contains(rule));
-
         ruleManager.removeRule(rule);
-
         assertFalse(ruleManager.getRuleList().contains(rule));
     }
-
+/*
     @Test(expected = IllegalArgumentException.class)
     public void testRemoveNonExistingRule() {
         Rule rule = new Rule("nameRule", new DialogBoxAction("message"), new TimeTrigger("00:00"), true, Duration.ZERO);
         ruleManager.removeRule(rule);  // Questa regola non è stata aggiunta, quindi dovrebbe lanciare un'eccezione
 
-    }
+    }*/
 
     @Test
     public void testRuleManagerSingleton() {

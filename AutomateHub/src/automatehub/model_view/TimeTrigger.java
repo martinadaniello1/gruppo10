@@ -62,6 +62,14 @@ public class TimeTrigger implements Trigger, Serializable{
         }
         return true;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.time);
+        return hash;
+    }
+    
     
     
 
