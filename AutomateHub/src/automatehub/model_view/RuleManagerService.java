@@ -69,8 +69,9 @@ public class RuleManagerService  implements  Serializable{
     public void addRule(Rule r) {
         if(r == null)
             throw new IllegalArgumentException("Regola non valida");
-        
-        this.ruleList.add(r);
+        synchronized (ruleList){
+            this.ruleList.add(r);
+        }
         notifyRuleAdded(r);
 
         //Logging
@@ -80,7 +81,7 @@ public class RuleManagerService  implements  Serializable{
     }
     
     public void removeRule (Rule r){
-        
+        synchronized (ruleList){
             try {
                 ruleList.remove(r);
                 notifyRuleRemoved(r);
@@ -91,7 +92,7 @@ public class RuleManagerService  implements  Serializable{
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
-        
+        }
     }
     
     public void editRule (Rule oldRule, Rule newRule) {
