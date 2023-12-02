@@ -120,13 +120,23 @@ public class FXMLDocumentController implements Initializable {
                             setGraphic(null);
                             setText(null);
                         }
-                        else {
+                       /* else {
                             CheckBox p = new CheckBox();                            
                             Rule selectedRule = (Rule) getTableRow().getItem();
                             p.selectedProperty().bindBidirectional(selectedRule.activeProperty());
                             setGraphic(p);                            
-                        }
-                        
+                        }*/
+                        else {
+                        Rule selectedRule = (Rule) getTableRow().getItem();
+
+                    if (selectedRule != null) {
+                        CheckBox p = new CheckBox();
+                        p.selectedProperty().bindBidirectional(selectedRule.activeProperty());
+                        setGraphic(p);
+                    } else {
+                        setGraphic(null);
+                    }
+                }
                     }
                 };
             }

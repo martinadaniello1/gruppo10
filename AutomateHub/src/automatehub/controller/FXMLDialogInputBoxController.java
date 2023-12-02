@@ -12,9 +12,7 @@ import automatehub.model_view.TimeTrigger;
 import java.io.File;
 import java.net.URL;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
-import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -23,6 +21,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
@@ -40,13 +40,9 @@ public class FXMLDialogInputBoxController implements Initializable {
     @FXML
     private DialogPane rulesDialogPane;
     @FXML
-    private TextField actionNameTextField;
-    @FXML
     private Label actionLabel;
     @FXML
     private TextField actionTextField;
-    @FXML
-    private TextField triggerNameTextField;
     @FXML
     private Label triggerLabel;
     @FXML
@@ -61,14 +57,16 @@ public class FXMLDialogInputBoxController implements Initializable {
     private Label repetitionLabel;
     @FXML
     private CheckBox repetitionBox;
-    @FXML
-    private Label intervalLabel;
-    @FXML
-    private TextField intervalTextField;
-    @FXML
-    private HBox intervalHBox;
     
     private Duration d = Duration.ZERO;
+    @FXML
+    private HBox intervalHbox;
+    @FXML
+    private Spinner<Integer> daySpinner;
+    @FXML
+    private Spinner<Integer> hourSpinner;
+    @FXML
+    private Spinner<Integer> minuteSpinner;
       
     public void initData(String actionType, String triggerType){
         if(actionType.equals("Play an audio file"))
@@ -85,8 +83,6 @@ public class FXMLDialogInputBoxController implements Initializable {
         Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
         b.disableProperty().bind(ruleTextField.textProperty().isEmpty().or(actionTextField.textProperty().isEmpty().or(triggerTextField.textProperty().isEmpty())));
         b.setOnAction(event -> createRule(actionType, triggerType, ruleTextField.getText()));
-        intervalHBox.disableProperty().bind(repetitionBox.selectedProperty().not());
-
     }   
     
     
@@ -99,6 +95,18 @@ public class FXMLDialogInputBoxController implements Initializable {
             } 
             }
         });
+        
+        intervalHbox.disableProperty().bind(repetitionBox.selectedProperty().not());
+        repetitionLabel.disableProperty().bind(repetitionBox.selectedProperty().not());
+        
+        SpinnerValueFactory<Integer> dayValueFactory= new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 365);
+        daySpinner.setValueFactory(dayValueFactory);
+        
+        SpinnerValueFactory<Integer> hourValueFactory= new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23);
+        hourSpinner.setValueFactory(hourValueFactory);
+        
+        SpinnerValueFactory<Integer> minuteValueFactory= new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59);
+        minuteSpinner.setValueFactory(minuteValueFactory);
     }    
     
     private void addFileChooser(HBox box){
@@ -121,8 +129,13 @@ public class FXMLDialogInputBoxController implements Initializable {
         if(actionType.equals("Play an audio file") && triggerType.equals("When the clock hits ...")){
             AudioAction action = new AudioAction(actionTextField.getText());
             TimeTrigger trigger = new TimeTrigger(triggerTextField.getText());
-            if(!intervalTextField.getText().isEmpty()) {
-                d= Duration.parse(intervalTextField.getText());
+            if(!intervalHbox.isDisable()) {
+                
+                d= d.plusDays(daySpinner.getValue());
+                d= d.plusHours(hourSpinner.getValue());
+                d= d.plusMinutes(minuteSpinner.getValue());
+                
+                System.out.println(d.toString());
             }
             Rule r = new Rule(ruleName,action, trigger, true,d);
             ruleManager.addRule(r);  
@@ -130,8 +143,13 @@ public class FXMLDialogInputBoxController implements Initializable {
         if(actionType.equals("Show a message") && triggerType.equals("When the clock hits ...")){
             DialogBoxAction action = new DialogBoxAction(actionTextField.getText());
             TimeTrigger trigger = new TimeTrigger(triggerTextField.getText());
-            if(!intervalTextField.getText().isEmpty()) {
-                d= Duration.parse(intervalTextField.getText());
+            if(!intervalHbox.isDisable()) {
+                
+                d= d.plusDays(daySpinner.getValue());
+                d= d.plusHours(hourSpinner.getValue());
+                d= d.plusMinutes(minuteSpinner.getValue());
+                
+                System.out.println(d.toString());
             }
             Rule r = new Rule(ruleName,action, trigger, true,d);
             ruleManager.addRule(r);
