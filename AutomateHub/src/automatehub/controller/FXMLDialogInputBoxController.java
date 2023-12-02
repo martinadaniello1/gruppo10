@@ -3,6 +3,19 @@ package automatehub.controller;
 import automatehub.model_view.*;
 import java.io.File;
 import java.net.URL;
+import java.time.Duration;
+import java.util.ResourceBundle;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextField;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,12 +44,41 @@ public class FXMLDialogInputBoxController implements Initializable {
     private Label ruleNameLabel;
     @FXML
     private TextField ruleTextField;
+    @FXML
+    private Label repetitionLabel;
+    @FXML
+    private CheckBox repetitionBox;
+    
+    private Duration d = Duration.ZERO;
+    @FXML
+    private HBox intervalHbox;
+    @FXML
+    private Spinner<Integer> daySpinner;
+    @FXML
+    private Spinner<Integer> hourSpinner;
+    @FXML
+    private Spinner<Integer> minuteSpinner;
+      
+
     
      
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        
+        intervalHbox.disableProperty().bind(repetitionBox.selectedProperty().not());
+        repetitionLabel.disableProperty().bind(repetitionBox.selectedProperty().not());
+        
+        SpinnerValueFactory<Integer> dayValueFactory= new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 365);
+        daySpinner.setValueFactory(dayValueFactory);
+        
+        SpinnerValueFactory<Integer> hourValueFactory= new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23);
+        hourSpinner.setValueFactory(hourValueFactory);
+        
+        SpinnerValueFactory<Integer> minuteValueFactory= new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59);
+        minuteSpinner.setValueFactory(minuteValueFactory);
     }
+
+    
     
     /**
      * This method sets up the UI according to the type of Action selected.
@@ -64,7 +106,21 @@ public class FXMLDialogInputBoxController implements Initializable {
                 }
             }
         });
-    }
+        
+        intervalHbox.disableProperty().bind(repetitionBox.selectedProperty().not());
+        repetitionLabel.disableProperty().bind(repetitionBox.selectedProperty().not());
+        
+        SpinnerValueFactory<Integer> dayValueFactory= new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 365);
+        daySpinner.setValueFactory(dayValueFactory);
+        
+        SpinnerValueFactory<Integer> hourValueFactory= new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23);
+        hourSpinner.setValueFactory(hourValueFactory);
+        
+        SpinnerValueFactory<Integer> minuteValueFactory= new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59);
+        minuteSpinner.setValueFactory(minuteValueFactory);
+    }    
+    
+   
 
     /**
      * This method sets up the UI according to the type of Trigger selected.
@@ -158,8 +214,17 @@ public class FXMLDialogInputBoxController implements Initializable {
     private void processRule(String ruleName, String actionType, String triggerType, Rule oldRule) {
         CreatorAction action = createAction(actionType);
         CreatorTrigger trigger = createTrigger(triggerType);
+        
+        if(!intervalHbox.isDisable()) {
+                
+                d= d.plusDays(daySpinner.getValue());
+                d= d.plusHours(hourSpinner.getValue());
+                d= d.plusMinutes(minuteSpinner.getValue());
+                
+                System.out.println(d.toString());
+            }
 
-        Rule r = new Rule(ruleName, action.create(), trigger.create(), true);
+        Rule r = new Rule(ruleName, action.create(), trigger.create(), true,d);
         if (oldRule != null) {
             ruleManager.editRule(oldRule, r);
         } else {
@@ -171,11 +236,13 @@ public class FXMLDialogInputBoxController implements Initializable {
     }
 
     private void createRule(String actionType, String triggerType, String ruleName) {
+        
         processRule(ruleName, actionType, triggerType, null);
     }
 
     private void editRule(Rule oldRule, String triggerString, String actionString, String ruleName, String actionType, String triggerType) {
         processRule(ruleName, actionType, triggerType, oldRule);
     }
-
 }
+
+

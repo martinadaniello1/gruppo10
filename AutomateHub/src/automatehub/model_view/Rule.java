@@ -1,5 +1,7 @@
 package automatehub.model_view;
 
+
+import java.time.Duration;
 import java.io.Serializable;
 import java.util.Objects;
 import javafx.beans.property.BooleanProperty;
@@ -12,12 +14,14 @@ public class Rule implements Comparable, Serializable{
     private Action action;
     private Trigger trigger;
     private final BooleanProperty active;
+    private Duration period;
 
-    public Rule(String nameRule, Action action, Trigger trigger, Boolean active) {
+    public Rule(String nameRule, Action action, Trigger trigger, Boolean active,Duration period) {
         this.nameRule = nameRule;
         this.action = action;
         this.trigger = trigger;
         this.active = new SimpleBooleanProperty(active);
+        this.period= period;
     }
 
     public String getNameRule() {
@@ -56,6 +60,14 @@ public class Rule implements Comparable, Serializable{
          this.active.set(a);
     }
 
+    public Duration getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(Duration period) {
+        this.period = period;
+    }
+   
     @Override
     public String toString() {
         return "La regola " + this.getNameRule() + ", azione: " + this.getAction() + ", trigger: " + this.getTrigger() + ", active: " + this.getActive();

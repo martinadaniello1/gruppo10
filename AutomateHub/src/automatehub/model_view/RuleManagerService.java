@@ -1,43 +1,49 @@
 package automatehub.model_view;
 
+import java.time.Duration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.io.*;
 import java.util.ArrayList;
 
 /**
- *Tale classe ha lo scopo di andare a gestire l'insieme di regole presenti nell'
- * applicativo, controllandone le condizioni periodicamente. 
- * Si implementa il pattern singleton. Tale implementazione del pattern singleton
- * risulta valido fintanto stiamo lavorando in ambito single-thread.
- * Come collezione per gestire l'insieme di regole si è scelta una ArrayList.
+ * Tale classe ha lo scopo di andare a gestire l'insieme di regole presenti
+ * nell' applicativo, controllandone le condizioni periodicamente. Si implementa
+ * il pattern singleton. Tale implementazione del pattern singleton risulta
+ * valido fintanto stiamo lavorando in ambito single-thread. Come collezione per
+ * gestire l'insieme di regole si è scelta una ArrayList.
+ *
  * @author adc01
  */
+public class RuleManagerService implements Serializable {
 
-public class RuleManagerService  implements  Serializable{
-    
     private ArrayList<RuleObserver> observers;
     private ArrayList<Rule> ruleList;
     private boolean isCheckingRules = true;
     //Unica istanza della classe
-    private static RuleManagerService instance = null ;
-    
+    private static RuleManagerService instance = null;
+
     //Costruttore privato
-    private RuleManagerService(){
+    private RuleManagerService() {
         this.observers = new ArrayList<RuleObserver>();
         this.ruleList = new ArrayList<Rule>();
-    };
+    }
+
+    ;
     
     //Lazy initialization
-    public static RuleManagerService getRuleManager(){
+    public static RuleManagerService getRuleManager() {
         //Crea l'oggetto solo se non esiste
-        if(instance == null)
+        if (instance == null) {
             instance = new RuleManagerService();
-        
+        }
+
         return instance;
     }
-    
-    public void start(){
+
+    public void start() {
         new Thread(() -> {
-            while(isCheckingRules){
+            while (isCheckingRules) {
                 synchronized (ruleList) {
                     for (Rule rule : ruleList) {
                         if (rule.getActive()) {
@@ -46,6 +52,17 @@ public class RuleManagerService  implements  Serializable{
                             } else {
                                 System.out.println("Rule verification failed: " + rule.toString());
                             }
+                        } else if (!rule.getPeriod().isZero()) {
+                            new Thread(() -> {
+                                try {
+                                    Thread.sleep(rule.getPeriod().toMillis());
+                                    rule.setActive(true);
+                                } catch (InterruptedException ex) {
+                                    Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+
+                            }).start();
+
                         }
                     }
                 }
@@ -54,22 +71,21 @@ public class RuleManagerService  implements  Serializable{
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+
                 }
             }
-            
         }).start();
     }
-    
-    public void stop(){
+
+    public void stop() {
         isCheckingRules = false;
     }
-    
- 
-    
+
     public void addRule(Rule r) {
-        if(r == null)
+        if (r == null) {
             throw new IllegalArgumentException("Regola non valida");
-        synchronized (ruleList){
+        }
+        synchronized (ruleList) {
             this.ruleList.add(r);
         }
         notifyRuleAdded(r);
@@ -77,11 +93,11 @@ public class RuleManagerService  implements  Serializable{
         //Logging
         System.out.println("addRule in RuleManagerService eseguita correttamente");
         System.out.println(r.toString());
-               
+
     }
-    
-    public void removeRule (Rule r){
-        synchronized (ruleList){
+
+    public void removeRule(Rule r) {
+        synchronized (ruleList) {
             try {
                 ruleList.remove(r);
                 notifyRuleRemoved(r);
@@ -94,69 +110,73 @@ public class RuleManagerService  implements  Serializable{
             }
         }
     }
-    
-    public void editRule (Rule oldRule, Rule newRule) {
-        synchronized(ruleList) {
-            if(!newRule.equals(oldRule)) {
+
+    public void editRule(Rule oldRule, Rule newRule) {
+        synchronized (ruleList) {
+            if (!newRule.equals(oldRule)) {
                 this.ruleList.remove(oldRule);
                 this.ruleList.add(newRule);
-                notifyRuleEdited(oldRule,newRule);
+                notifyRuleEdited(oldRule, newRule);
             }
         }
     }
-    
-    public ArrayList<Rule> getRuleList(){
+
+    public ArrayList<Rule> getRuleList() {
         return this.ruleList;
     }
-    
-    public void importRule() throws IOException, ClassNotFoundException  {
+
+    public ArrayList<RuleObserver> getObservers() {
+        return this.observers;
+    }
+
+    public void importRule() throws IOException, ClassNotFoundException {
         System.out.println("Recupero Rule salvate ***********");
 
         FileInputStream fis = new FileInputStream("SavedRule.dat");
         ObjectInputStream ois = new ObjectInputStream(fis);
         System.out.println("        File aperto");
-        if(ois==null){
-            return ;
+        if (ois == null) {
+            return;
         }
 
         try {
-            while (true) { 
+            while (true) {
                 String name = ois.readUTF();
                 Action action = (Action) ois.readObject();
                 Trigger trigger = (Trigger) ois.readObject();
-                boolean active = ois.readBoolean();               
-                
-                Rule rule = new Rule(name,action,trigger,active);
-                addRule(rule);  
-                System.out.println("        Importazione regola "+ rule.getNameRule()+" effettuata");
+                boolean active = ois.readBoolean();
+                Duration duration = (Duration) ois.readObject();
+
+                Rule rule = new Rule(name, action, trigger, active, duration);
+                addRule(rule);
+                System.out.println("        Importazione regola " + rule.getNameRule() + " effettuata");
             }
-        }catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Importazione completata");
-        } finally{
+        } finally {
             ois.close();
         }
     }
-    
+
     public void exportRule() throws FileNotFoundException, IOException {
-        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("SavedRule.dat"));       
-        try  {
-             for (Rule regola : ruleList){
-                
+        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("SavedRule.dat"));
+        try {
+            for (Rule regola : ruleList) {
+
                 out.writeUTF(regola.getNameRule());
-                out.writeObject(regola.getAction()); 
-                out.writeObject(regola.getTrigger()); 
+                out.writeObject(regola.getAction());
+                out.writeObject(regola.getTrigger());
                 out.writeBoolean(regola.getActive());
-             }
+                out.writeObject(regola.getPeriod());
+            }
             System.out.println("Salvataggio completato");
         } catch (IOException e) {
             System.out.println("Salvataggio completato");
-        }finally{
+        } finally {
             out.close();
         }
     }
-    
-    
-    
+
     //**************************************************************************
     //*******************   METHODS OBSERVER PATTERN
     public void addObserver(RuleObserver observer) {
@@ -188,15 +208,11 @@ public class RuleManagerService  implements  Serializable{
             observer.onRuleEdited(oldRule, newRule);
         });
     }
-    
-    private void notifyRuleVerified( Rule rule) {
+
+    private void notifyRuleVerified(Rule rule) {
         observers.forEach(observer -> {
             observer.onRuleVerified(rule);
         });
     }
-
-    
-
-    
 
 }

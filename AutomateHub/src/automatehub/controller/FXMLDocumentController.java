@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.*;
 
-public class FXMLDocumentController implements  Initializable, RuleObserver {
+public class FXMLDocumentController implements Initializable, RuleObserver {
 
     @FXML
     private Button addButton;
@@ -53,8 +53,7 @@ public class FXMLDocumentController implements  Initializable, RuleObserver {
      * Starts the RuleManagerService.
      */
     public void startAction() {
-            ruleManager.start();
-        
+        ruleManager.start();
     }
 
     /**
@@ -112,10 +111,10 @@ public class FXMLDocumentController implements  Initializable, RuleObserver {
                                 setGraphic(p);
                             }
                         }
-
                     }
                 };
             }
+        ;
 
         });
 
@@ -179,7 +178,7 @@ public class FXMLDocumentController implements  Initializable, RuleObserver {
         /*Setting up the buttons' bindings properly. The Add Button is enabled only when the user 
         selects both a trigger and an action; the Remove Button is enabled when the user selects
         at least a row from the table; the edit Button is enabled when the user selects only one row.
-        */
+         */
         addButton.disableProperty().bind(triggersBox.valueProperty().isNull().or(actionsBox.valueProperty().isNull()));
         removeButton.disableProperty().bind(Bindings.createBooleanBinding(() -> selectedRules.isEmpty(), selectedRules));
         editButton.disableProperty().bind(Bindings.createBooleanBinding(() -> selectedRules.size() != 1, selectedRules));
@@ -256,7 +255,7 @@ public class FXMLDocumentController implements  Initializable, RuleObserver {
             System.out.printf("IOException: " + exc);
         }
         // Close the application
-        
+
         Platform.exit();
     }
 
@@ -279,7 +278,7 @@ public class FXMLDocumentController implements  Initializable, RuleObserver {
         // Show it
         nuovoStage.show();
     }
-    
+
     @Override
     public void onRuleAdded(Rule rule) {
         // Aggiorna la TableView quando una nuova regola viene aggiunta
@@ -298,30 +297,30 @@ public class FXMLDocumentController implements  Initializable, RuleObserver {
         rulesList.remove(oldRule);
         rulesList.add(newRule);
     }
-    
+
     @Override
-    public void onRuleVerified(Rule rule){
+    public void onRuleVerified(Rule rule) {
         Platform.runLater(() -> {
             System.out.println("regola verificata con esito positivo:" + rule.toString()); //Logging            
             rule.getAction().execute();
             onActionExecuted(rule);
             rule.setActive(false);
-        });                    
+        });
     }
-    
+
     @Override
-    public void onActionExecuted(Rule rule){
-        switch(rule.getAction().getType()){
+    public void onActionExecuted(Rule rule) {
+        switch (rule.getAction().getType()) {
             case "Show a message":
                 DialogBoxAction action = (DialogBoxAction) rule.getAction();
-                if( action.getMessage() != null) {
+                if (action.getMessage() != null) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Message");
                     alert.setHeaderText(null);
                     alert.setContentText(action.getMessage());
                     alert.getButtonTypes().setAll(ButtonType.OK);
                     // Show the dialog box 
-                    alert.show(); 
+                    alert.show();
                 }
                 break;
             case "Play an audio file":
@@ -347,11 +346,8 @@ public class FXMLDocumentController implements  Initializable, RuleObserver {
                     audioAction.stopPlaying();
                 });
                 s.show();
-                
 
         }
     }
-    
-
 
 }
