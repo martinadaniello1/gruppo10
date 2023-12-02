@@ -7,20 +7,20 @@ import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.*;
 
-
 public class TimeTriggerCreatorTest {
+
     private static TimeTriggerCreator ac;
-    
+
     @BeforeClass
-    public static void SetUpClass(){
-         ac = new TimeTriggerCreator("11:21");        
+    public static void SetUpClass() {
+        ac = new TimeTriggerCreator("11:21");
     }
-    
+
     @Test
-    public void createTest(){
+    public void testCreate() {
         TimeTrigger a = new TimeTrigger("11:21");
         Trigger acReturned = ac.create();
         assertTrue(a.equals(acReturned));
-        
+
     }
 }

@@ -1,10 +1,5 @@
-
 package automatehub.model_view;
 
-/**
- *
- * @author adc01
- */
 public class MoveFileActionCreator implements CreatorAction {
  
     private String startingPath ;

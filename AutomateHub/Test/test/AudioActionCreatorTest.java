@@ -21,7 +21,7 @@ public class AudioActionCreatorTest {
     }
     
     @Test
-    public void createTest(){
+    public void testCreate(){
         AudioAction a = new AudioAction(pathFile);
         Action acReturned = ac.create();
         assertTrue(a.equals(acReturned));

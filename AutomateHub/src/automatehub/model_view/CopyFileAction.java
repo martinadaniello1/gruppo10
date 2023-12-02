@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
-/**
- *
- * @author adc01
- */
+
 public class CopyFileAction implements Action{
     private String startingPath ;
     private String destinationPath ;
@@ -27,8 +24,6 @@ public class CopyFileAction implements Action{
             return -1;
         }
     }
-    
-    
     
     public String getStartingPath() {
         return startingPath;

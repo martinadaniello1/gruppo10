@@ -1,9 +1,5 @@
 package automatehub.model_view;
 
-/**
- *
- * @author adc01
- */
 public class CopyFileActionCreator implements CreatorAction {
  
     private String startingPath ;

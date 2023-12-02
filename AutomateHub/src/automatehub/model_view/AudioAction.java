@@ -14,7 +14,7 @@ import javafx.stage.WindowEvent;
         
 public class AudioAction implements Action, Serializable {
     
-    public File file;
+    private File file;
     private Clip clip;
     private Runnable atEnd;
 

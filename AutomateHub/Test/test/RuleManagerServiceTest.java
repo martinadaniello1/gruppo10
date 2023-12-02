@@ -1,6 +1,6 @@
 package test;
 
-import automatehub.model_view.DialogBoxAction;
+import automatehub.model_view.*;
 import automatehub.model_view.Rule;
 import automatehub.model_view.RuleManagerService;
 import automatehub.model_view.TimeTrigger;
@@ -16,7 +16,7 @@ import org.junit.Test;
 public class RuleManagerServiceTest {
 
     private RuleManagerService ruleManager;
-    
+
     @BeforeClass
     public static void initJavaFX() {
         new JFXPanel(); // Inizializza il toolkit JavaFX
@@ -44,12 +44,12 @@ public class RuleManagerServiceTest {
     public void testAddNullRule() {
         ruleManager.addRule(null);
     }
-    
+
     @Test
     public void testSavingRule() throws IOException, ClassNotFoundException {
         Rule rule = new Rule("nameRule", new DialogBoxAction("message"), new TimeTrigger("20:00"), true);
         ruleManager.addRule(rule);
-        ruleManager.exportRule(); 
+        ruleManager.exportRule();
         assertTrue(ruleManager.getRuleList().contains(rule));
 
         ruleManager.removeRule(rule);
@@ -75,7 +75,7 @@ public class RuleManagerServiceTest {
     public void testRemoveNonExistingRule() {
         Rule rule = new Rule("nameRule", new DialogBoxAction("message"), new TimeTrigger("10:00"), true);
         ruleManager.removeRule(rule);  // Questa regola non è stata aggiunta, quindi dovrebbe lanciare un'eccezione
-    
+
     }
 
     @Test
@@ -84,10 +84,10 @@ public class RuleManagerServiceTest {
         assertSame(ruleManager, secondInstance);
     }
 
- @Test
+    @Test
     public void testRuleManagerService() throws InterruptedException {
-            // crea il servizio all'interno di Platform.runLater() per eseguirlo nel thread di JavaFX
-            Platform.runLater(() -> {
+        // crea il servizio all'interno di Platform.runLater() per eseguirlo nel thread di JavaFX
+        Platform.runLater(() -> {
             RuleManagerService ruleManager = RuleManagerService.getRuleManager();
 
             ruleManager.start();  // Avvia il servizio
