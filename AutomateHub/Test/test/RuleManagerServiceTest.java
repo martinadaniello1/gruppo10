@@ -39,20 +39,13 @@ public class RuleManagerServiceTest {
     @Test
     public void testSavingRule() throws IOException, ClassNotFoundException {
         Rule r = new Rule("nameRule2", new AudioAction("message2"), new TimeTrigger("02:00"), true, Duration.ZERO);
-        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("C:\\Users\\mapic\\Desktop\\Progetto\\gruppo10\\AutomateHub\\SavedRule.dat"));
-
-        out.writeUTF(r.getNameRule());
-                out.writeObject(r.getAction());
-                out.writeObject(r.getTrigger());
-                out.writeBoolean(r.getActive());
-                out.writeObject(r.getPeriod());
+        ruleManager.addRule(r);
+        ruleManager.exportRule();
+        ruleManager.removeRule(r);
         ruleManager.importRule();
-        //assertTrue(ruleManager.getRuleList().contains(r));
-        for (Rule rule : ruleManager.getRuleList()){
-            if(rule.equals(new Rule("nameRule2", new AudioAction("message2"), new TimeTrigger("02:00"), true, Duration.ZERO))){
-                assert(true);
-            }
-        }
+        ruleManager.getRuleList().stream().filter(rule -> (rule.equals(new Rule("nameRule2", new AudioAction("message2"), new TimeTrigger("02:00"), true, Duration.ZERO)))).forEachOrdered(_item -> {
+            assert(true);
+        });
     }
     
     @Test
@@ -63,13 +56,13 @@ public class RuleManagerServiceTest {
         ruleManager.removeRule(rule);
         assertFalse(ruleManager.getRuleList().contains(rule));
     }
-/*
+
     @Test(expected = IllegalArgumentException.class)
     public void testRemoveNonExistingRule() {
         Rule rule = new Rule("nameRule", new DialogBoxAction("message"), new TimeTrigger("00:00"), true, Duration.ZERO);
         ruleManager.removeRule(rule);  // Questa regola non è stata aggiunta, quindi dovrebbe lanciare un'eccezione
 
-    }*/
+    }
 
     @Test
     public void testRuleManagerSingleton() {
