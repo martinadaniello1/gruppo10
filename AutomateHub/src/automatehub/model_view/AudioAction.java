@@ -1,22 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package automatehub.model_view;
 
 import javax.sound.sampled.*;
 import java.io.*;
+import java.util.Objects;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import static javafx.scene.control.ContentDisplay.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javax.sound.sampled.*;
+import javafx.stage.WindowEvent;
         
-public class AudioAction implements Action {
+public class AudioAction implements Action, Serializable {
     
     public File file;
     private Clip clip;
@@ -26,7 +22,7 @@ public class AudioAction implements Action {
     public AudioAction(String filePath) {
         this.file = new File(filePath);
     }  
-
+    
     public File getFile() {
         return file;
     }
@@ -49,6 +45,10 @@ public class AudioAction implements Action {
 
     public void setAtEnd(Runnable atEnd) {
         this.atEnd = atEnd;
+    }
+    
+    public String getType() {
+        return "Play an audio file";
     }
     
     @Override
@@ -87,7 +87,7 @@ public class AudioAction implements Action {
             Stage s = new Stage();
             s.setScene(scene);
             s.show();
-            
+            s.setOnCloseRequest(event ->handleCloseRequest(event));
             return 0;
 
         } catch (LineUnavailableException exc) {
@@ -119,5 +119,33 @@ public class AudioAction implements Action {
     public String toString() {
         return this.getFile().getPath();
     }
+    
+    public void handleCloseRequest(WindowEvent event)  {
+        stopPlaying();
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AudioAction other = (AudioAction) obj;
+        if (!Objects.equals(this.file, other.file)) {
+            return false;
+        }
+        if (!Objects.equals(this.clip, other.clip)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 
 }

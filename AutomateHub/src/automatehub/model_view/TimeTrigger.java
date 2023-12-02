@@ -1,15 +1,14 @@
 package automatehub.model_view;
 
 
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 
-/**
- *
- * @author Luca
- */
-public class TimeTrigger implements Trigger{
+
+public class TimeTrigger implements Trigger, Serializable{
     
     private LocalTime time;
     
@@ -19,6 +18,10 @@ public class TimeTrigger implements Trigger{
         DateTimeFormatter dtf= DateTimeFormatter.ofPattern("HH:mm");
         this.time = LocalTime.parse(timeInserted,dtf).truncatedTo(ChronoUnit.MINUTES);  
         
+    }
+    
+    public String getType() {
+        return "When the clock hits ...";
     }
    
     public LocalTime getTime() {
@@ -41,5 +44,25 @@ public class TimeTrigger implements Trigger{
     public String toString() {
         return this.getTime().toString();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TimeTrigger other = (TimeTrigger) obj;
+        if (!Objects.equals(this.time, other.time)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 
 }

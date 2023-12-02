@@ -1,17 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package test;
 
 import automatehub.model_view.AudioAction;
 import java.io.File;
 import static org.junit.Assert.*;
 import org.junit.*;
-/**
- *
- * @author mapic
- */
+
 public class AudioActionTest {
     
     private static AudioAction a;
