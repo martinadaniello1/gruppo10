@@ -132,7 +132,7 @@
       </VBox>
    </content>
    <header>
-      <Label alignment="CENTER" contentDisplay="CENTER" text="Set up the new rule">
+      <Label alignment="CENTER" contentDisplay="CENTER" text="Set up the rule">
          <font>
             <Font size="18.0" />
          </font>
