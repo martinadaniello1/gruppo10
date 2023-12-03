@@ -15,12 +15,12 @@ public class CopyFileAction implements Action{
     }
 
     @Override
-    public int execute(){
+    public int execute() {
         try {
-            FileUtils.copyFile(new File(startingPath), new File(destinationPath));
+            FileUtils.copyFileToDirectory(new File(startingPath), new File(destinationPath));
             return 0;
         } catch (IOException ex) {
-            Logger.getLogger(MoveFileAction.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
             return -1;
         }
     }
@@ -46,5 +46,13 @@ public class CopyFileAction implements Action{
         return "Copy a file to a directory";
     }
     
+    @Override
+    public String toString(){
+        StringBuilder s = new StringBuilder();
+        s.append(this.getStartingPath());
+        s.append(" to ");
+        s.append(this.getDestinationPath());
+        return s.toString();
+    }
     
 }

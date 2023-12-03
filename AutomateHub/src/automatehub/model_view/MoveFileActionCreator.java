@@ -9,7 +9,7 @@ public class MoveFileActionCreator implements CreatorAction {
         this.startingPath = startingPath;
         this.destinationPath = destinationPath;
     }
-       
+
     @Override
     public Action create() {
         return new MoveFileAction(startingPath, destinationPath);

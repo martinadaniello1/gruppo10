@@ -17,7 +17,7 @@ public class MoveFileAction implements Action{
     @Override
     public int execute(){
         try {
-            FileUtils.moveFile(new File(startingPath), new File(destinationPath));
+            FileUtils.moveFileToDirectory(new File(startingPath), new File(destinationPath), false);
             return 0;
         } catch (IOException ex) {
             Logger.getLogger(MoveFileAction.class.getName()).log(Level.SEVERE, null, ex);
@@ -48,5 +48,13 @@ public class MoveFileAction implements Action{
         return "Move a file from a directory";
     }
     
+    @Override
+    public String toString(){
+        StringBuilder s = new StringBuilder();
+        s.append(this.getStartingPath());
+        s.append(" to ");
+        s.append(this.getDestinationPath());
+        return s.toString();
+    }
     
 }

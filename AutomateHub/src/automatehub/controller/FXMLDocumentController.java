@@ -67,7 +67,7 @@ public class FXMLDocumentController implements Initializable {
         actionsList = FXCollections.observableArrayList();
         triggersList = FXCollections.observableArrayList();
 
-        actionsList.addAll("Play an audio file", "Show a message");
+        actionsList.addAll("Play an audio file", "Show a message", "Copy a file to a directory", "Move a file from a directory");
         triggersList.addAll("When the clock hits ...");
         actionsBox.setItems(actionsList);
         triggersBox.setItems(triggersList);
