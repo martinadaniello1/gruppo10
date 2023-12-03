@@ -17,6 +17,8 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -48,7 +50,7 @@ public class FXMLDialogInputBoxController implements Initializable {
     private Label repetitionLabel;
     @FXML
     private CheckBox repetitionBox;
-    
+
     private Duration d = Duration.ZERO;
     @FXML
     private HBox intervalHbox;
@@ -58,30 +60,26 @@ public class FXMLDialogInputBoxController implements Initializable {
     private Spinner<Integer> hourSpinner;
     @FXML
     private Spinner<Integer> minuteSpinner;
-      
 
-    
-     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         intervalHbox.disableProperty().bind(repetitionBox.selectedProperty().not());
         repetitionLabel.disableProperty().bind(repetitionBox.selectedProperty().not());
-        
-        SpinnerValueFactory<Integer> dayValueFactory= new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 365);
+
+        SpinnerValueFactory<Integer> dayValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 365);
         daySpinner.setValueFactory(dayValueFactory);
-        
-        SpinnerValueFactory<Integer> hourValueFactory= new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23);
+
+        SpinnerValueFactory<Integer> hourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23);
         hourSpinner.setValueFactory(hourValueFactory);
-        
-        SpinnerValueFactory<Integer> minuteValueFactory= new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59);
+
+        SpinnerValueFactory<Integer> minuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59);
         minuteSpinner.setValueFactory(minuteValueFactory);
     }
 
-    
-    
     /**
      * This method sets up the UI according to the type of Action selected.
-     * @param actionType 
+     *
+     * @param actionType
      */
     private void setupActionUI(String actionType) {
         if (actionType.equals("Play an audio file")) {
@@ -105,15 +103,13 @@ public class FXMLDialogInputBoxController implements Initializable {
                 }
             }
         });
-        
-        
-    }    
-    
-   
+
+    }
 
     /**
      * This method sets up the UI according to the type of Trigger selected.
-     * @param triggerType 
+     *
+     * @param triggerType
      */
     private void setupTriggerUI(String triggerType) {
         if (triggerType.equals("When the clock hits ...")) {
@@ -129,19 +125,8 @@ public class FXMLDialogInputBoxController implements Initializable {
         Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
         b.setDefaultButton(true);
         b.disableProperty().bind(ruleTextField.textProperty().isEmpty().or(actionTextField.textProperty().isEmpty().or(triggerTextField.textProperty().isEmpty())));
-        b.setOnAction(event -> createRule(actionType, triggerType, ruleTextField.getText()));        
-        
-        intervalHbox.disableProperty().bind(repetitionBox.selectedProperty().not());
-        repetitionLabel.disableProperty().bind(repetitionBox.selectedProperty().not());
-        
-        SpinnerValueFactory<Integer> dayValueFactory= new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 366);
-        daySpinner.setValueFactory(dayValueFactory);
-        
-        SpinnerValueFactory<Integer> hourValueFactory= new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 24);
-        hourSpinner.setValueFactory(hourValueFactory);
-        
-        SpinnerValueFactory<Integer> minuteValueFactory= new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 60);
-        minuteSpinner.setValueFactory(minuteValueFactory);
+        b.setOnAction(event -> createRule(actionType, triggerType, ruleTextField.getText()));
+
     }
 
     public void updateData(String actionType, String triggerType, Rule oldRule) {
@@ -156,29 +141,36 @@ public class FXMLDialogInputBoxController implements Initializable {
         b.setDefaultButton(true);
         b.disableProperty().bind(ruleTextField.textProperty().isEmpty().or(actionTextField.textProperty().isEmpty().or(triggerTextField.textProperty().isEmpty())));
         b.setOnAction(event -> editRule(oldRule, triggerTextField.getText(), actionTextField.getText(), ruleTextField.getText(), actionType, triggerType));
-        if(!oldRule.getPeriod().isZero()) {
-            System.out.println(Long.toString(oldRule.getPeriod().toDays()));
-            System.out.println(Long.toString(oldRule.getPeriod().toDays()));
+        if (!oldRule.getPeriod().isZero()) {
             repetitionBox.setSelected(true);
-            daySpinner.getValueFactory().setValue(Integer.parseInt(Long.valueOf(oldRule.getPeriod().toDays()).toString()));
-            if(Long.valueOf(oldRule.getPeriod().toHours())<24) {
-                hourSpinner.getValueFactory().setValue(Integer.parseInt(Long.valueOf(oldRule.getPeriod().toHours()).toString()));            }
-            
-            if(Long.valueOf(oldRule.getPeriod().toMinutes())<=60) {
-                minuteSpinner.getValueFactory().setValue(Integer.parseInt(Long.valueOf(oldRule.getPeriod().toMinutes()).toString()));
+            Pattern pattern = Pattern.compile("^PT((\\d+)H)?((\\d+)M)?((\\d+)(\\.\\d+)?S)?$");
+            Matcher matcher = pattern.matcher(oldRule.getPeriod().toString());
 
-            } else {
+            if (matcher.matches()) {
+                int hours = Integer.parseInt(matcher.group(2) != null ? matcher.group(2) : "0");
+                int minutes = Integer.parseInt(matcher.group(4) != null ? matcher.group(4) : "0");
+                int seconds = (int) Math.round(Double.parseDouble(matcher.group(6) != null ? matcher.group(6) : "0"));
+
+                int totalMinutes = hours * 60 + minutes;
+                int days = totalMinutes / (24 * 60);
+                int remainingMinutes = totalMinutes % (24 * 60);
+                int remainingHours = remainingMinutes / 60;
+                int finalMinutes = remainingMinutes % 60;
+
+                daySpinner.getValueFactory().setValue(days);
+                hourSpinner.getValueFactory().setValue(remainingHours);
+                minuteSpinner.getValueFactory().setValue(finalMinutes);
             }
-        } 
-    }
 
+        }
+    }
 
     private void addFileChooser(HBox box) {
         Button fileChooserButton = new Button("...");
         box.getChildren().add(fileChooserButton);
         fileChooserButton.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser(); //Create a FileChooser
-            fileChooser.setTitle("Choose the audio file"); 
+            fileChooser.setTitle("Choose the audio file");
             FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Audio files (*.wav)", "*.wav"); //Filters definition for the file extension
             fileChooser.getExtensionFilters().add(extFilter);
             File f = fileChooser.showOpenDialog(box.getScene().getWindow()); //Open the dialog to choose the file
@@ -191,22 +183,24 @@ public class FXMLDialogInputBoxController implements Initializable {
 
     /**
      * Creates the corresponding trigger when the user selects it.
+     *
      * @param triggerType
-     * @return 
+     * @return
      */
     private CreatorTrigger createTrigger(String triggerType) {
         switch (triggerType) {
             case "When the clock hits ...":
                 return new TimeTriggerCreator(triggerTextField.getText());
             default:
-                return null; 
+                return null;
         }
     }
 
     /**
      * Creates the corresponding action when the user selects it.
+     *
      * @param actionType
-     * @return 
+     * @return
      */
     private CreatorAction createAction(String actionType) {
         switch (actionType) {
@@ -215,31 +209,33 @@ public class FXMLDialogInputBoxController implements Initializable {
             case "Play an audio file":
                 return new AudioActionCreator(actionTextField.getText());
             default:
-                return null; 
-            }
+                return null;
+        }
     }
 
     /**
-     * Creates the Rule. If oldRule is not null, the method calls the editRule of RuleManagerService; otherwise, it calls the addRule.
+     * Creates the Rule. If oldRule is not null, the method calls the editRule
+     * of RuleManagerService; otherwise, it calls the addRule.
+     *
      * @param ruleName
      * @param actionType
      * @param triggerType
-     * @param oldRule 
+     * @param oldRule
      */
     private void processRule(String ruleName, String actionType, String triggerType, Rule oldRule) {
         CreatorAction action = createAction(actionType);
         CreatorTrigger trigger = createTrigger(triggerType);
-        
-        if(!intervalHbox.isDisable()) {
-                
-                d= d.plusDays(daySpinner.getValue());
-                d= d.plusHours(hourSpinner.getValue());
-                d= d.plusMinutes(minuteSpinner.getValue());
-                
-                System.out.println(d.toString());
-            }
 
-        Rule r = new Rule(ruleName, action.create(), trigger.create(), true,d);
+        if (!intervalHbox.isDisable()) {
+
+            d = d.plusDays(daySpinner.getValue());
+            d = d.plusHours(hourSpinner.getValue());
+            d = d.plusMinutes(minuteSpinner.getValue());
+
+            System.out.println(d.toString());
+        }
+
+        Rule r = new Rule(ruleName, action.create(), trigger.create(), true, d);
         if (oldRule != null) {
             ruleManager.editRule(oldRule, r);
         } else {
@@ -251,7 +247,7 @@ public class FXMLDialogInputBoxController implements Initializable {
     }
 
     private void createRule(String actionType, String triggerType, String ruleName) {
-        
+
         processRule(ruleName, actionType, triggerType, null);
     }
 
@@ -259,5 +255,3 @@ public class FXMLDialogInputBoxController implements Initializable {
         processRule(ruleName, actionType, triggerType, oldRule);
     }
 }
-
-
