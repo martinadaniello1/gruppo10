@@ -64,7 +64,6 @@ public class FXMLDialogInputBoxController implements Initializable {
      
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
         intervalHbox.disableProperty().bind(repetitionBox.selectedProperty().not());
         repetitionLabel.disableProperty().bind(repetitionBox.selectedProperty().not());
         
@@ -107,17 +106,7 @@ public class FXMLDialogInputBoxController implements Initializable {
             }
         });
         
-        intervalHbox.disableProperty().bind(repetitionBox.selectedProperty().not());
-        repetitionLabel.disableProperty().bind(repetitionBox.selectedProperty().not());
         
-        SpinnerValueFactory<Integer> dayValueFactory= new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 365);
-        daySpinner.setValueFactory(dayValueFactory);
-        
-        SpinnerValueFactory<Integer> hourValueFactory= new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23);
-        hourSpinner.setValueFactory(hourValueFactory);
-        
-        SpinnerValueFactory<Integer> minuteValueFactory= new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59);
-        minuteSpinner.setValueFactory(minuteValueFactory);
     }    
     
    
@@ -140,7 +129,19 @@ public class FXMLDialogInputBoxController implements Initializable {
         Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
         b.setDefaultButton(true);
         b.disableProperty().bind(ruleTextField.textProperty().isEmpty().or(actionTextField.textProperty().isEmpty().or(triggerTextField.textProperty().isEmpty())));
-        b.setOnAction(event -> createRule(actionType, triggerType, ruleTextField.getText()));
+        b.setOnAction(event -> createRule(actionType, triggerType, ruleTextField.getText()));        
+        
+        intervalHbox.disableProperty().bind(repetitionBox.selectedProperty().not());
+        repetitionLabel.disableProperty().bind(repetitionBox.selectedProperty().not());
+        
+        SpinnerValueFactory<Integer> dayValueFactory= new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 366);
+        daySpinner.setValueFactory(dayValueFactory);
+        
+        SpinnerValueFactory<Integer> hourValueFactory= new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 24);
+        hourSpinner.setValueFactory(hourValueFactory);
+        
+        SpinnerValueFactory<Integer> minuteValueFactory= new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 60);
+        minuteSpinner.setValueFactory(minuteValueFactory);
     }
 
     public void updateData(String actionType, String triggerType, Rule oldRule) {
@@ -155,6 +156,20 @@ public class FXMLDialogInputBoxController implements Initializable {
         b.setDefaultButton(true);
         b.disableProperty().bind(ruleTextField.textProperty().isEmpty().or(actionTextField.textProperty().isEmpty().or(triggerTextField.textProperty().isEmpty())));
         b.setOnAction(event -> editRule(oldRule, triggerTextField.getText(), actionTextField.getText(), ruleTextField.getText(), actionType, triggerType));
+        if(!oldRule.getPeriod().isZero()) {
+            System.out.println(Long.toString(oldRule.getPeriod().toDays()));
+            System.out.println(Long.toString(oldRule.getPeriod().toDays()));
+            repetitionBox.setSelected(true);
+            daySpinner.getValueFactory().setValue(Integer.parseInt(Long.valueOf(oldRule.getPeriod().toDays()).toString()));
+            if(Long.valueOf(oldRule.getPeriod().toHours())<24) {
+                hourSpinner.getValueFactory().setValue(Integer.parseInt(Long.valueOf(oldRule.getPeriod().toHours()).toString()));            }
+            
+            if(Long.valueOf(oldRule.getPeriod().toMinutes())<=60) {
+                minuteSpinner.getValueFactory().setValue(Integer.parseInt(Long.valueOf(oldRule.getPeriod().toMinutes()).toString()));
+
+            } else {
+            }
+        } 
     }
 
 
