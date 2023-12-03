@@ -78,4 +78,9 @@ public class AppendToFileAction implements Action {
         return "Append a string at the end of a text file";
     }
 
+    @Override
+    public String toString() {
+        return this.getStringToAppend() + " to " + this.getFilePath();
+    }
+
 }

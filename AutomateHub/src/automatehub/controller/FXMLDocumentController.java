@@ -67,7 +67,7 @@ public class FXMLDocumentController implements Initializable {
         actionsList = FXCollections.observableArrayList();
         triggersList = FXCollections.observableArrayList();
 
-        actionsList.addAll("Play an audio file", "Show a message");
+        actionsList.addAll("Play an audio file", "Show a message", "Append a string at the end of a text file");
         triggersList.addAll("When the clock hits ...");
         actionsBox.setItems(actionsList);
         triggersBox.setItems(triggersList);
@@ -176,7 +176,7 @@ public class FXMLDocumentController implements Initializable {
         /*Setting up the buttons' bindings properly. The Add Button is enabled only when the user 
         selects both a trigger and an action; the Remove Button is enabled when the user selects
         at least a row from the table; the edit Button is enabled when the user selects only one row.
-        */
+         */
         addButton.disableProperty().bind(triggersBox.valueProperty().isNull().or(actionsBox.valueProperty().isNull()));
         removeButton.disableProperty().bind(Bindings.createBooleanBinding(() -> selectedRules.isEmpty(), selectedRules));
         editButton.disableProperty().bind(Bindings.createBooleanBinding(() -> selectedRules.size() != 1, selectedRules));

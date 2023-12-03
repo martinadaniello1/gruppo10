@@ -50,6 +50,8 @@ public class FXMLDialogInputBoxController implements Initializable {
             actionTextField.focusTraversableProperty().set(false);
         } else if (actionType.equals("Show a message")) {
             this.actionLabel.setText("Insert the text to display:");
+        } else if (actionType.equals("Append a string at the end of a text file")) {
+            
         }
     }
 
