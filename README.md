@@ -13,7 +13,7 @@ The development of the application involves a team of 4 people (Apicella Mario, 
 ## Scrum Artifacts
 <ul>
 <li><a href="https://docs.google.com/document/d/1tE8-wclSRc64r7O2xwAlgo7jABa2j1OZwwqAQB8CJVw/edit#heading=h.evyoq8bvd3x7">Product Backlog and Sprint Backlog</a></li>
-<li><a href="https://docs.google.com/spreadsheets/d/11s8_hbEYLub2HNPiFGu4HeZPaucegBMgjKXBwBCRodE/edit?usp=sharing">Burndown chart</a></li>
+<li><a href="">Burndown chart</a></li>
 </ul>
 
 ### First Sprint - from 20/11/2023 to 26/11/2023
