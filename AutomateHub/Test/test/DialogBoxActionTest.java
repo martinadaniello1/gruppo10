@@ -12,30 +12,34 @@ public class DialogBoxActionTest {
 
     @Before
     public void setUp() {
-
         expectedMessage = "testing action";
         dialogAction = new DialogBoxAction(expectedMessage);
-
     }
 
     @Test
     public void testDialogBoxAction() {
-
         assertEquals(expectedMessage, dialogAction.getMessage());
-
     }
 
     @Test
     public void testSetMessage() {
-
         dialogAction.setMessage("test message");
         assertEquals("test message", dialogAction.getMessage());
-
     }
 
     @Test
     public void testGetMessage() {
         dialogAction.setMessage("testing action");
         assertEquals(expectedMessage, dialogAction.getMessage());
+    }
+
+    @Test
+    public void testGetParam1() {
+        assertEquals(dialogAction.getMessage(), dialogAction.getParam1());
+    }
+
+    @Test
+    public void testGetParam2() {
+        assertEquals("", dialogAction.getParam2());
     }
 }

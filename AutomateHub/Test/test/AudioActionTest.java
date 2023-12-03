@@ -41,4 +41,14 @@ public class AudioActionTest {
         assertEquals(fileExp, a.getFile());
     }
 
+    @Test
+    public void testGetParam1() {
+        assertEquals(a.getFile().getAbsolutePath(), a.getParam1());
+    }
+
+    @Test
+    public void testGetParam2() {
+        assertEquals("", a.getParam2());
+    }
+
 }

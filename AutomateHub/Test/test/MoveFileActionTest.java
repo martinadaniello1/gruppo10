@@ -5,29 +5,35 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import static org.junit.Assert.*;
+import org.junit.Before;
 
 public class MoveFileActionTest {
 
-    @Test
-    public void executeShouldMoveFileToDestinationDirectory() {
-        // Setup //Modify this variables in order to test on your machine
-        String startingPath = "D:/Unisa/Magistrale/1--1/Software Engineering/progetto/provaDirectory2/prova_prova.txt";
-        String destinationPath = "D:/Unisa/Magistrale/1--1/Software Engineering/progetto/provaDirectory1";
-        MoveFileAction moveFileAction = new MoveFileAction(startingPath, destinationPath);
+    private String startingPath;
+    private String destinationPath;
+    private MoveFileAction moveFileAction;
 
-        // Test
+    @Before
+    public void setUp() {
+        startingPath = "D:/Unisa/Magistrale/1--1/Software Engineering/progetto/provaDirectory2/prova_prova.txt";
+        destinationPath = "D:/Unisa/Magistrale/1--1/Software Engineering/progetto/provaDirectory1";
+        moveFileAction = new MoveFileAction(startingPath, destinationPath);
+    }
+
+    @Test
+    public void testExecuteShouldMoveFileToDestinationDirectory() {
+
         int result = moveFileAction.execute();
 
-        // Verify
         assertEquals(0, result);
-         //Verify the presence of the file in the new directory
+        //Verify the presence of the file in the new directory
         File f = new File("D:/Unisa/Magistrale/1--1/Software Engineering/progetto/provaDirectory1/prova_prova.txt");
-        assertEquals(true,f.exists());
+        assertEquals(true, f.exists());
 
     }
 
     @Test
-    public void executeShouldReturnErrorIfSourceFileDoesNotExist() {
+    public void testExecuteShouldReturnErrorIfSourceFileDoesNotExist() {
         // Setup
         String nonExistingPath = "non/existing/path/file.txt";
         String destinationPath = "path/to/destination/directory";
@@ -40,32 +46,39 @@ public class MoveFileActionTest {
         assertEquals(-1, result);
     }
 
-
     @Test
-    public void gettersShouldReturnCorrectValues() {
-        // Setup
-        String startingPath = "path/to/source/file.txt";
-        String destinationPath = "path/to/destination/directory";
-        MoveFileAction moveFileAction = new MoveFileAction(startingPath, destinationPath);
-
-        // Test
-        assertEquals(startingPath, moveFileAction.getStartingPath());
+    public void testGetStartingPath() {
+        moveFileAction.setDestinationPath("D:/Unisa/Magistrale/1--1/Software Engineering/progetto/provaDirectory2/prova_prova.txt");
         assertEquals(destinationPath, moveFileAction.getDestinationPath());
     }
 
     @Test
-    public void settersShouldSetCorrectValues() {
-        // Setup
-        MoveFileAction moveFileAction = new MoveFileAction("", "");
+    public void testSetStartingPath() {
+        moveFileAction.setStartingPath("startingPath");
+        assertEquals("startingPath", moveFileAction.getStartingPath());
 
-        // Test
-        String newStartingPath = "new/source/path/file.txt";
-        String newDestinationPath = "new/destination/directory";
-        moveFileAction.setStartingPath(newStartingPath);
-        moveFileAction.setDestinationPath(newDestinationPath);
-
-        // Verify
-        assertEquals(newStartingPath, moveFileAction.getStartingPath());
-        assertEquals(newDestinationPath, moveFileAction.getDestinationPath());
     }
+
+    @Test
+    public void testGetDestinationPath() {
+        moveFileAction.setDestinationPath("D:/Unisa/Magistrale/1--1/Software Engineering/progetto/provaDirectory1");
+        assertEquals(destinationPath, moveFileAction.getDestinationPath());
+    }
+
+    @Test
+    public void testSetDestinationPath() {
+        moveFileAction.setDestinationPath("destinationPath");
+        assertEquals("destinationPath", moveFileAction.getDestinationPath());
+    }
+
+    @Test
+    public void testGetParam1() {
+        assertEquals(moveFileAction.getStartingPath(), moveFileAction.getParam1());
+    }
+
+    @Test
+    public void testGetParam2() {
+        assertEquals(moveFileAction.getDestinationPath(), moveFileAction.getParam2());
+    }
+
 }
