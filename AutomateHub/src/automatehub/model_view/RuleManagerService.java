@@ -97,20 +97,20 @@ public class RuleManagerService implements Serializable {
     }
 
     public void removeRule(Rule r) {
-        
-            try {
-                synchronized (ruleList) {
-                    ruleList.remove(r);
-                }
-                notifyRuleRemoved(r);
 
-                System.out.println("Regola rimossa con successo: " + r.toString());
-            } catch (IllegalArgumentException e) {
-                System.out.println("Regola non presente");
-            } catch (NullPointerException e) {
-                e.printStackTrace();
+        try {
+            synchronized (ruleList) {
+                ruleList.remove(r);
             }
-        
+            notifyRuleRemoved(r);
+
+            System.out.println("Regola rimossa con successo: " + r.toString());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Regola non presente");
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void editRule(Rule oldRule, Rule newRule) {

@@ -4,7 +4,6 @@ public interface Action {
 
     public int execute();
     public String getType();
-    /*@Override
-    public String toString();*/
-    
+    public String getParam1();
+    public String getParam2();
 }

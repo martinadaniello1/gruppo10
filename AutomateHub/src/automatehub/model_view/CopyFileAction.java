@@ -1,16 +1,15 @@
 package automatehub.model_view;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
-/**
- *
- * @author adc01
- */
-public class CopyFileAction implements Action{
-    private String startingPath ;
-    private String destinationPath ;
+
+public class CopyFileAction implements Action {
+
+    private String startingPath;
+    private String destinationPath;
 
     public CopyFileAction(String startingPath, String destinationPath) {
         this.startingPath = startingPath;
@@ -18,18 +17,16 @@ public class CopyFileAction implements Action{
     }
 
     @Override
-    public int execute(){
+    public int execute() {
         try {
-            FileUtils.copyFile(new File(startingPath), new File(destinationPath));
+            FileUtils.copyFileToDirectory(new File(startingPath), new File(destinationPath));
             return 0;
         } catch (IOException ex) {
-            Logger.getLogger(MoveFileAction.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
             return -1;
         }
     }
-    
-    
-    
+
     public String getStartingPath() {
         return startingPath;
     }
@@ -51,5 +48,20 @@ public class CopyFileAction implements Action{
         return "Copy a file to a directory";
     }
     
+    @Override
+    public String toString(){
+        StringBuilder s = new StringBuilder();
+        s.append(this.getStartingPath());
+        s.append(" to ");
+        s.append(this.getDestinationPath());
+        return s.toString();
+    }
     
+    public String getParam1(){
+        return this.getStartingPath();
+    }
+    
+    public String getParam2(){
+        return this.getDestinationPath();
+    }
 }

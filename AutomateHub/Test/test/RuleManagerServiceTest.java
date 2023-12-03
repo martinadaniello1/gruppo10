@@ -1,11 +1,7 @@
 package test;
 
 import automatehub.controller.FXMLDocumentController;
-import automatehub.model_view.AudioAction;
-import automatehub.model_view.DialogBoxAction;
-import automatehub.model_view.Rule;
-import automatehub.model_view.RuleManagerService;
-import automatehub.model_view.TimeTrigger;
+import automatehub.model_view.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -76,6 +72,7 @@ public class RuleManagerServiceTest {
         ruleManager.addObserver(controller);
         assertTrue(ruleManager.getObservers().contains(controller));
     }
+
 
     @Test
     public void testRemoveObserver() {

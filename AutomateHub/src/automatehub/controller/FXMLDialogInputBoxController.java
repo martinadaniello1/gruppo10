@@ -4,13 +4,9 @@ import automatehub.model_view.*;
 import java.io.File;
 import java.net.URL;
 import java.time.Duration;
-import java.util.ResourceBundle;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
@@ -21,8 +17,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -61,6 +60,12 @@ public class FXMLDialogInputBoxController implements Initializable {
     @FXML
     private Spinner<Integer> minuteSpinner;
 
+    @FXML
+    private VBox vBox;
+    private HBox secondBox = new HBox();
+    private Label secondLabel = new Label("");
+    private TextField secondTextField = new TextField();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         intervalHbox.disableProperty().bind(repetitionBox.selectedProperty().not());
@@ -74,6 +79,11 @@ public class FXMLDialogInputBoxController implements Initializable {
 
         SpinnerValueFactory<Integer> minuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59);
         minuteSpinner.setValueFactory(minuteValueFactory);
+
+        secondBox.getChildren().addAll(secondLabel, secondTextField);
+        secondBox.setMargin(secondLabel, new Insets(0, 10, 10, 0));
+        secondBox.setMargin(secondTextField, new Insets(0, 10, 10, 0));
+
     }
 
     /**
@@ -82,14 +92,51 @@ public class FXMLDialogInputBoxController implements Initializable {
      * @param actionType
      */
     private void setupActionUI(String actionType) {
-        if (actionType.equals("Play an audio file")) {
-            this.actionLabel.setText("Insert the file audio's path:");
-            addFileChooser(actionBox);
-            actionTextField.setEditable(false);
-            actionTextField.focusTraversableProperty().set(false);
-        } else if (actionType.equals("Show a message")) {
-            this.actionLabel.setText("Insert the text to display:");
+        switch (actionType) {
+            case "Play an audio file":
+                this.actionLabel.setText("Insert the file audio's path:");
+                addFileChooser(actionBox, FileExtensionFilter.WAV);
+                actionTextField.setEditable(false);
+                actionTextField.focusTraversableProperty().set(false);
+                break;
+            case "Show a message":
+                this.actionLabel.setText("Insert the text to display:");
+                break;
+            case "Copy a file to a directory":
+                this.actionLabel.setText("Choose the file you want to copy:");
+                addFileChooser(actionBox, FileExtensionFilter.ALL);
+                actionTextField.setEditable(false);
+                actionTextField.focusTraversableProperty().set(false);
+                //Set up the new hbox
+                vBox.getChildren().add(3, secondBox);
+                secondLabel.setText("Choose the destination directory:");
+                addFileChooser(secondBox, FileExtensionFilter.DIRECTORY);
+                secondTextField.setEditable(false);
+                secondTextField.focusTraversableProperty().set(false);
+                break;
+            case "Move a file from a directory":
+                this.actionLabel.setText("Choose the file you want to move:");
+                addFileChooser(actionBox, FileExtensionFilter.ALL);
+                actionTextField.setEditable(false);
+                actionTextField.focusTraversableProperty().set(false);
+                //Set up the new hbox
+                vBox.getChildren().add(3, secondBox);
+                secondLabel.setText("Choose the destination directory:");
+                addFileChooser(secondBox, FileExtensionFilter.DIRECTORY);
+                secondTextField.setEditable(false);
+                secondTextField.focusTraversableProperty().set(false);
+                break;
+            case "Append a string at the end of a text file":
+                this.actionLabel.setText("Write the text to append:");
+                //Set up the new hbox
+                vBox.getChildren().add(3, secondBox);
+                secondLabel.setText("Choose the text file:");
+                addFileChooser(secondBox, FileExtensionFilter.TEXT);
+                secondTextField.setEditable(false);
+                secondTextField.focusTraversableProperty().set(false);
+                break;
         }
+
     }
 
     /**
@@ -135,7 +182,8 @@ public class FXMLDialogInputBoxController implements Initializable {
 
         ruleTextField.setText(oldRule.getNameRule());
         triggerTextField.setText(oldRule.getTrigger().toString());
-        actionTextField.setText(oldRule.getAction().toString());
+        actionTextField.setText(oldRule.getAction().getParam1());
+        secondTextField.setText(oldRule.getAction().getParam2());
 
         Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
         b.setDefaultButton(true);
@@ -165,20 +213,39 @@ public class FXMLDialogInputBoxController implements Initializable {
         }
     }
 
-    private void addFileChooser(HBox box) {
+    private void addFileChooser(HBox box, FileExtensionFilter fileFilter) {
         Button fileChooserButton = new Button("...");
         box.getChildren().add(fileChooserButton);
-        fileChooserButton.setOnAction(event -> {
-            FileChooser fileChooser = new FileChooser(); //Create a FileChooser
-            fileChooser.setTitle("Choose the audio file");
-            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Audio files (*.wav)", "*.wav"); //Filters definition for the file extension
-            fileChooser.getExtensionFilters().add(extFilter);
-            File f = fileChooser.showOpenDialog(box.getScene().getWindow()); //Open the dialog to choose the file
-            if (f != null) {
-                actionTextField.setText(f.getAbsolutePath());
-            }
-        });
+        TextField tf = findTextFieldInHBox(box);
 
+        if (fileFilter != FileExtensionFilter.DIRECTORY) {
+            fileChooserButton.setOnAction(event -> {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Choose the file");
+
+                if (fileFilter != FileExtensionFilter.ALL) {
+                    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+                            fileFilter.getDescription(),
+                            fileFilter.getExtension()
+                    );
+                    fileChooser.getExtensionFilters().add(extFilter);
+                }
+                File selectedFile = fileChooser.showOpenDialog(box.getScene().getWindow());
+                if (selectedFile != null) {
+                    tf.setText(selectedFile.getAbsolutePath());
+                }
+            });
+        } else {
+            fileChooserButton.setOnAction(event -> {
+                DirectoryChooser directoryChooser = new DirectoryChooser();
+                directoryChooser.setTitle("Choose the directory");
+
+                File selectedFile = directoryChooser.showDialog(box.getScene().getWindow());
+                if (selectedFile != null) {
+                    tf.setText(selectedFile.getAbsolutePath());
+                }
+            });
+        }
     }
 
     /**
@@ -208,6 +275,12 @@ public class FXMLDialogInputBoxController implements Initializable {
                 return new DialogBoxActionCreator(actionTextField.getText());
             case "Play an audio file":
                 return new AudioActionCreator(actionTextField.getText());
+            case "Append a string at the end of a text file":
+                return new AppendToFileActionCreator(actionTextField.getText(), secondTextField.getText());
+            case "Copy a file to a directory":
+                return new CopyFileActionCreator(actionTextField.getText(), secondTextField.getText());
+            case "Move a file from a directory":
+                return new MoveFileActionCreator(actionTextField.getText(), secondTextField.getText());
             default:
                 return null;
         }
@@ -254,4 +327,14 @@ public class FXMLDialogInputBoxController implements Initializable {
     private void editRule(Rule oldRule, String triggerString, String actionString, String ruleName, String actionType, String triggerType) {
         processRule(ruleName, actionType, triggerType, oldRule);
     }
+
+    private TextField findTextFieldInHBox(HBox hbox) {
+        for (Node node : hbox.getChildren()) {
+            if (node instanceof TextField) {
+                return (TextField) node;
+            }
+        }
+        return null;
+    }
+
 }
