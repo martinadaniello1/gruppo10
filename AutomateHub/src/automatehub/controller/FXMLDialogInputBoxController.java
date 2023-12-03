@@ -49,7 +49,7 @@ public class FXMLDialogInputBoxController implements Initializable {
         switch (actionType) {
         case "Play an audio file":
             this.actionLabel.setText("Insert the file audio's path:");
-            addAudioChooser(actionBox);
+            addFileChooser(actionBox, FileExtensionFilter.WAV);
             actionTextField.setEditable(false);
             actionTextField.focusTraversableProperty().set(false);
             break;
@@ -58,21 +58,21 @@ public class FXMLDialogInputBoxController implements Initializable {
             break;
         case "Copy a file to a directory":
             this.actionLabel.setText("Choose the file you want to copy and select the destination directory:");
-            addAudioChooser(actionBox);
+            addFileChooser(actionBox, FileExtensionFilter.ALL);
             addDirectoryChooser(actionBox);
             actionTextField.setEditable(false);
             actionTextField.focusTraversableProperty().set(false);
             break;
         case "Move a file from a directory":
             this.actionLabel.setText("Choose the file you want to move and select the destination directory:");
-            addAudioChooser(actionBox);
+            addFileChooser(actionBox, FileExtensionFilter.ALL);
             addDirectoryChooser(actionBox);
             actionTextField.setEditable(false);
             actionTextField.focusTraversableProperty().set(false);
-            break; 
-           
-        }   
-
+            break;   
+        
+        }  
+        
     }
 
     /**
@@ -124,21 +124,29 @@ public class FXMLDialogInputBoxController implements Initializable {
     }
 
 
-    private void addAudioChooser(HBox box) {
-        Button fileChooserButton = new Button("...");
-        box.getChildren().add(fileChooserButton);
-        fileChooserButton.setOnAction(event -> {
-            FileChooser fileChooser = new FileChooser(); //Create a FileChooser
-            fileChooser.setTitle("Choose the audio file"); 
-            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Audio files (*.wav)", "*.wav"); //Filters definition for the file extension
-            fileChooser.getExtensionFilters().add(extFilter);
-            File f = fileChooser.showOpenDialog(box.getScene().getWindow()); //Open the dialog to choose the file
-            if (f != null) {
-                actionTextField.setText(f.getAbsolutePath());
-            }
-        });
+    private void addFileChooser(HBox box, FileExtensionFilter fileFilter) {
+       Button fileChooserButton = new Button("...");
+       box.getChildren().add(fileChooserButton);
 
-    }
+       fileChooserButton.setOnAction(event -> {
+           FileChooser fileChooser = new FileChooser();
+           fileChooser.setTitle("Choose the file");
+
+           if (fileFilter != FileExtensionFilter.ALL) {
+               FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+                       fileFilter.getDescription(),
+                       fileFilter.getExtension()
+               );
+               fileChooser.getExtensionFilters().add(extFilter);
+           }
+
+           File selectedFile = fileChooser.showOpenDialog(box.getScene().getWindow());
+
+           if (selectedFile != null) {
+               actionTextField.setText(selectedFile.getAbsolutePath());
+           }
+       });
+   }
     
     /**
      * Add to the UI the corresponding textfield and button to insert
@@ -158,47 +166,17 @@ public class FXMLDialogInputBoxController implements Initializable {
         
         directoryChooserButton.setOnAction(event -> {
             DirectoryChooser directoryChooser = new DirectoryChooser(); // Usa DirectoryChooser invece di FileChooser
-         directoryChooser.setTitle("Seleziona la cartella");
+            directoryChooser.setTitle("Seleziona la cartella");
      
-        File selectedDirectory = directoryChooser.showDialog(box.getScene().getWindow());
-    
-        if (selectedDirectory != null) {
-            directoryTextField.setText(selectedDirectory.getAbsolutePath());
-            secondaryInput = selectedDirectory.getAbsolutePath();
-            }
-        });
-    }
-    
-    /**
-     * Add to the UI the corresponding textfield and button to choose
-     * the path of the destination text file
-     * @param box 
-     */
-    private void addTextFileChooser(HBox box){
-        TextField textFileTextField = new TextField("Choose a text file");
-        textFileTextField.setPadding(new Insets(0,10,0,5));
-        Button fileChooserButton = new Button("...");
-        //Add the elements to the hbox
-        box.getChildren().add(textFileTextField);
-        box.getChildren().add(fileChooserButton);
-        //Disable the textField
-        textFileTextField.setEditable(false);
-        textFileTextField.focusTraversableProperty().set(false);
-        
-        fileChooserButton.setOnAction(event -> {
-            FileChooser fileChooser = new FileChooser(); //Create a FileChooser
-            fileChooser.setTitle("Choose the text file"); 
-            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt"); //Filters definition for the file extension
-            fileChooser.getExtensionFilters().add(extFilter);
-            File f = fileChooser.showOpenDialog(box.getScene().getWindow()); //Open the dialog to choose the file
-            if (f != null) {
-                textFileTextField.setText(f.getAbsolutePath());
-                secondaryInput = f.getAbsolutePath();
-            }
-        });
-    }
-    
+            File selectedDirectory = directoryChooser.showDialog(box.getScene().getWindow());
 
+            if (selectedDirectory != null) {
+                directoryTextField.setText(selectedDirectory.getAbsolutePath());
+                secondaryInput = selectedDirectory.getAbsolutePath();
+            }
+        });
+    }
+    
     /**
      * Creates the corresponding trigger when the user selects it.
      * @param triggerType

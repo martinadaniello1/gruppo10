@@ -20,7 +20,7 @@ public class MoveFileAction implements Action{
     @Override
     public int execute(){
         try {
-            FileUtils.moveFile(new File(startingPath), new File(destinationPath));
+            FileUtils.moveFileToDirectory(new File(startingPath), new File(destinationPath), false);
             return 0;
         } catch (IOException ex) {
             Logger.getLogger(MoveFileAction.class.getName()).log(Level.SEVERE, null, ex);

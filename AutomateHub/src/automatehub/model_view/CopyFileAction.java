@@ -18,17 +18,16 @@ public class CopyFileAction implements Action{
     }
 
     @Override
-    public int execute(){
+    public int execute() {
         try {
-            FileUtils.copyFile(new File(startingPath), new File(destinationPath));
+            FileUtils.copyFileToDirectory(new File(startingPath), new File(destinationPath));
             return 0;
         } catch (IOException ex) {
-            Logger.getLogger(MoveFileAction.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
             return -1;
         }
     }
-    
-    
+
     
     public String getStartingPath() {
         return startingPath;
