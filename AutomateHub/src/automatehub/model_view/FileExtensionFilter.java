@@ -2,8 +2,9 @@ package automatehub.model_view;
 
 public enum FileExtensionFilter {
     WAV("*.wav", "Audio Files (*.wav)"),
-    TEXT("*.text", "Text Files (*.text)"),
-    ALL("*.*", "All Files (*.*)");
+    TEXT("*.txt", "Text Files (*.txt)"),
+    ALL("*.*", "All Files (*.*)"),
+    DIRECTORY("*.directory", "Directory");
 
     private final String extension;
     private final String description;

@@ -57,4 +57,14 @@ public class MoveFileAction implements Action{
         return s.toString();
     }
     
+    @Override
+    public String getParam1(){
+        return this.getStartingPath();
+    }
+    
+    @Override
+    public String getParam2(){
+        return this.getDestinationPath();
+    }
+    
 }

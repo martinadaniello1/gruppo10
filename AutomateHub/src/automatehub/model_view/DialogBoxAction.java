@@ -65,6 +65,16 @@ public class DialogBoxAction implements Action, Serializable {
         }
         return true;
     }
+
+    @Override
+    public String getParam1() {
+        return this.getMessage();
+    }
+
+    @Override
+    public String getParam2() {
+        return "";
+    }
    
     
 }

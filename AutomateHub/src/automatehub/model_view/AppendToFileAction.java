@@ -18,7 +18,8 @@ public class AppendToFileAction implements Action {
     @Override
     public int execute() {
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(this.getFilePath()));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(this.getFilePath(), true));
+            bw.newLine();
             bw.write(this.getStringToAppend());
             bw.close();
             return 0;
@@ -81,6 +82,16 @@ public class AppendToFileAction implements Action {
     @Override
     public String toString() {
         return this.getStringToAppend() + " to " + this.getFilePath();
+    }
+
+    @Override
+    public String getParam1() {
+        return this.getStringToAppend();
+    }
+
+    @Override
+    public String getParam2() {
+        return this.getFilePath();
     }
 
 }

@@ -57,4 +57,11 @@ public class CopyFileAction implements Action {
         return s.toString();
     }
     
+    public String getParam1(){
+        return this.getStartingPath();
+    }
+    
+    public String getParam2(){
+        return this.getDestinationPath();
+    }
 }

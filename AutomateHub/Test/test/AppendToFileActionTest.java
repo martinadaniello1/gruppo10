@@ -32,6 +32,20 @@ public class AppendToFileActionTest {
             assertEquals(stringToTest, line);
         }
     }
+    
+    @Test
+    public void testExecuteShouldReturnError(){
+        // Setup
+        String nonExistingPath = "non/existing/path/file.txt";
+   
+        AppendToFileAction notValidAction = new AppendToFileAction("", nonExistingPath);
+
+        // Test
+        int result = notValidAction.execute();
+
+        // Verify
+        assertEquals(-1, result);
+    }
 
     @Test
     public void testSetStringToAppend() {
@@ -59,5 +73,15 @@ public class AppendToFileActionTest {
     public void testGetFilePath() {
         appendStringAction.setFilePath("C:\\Users\\marti\\OneDrive\\Desktop\\prova.txt");
         assertEquals(filePath, appendStringAction.getFilePath());
+    }
+    
+    @Test
+    public void testGetParam1(){
+        assertEquals(appendStringAction.getStringToAppend(), appendStringAction.getParam1());
+    }
+    
+    @Test
+    public void testGetParam2(){
+        assertEquals(appendStringAction.getFilePath(),appendStringAction.getParam2());
     }
 }

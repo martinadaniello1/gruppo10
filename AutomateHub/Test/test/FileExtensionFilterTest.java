@@ -9,14 +9,14 @@ public class FileExtensionFilterTest {
     @Test
     public void getExtensionShouldReturnCorrectValues() {
         assertEquals("*.wav", FileExtensionFilter.WAV.getExtension());
-        assertEquals("*.text", FileExtensionFilter.TEXT.getExtension());
+        assertEquals("*.txt", FileExtensionFilter.TEXT.getExtension());
         assertEquals("*.*", FileExtensionFilter.ALL.getExtension());
     }
 
     @Test
     public void getDescriptionShouldReturnCorrectValues() {
         assertEquals("Audio Files (*.wav)", FileExtensionFilter.WAV.getDescription());
-        assertEquals("Text Files (*.text)", FileExtensionFilter.TEXT.getDescription());
+        assertEquals("Text Files (*.txt)", FileExtensionFilter.TEXT.getDescription());
         assertEquals("All Files (*.*)", FileExtensionFilter.ALL.getDescription());
     }
 

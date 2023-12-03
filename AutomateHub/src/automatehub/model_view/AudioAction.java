@@ -145,6 +145,16 @@ public class AudioAction implements Action, Serializable {
         }
         return true;
     }
+
+    @Override
+    public String getParam1() {
+        return this.getFile().getAbsolutePath();
+    }
+
+    @Override
+    public String getParam2() {
+        return "";
+    }
     
     
 

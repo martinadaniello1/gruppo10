@@ -7,8 +7,10 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -33,49 +35,70 @@ public class FXMLDialogInputBoxController implements Initializable {
     private Label ruleNameLabel;
     @FXML
     private TextField ruleTextField;
-    
-    private String secondaryInput = "";
-     
+    @FXML
+    private VBox vBox;
+
+    private HBox secondBox = new HBox();
+    private Label secondLabel = new Label("");
+    private TextField secondTextField = new TextField();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        secondBox.getChildren().addAll(secondLabel, secondTextField);
+        secondBox.setMargin(secondLabel, new Insets(0,10,0,0));
+        secondBox.setMargin(secondTextField, new Insets(0,10,0,0));
     }
-    
+
     /**
      * This method sets up the UI according to the type of Action selected.
-     * @param actionType 
+     *
+     * @param actionType
      */
     private void setupActionUI(String actionType) {
         switch (actionType) {
-        case "Play an audio file":
-            this.actionLabel.setText("Insert the file audio's path:");
-            addFileChooser(actionBox, FileExtensionFilter.WAV);
-            actionTextField.setEditable(false);
-            actionTextField.focusTraversableProperty().set(false);
-            break;
-        case "Show a message":
-            this.actionLabel.setText("Insert the text to display:");
-            break;
-        case "Copy a file to a directory":
-            this.actionLabel.setText("Choose the file you want to copy and select the destination directory:");
-            addFileChooser(actionBox, FileExtensionFilter.ALL);
-            addDirectoryChooser(actionBox);
-            actionTextField.setEditable(false);
-            actionTextField.focusTraversableProperty().set(false);
-            break;
-        case "Move a file from a directory":
-            this.actionLabel.setText("Choose the file you want to move and select the destination directory:");
-            addFileChooser(actionBox, FileExtensionFilter.ALL);
-            addDirectoryChooser(actionBox);
-            actionTextField.setEditable(false);
-            actionTextField.focusTraversableProperty().set(false);
-            break;   
-        case "Append a string at the end of a text file":
-            
-            break;
-        }  
-       
-       
+            case "Play an audio file":
+                this.actionLabel.setText("Insert the file audio's path:");
+                addFileChooser(actionBox, FileExtensionFilter.WAV);
+                actionTextField.setEditable(false);
+                actionTextField.focusTraversableProperty().set(false);
+                break;
+            case "Show a message":
+                this.actionLabel.setText("Insert the text to display:");
+                break;
+            case "Copy a file to a directory":
+                this.actionLabel.setText("Choose the file you want to copy:");
+                addFileChooser(actionBox, FileExtensionFilter.ALL);
+                actionTextField.setEditable(false);
+                actionTextField.focusTraversableProperty().set(false);
+                //Set up the new hbox
+                vBox.getChildren().add(secondBox);
+                secondLabel.setText("Choose the destination directory:");
+                addFileChooser(secondBox,FileExtensionFilter.DIRECTORY);
+                secondTextField.setEditable(false);
+                secondTextField.focusTraversableProperty().set(false);
+                break;
+            case "Move a file from a directory":
+                this.actionLabel.setText("Choose the file you want to move:");
+                addFileChooser(actionBox, FileExtensionFilter.ALL);
+                actionTextField.setEditable(false);
+                actionTextField.focusTraversableProperty().set(false);
+                //Set up the new hbox
+                vBox.getChildren().add(secondBox);
+                secondLabel.setText("Choose the destination directory:");
+                addFileChooser(secondBox,FileExtensionFilter.DIRECTORY);
+                secondTextField.setEditable(false);
+                secondTextField.focusTraversableProperty().set(false);
+                break;
+            case "Append a string at the end of a text file":
+                this.actionLabel.setText("Write the text to append:");
+                //Set up the new hbox
+                vBox.getChildren().add(secondBox);
+                secondLabel.setText("Choose the text file:");
+                addFileChooser(secondBox,FileExtensionFilter.TEXT);
+                secondTextField.setEditable(false);
+                secondTextField.focusTraversableProperty().set(false);
+                break;
+        }
 
     }
 
@@ -94,7 +117,8 @@ public class FXMLDialogInputBoxController implements Initializable {
 
     /**
      * This method sets up the UI according to the type of Trigger selected.
-     * @param triggerType 
+     *
+     * @param triggerType
      */
     private void setupTriggerUI(String triggerType) {
         if (triggerType.equals("When the clock hits ...")) {
@@ -119,86 +143,66 @@ public class FXMLDialogInputBoxController implements Initializable {
 
         ruleTextField.setText(oldRule.getNameRule());
         triggerTextField.setText(oldRule.getTrigger().toString());
-        actionTextField.setText(oldRule.getAction().toString());
-
+        actionTextField.setText(oldRule.getAction().getParam1()); 
+        secondTextField.setText(oldRule.getAction().getParam2());
+        
         Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
         b.setDefaultButton(true);
         b.disableProperty().bind(ruleTextField.textProperty().isEmpty().or(actionTextField.textProperty().isEmpty().or(triggerTextField.textProperty().isEmpty())));
         b.setOnAction(event -> editRule(oldRule, triggerTextField.getText(), actionTextField.getText(), ruleTextField.getText(), actionType, triggerType));
     }
 
-
     private void addFileChooser(HBox box, FileExtensionFilter fileFilter) {
-       Button fileChooserButton = new Button("...");
-       box.getChildren().add(fileChooserButton);
-
-       fileChooserButton.setOnAction(event -> {
-           FileChooser fileChooser = new FileChooser();
-           fileChooser.setTitle("Choose the file");
-
-           if (fileFilter != FileExtensionFilter.ALL) {
-               FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-                       fileFilter.getDescription(),
-                       fileFilter.getExtension()
-               );
-               fileChooser.getExtensionFilters().add(extFilter);
-           }
-
-           File selectedFile = fileChooser.showOpenDialog(box.getScene().getWindow());
-
-           if (selectedFile != null) {
-               actionTextField.setText(selectedFile.getAbsolutePath());
-           }
-       });
-   }
-    
-    /**
-     * Add to the UI the corresponding textfield and button to insert
-     * the path of the destination directory
-     * @param box 
-     */
-    private void addDirectoryChooser(HBox box) {
-        TextField directoryTextField = new TextField("Pick a directory");
-        directoryTextField.setPadding(new Insets(0,10,0,5));
-        Button directoryChooserButton = new Button("...");
-        //Add the elements to the hbox
-        box.getChildren().add(directoryTextField);
-        box.getChildren().add(directoryChooserButton);
-        //Disable the textField
-        directoryTextField.setEditable(false);
-        directoryTextField.focusTraversableProperty().set(false);
+        Button fileChooserButton = new Button("...");
+        box.getChildren().add(fileChooserButton);
+        TextField tf = findTextFieldInHBox(box);
         
-        directoryChooserButton.setOnAction(event -> {
-            DirectoryChooser directoryChooser = new DirectoryChooser(); // Usa DirectoryChooser invece di FileChooser
-            directoryChooser.setTitle("Seleziona la cartella");
-     
-            File selectedDirectory = directoryChooser.showDialog(box.getScene().getWindow());
+        if (fileFilter != FileExtensionFilter.DIRECTORY) {
+            fileChooserButton.setOnAction(event -> {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Choose the file");
 
-            if (selectedDirectory != null) {
-                directoryTextField.setText(selectedDirectory.getAbsolutePath());
-                secondaryInput = selectedDirectory.getAbsolutePath();
-            }
-        });
+                if (fileFilter != FileExtensionFilter.ALL) {
+                    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+                            fileFilter.getDescription(),
+                            fileFilter.getExtension()
+                    );
+                    fileChooser.getExtensionFilters().add(extFilter);
+                }
+                File selectedFile = fileChooser.showOpenDialog(box.getScene().getWindow());
+                if (selectedFile != null) {tf.setText(selectedFile.getAbsolutePath());}
+            });
+        } else {
+            fileChooserButton.setOnAction(event -> {
+                DirectoryChooser directoryChooser = new DirectoryChooser();
+                directoryChooser.setTitle("Seleziona la cartella");
+
+                File selectedFile = directoryChooser.showDialog(box.getScene().getWindow());
+                if (selectedFile != null) {tf.setText(selectedFile.getAbsolutePath());}
+            });
+        }
     }
-    
+
     /**
      * Creates the corresponding trigger when the user selects it.
+     *
      * @param triggerType
-     * @return 
+     * @return
      */
     private CreatorTrigger createTrigger(String triggerType) {
         switch (triggerType) {
             case "When the clock hits ...":
                 return new TimeTriggerCreator(triggerTextField.getText());
             default:
-                return null; 
+                return null;
         }
     }
 
     /**
      * Creates the corresponding action when the user selects it.
+     *
      * @param actionType
-     * @return 
+     * @return
      */
     private CreatorAction createAction(String actionType) {
         switch (actionType) {
@@ -206,21 +210,25 @@ public class FXMLDialogInputBoxController implements Initializable {
                 return new DialogBoxActionCreator(actionTextField.getText());
             case "Play an audio file":
                 return new AudioActionCreator(actionTextField.getText());
+            case "Append a string at the end of a text file":
+                return new AppendToFileActionCreator(actionTextField.getText(), secondTextField.getText());
             case "Copy a file to a directory":
-                return new CopyFileActionCreator(actionTextField.getText(), secondaryInput);
+                return new CopyFileActionCreator(actionTextField.getText(), secondTextField.getText());
             case "Move a file from a directory":
-                return new MoveFileActionCreator(actionTextField.getText(), secondaryInput);
+                return new MoveFileActionCreator(actionTextField.getText(), secondTextField.getText());
             default:
-                return null; 
-            }
+                return null;
+        }
     }
 
     /**
-     * Creates the Rule. If oldRule is not null, the method calls the editRule of RuleManagerService; otherwise, it calls the addRule.
+     * Creates the Rule. If oldRule is not null, the method calls the editRule
+     * of RuleManagerService; otherwise, it calls the addRule.
+     *
      * @param ruleName
      * @param actionType
      * @param triggerType
-     * @param oldRule 
+     * @param oldRule
      */
     private void processRule(String ruleName, String actionType, String triggerType, Rule oldRule) {
         CreatorAction action = createAction(actionType);
@@ -244,5 +252,14 @@ public class FXMLDialogInputBoxController implements Initializable {
     private void editRule(Rule oldRule, String triggerString, String actionString, String ruleName, String actionType, String triggerType) {
         processRule(ruleName, actionType, triggerType, oldRule);
     }
-
+    
+    private TextField findTextFieldInHBox(HBox hbox) {
+        for (Node node : hbox.getChildren()) {
+            if (node instanceof TextField) {
+                return (TextField) node;
+            }
+        }
+        return null; 
+    }
+    
 }
