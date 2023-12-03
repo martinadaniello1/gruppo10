@@ -70,9 +70,13 @@ public class FXMLDialogInputBoxController implements Initializable {
             actionTextField.setEditable(false);
             actionTextField.focusTraversableProperty().set(false);
             break;   
-        
+        case "Append a string at the end of a text file":
+            
+            break;
         }  
-        
+       
+       
+
     }
 
     /**
