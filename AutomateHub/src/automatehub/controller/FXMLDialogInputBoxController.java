@@ -307,8 +307,11 @@ public class FXMLDialogInputBoxController implements Initializable {
 
             System.out.println(d.toString());
         }
-
-        Rule r = new Rule(ruleName, action.create(), trigger.create(), true, d);
+        boolean active;
+        if (oldRule==null)
+            active =true;
+        else active = oldRule.getActive();
+        Rule r = new Rule(ruleName, action.create(), trigger.create(), active, d);
         if (oldRule != null) {
             ruleManager.editRule(oldRule, r);
         } else {

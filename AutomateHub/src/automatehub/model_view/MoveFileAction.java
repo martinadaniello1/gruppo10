@@ -1,11 +1,12 @@
 package automatehub.model_view;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
 
-public class MoveFileAction implements Action{
+public class MoveFileAction implements Action, Serializable{
     private String startingPath ;
     private String destinationPath ;
 

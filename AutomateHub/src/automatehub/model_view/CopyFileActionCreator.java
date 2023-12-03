@@ -12,7 +12,7 @@ public class CopyFileActionCreator implements CreatorAction {
        
     @Override
     public Action create() {
-        return new MoveFileAction(startingPath, destinationPath);
+        return new CopyFileAction(startingPath, destinationPath);
     }
     
 }
