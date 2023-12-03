@@ -5,16 +5,23 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import static org.junit.Assert.*;
+import org.junit.Before;
 
 public class CopyFileActionTest {
-
+    
+    private String filePathSource; 
+    private String filePathDest;
+    private CopyFileAction copyFileAction;
+    
+    @Before
+    public void setUp(){
+        filePathSource = "D:/Unisa/Magistrale/1--1/Software Engineering/progetto/provaDirectory1/file_example_WAV_1MG - Copia.wav";
+        filePathDest = "D:/Unisa/Magistrale/1--1/Software Engineering/progetto/provaDirectory2";
+        copyFileAction = new CopyFileAction(filePathSource, filePathDest);
+    }
+    
     @Test
-    public void executeShouldCopyFileToDestinationDirectory() {
-        // Setup //Modify this variables in order to test on your machine
-        String startingPath = "D:/Unisa/Magistrale/1--1/Software Engineering/progetto/provaDirectory1/file_example_WAV_1MG - Copia.wav";
-        String destinationPath = "D:/Unisa/Magistrale/1--1/Software Engineering/progetto/provaDirectory2";
-        CopyFileAction copyFileAction = new CopyFileAction(startingPath, destinationPath);
-
+    public void testExecute() {
         // Test
         int result = copyFileAction.execute();
 
@@ -27,7 +34,7 @@ public class CopyFileActionTest {
     }
 
     @Test
-    public void executeShouldReturnErrorIfSourceFileDoesNotExist() {
+    public void testExecuteShouldReturnError() {
         // Setup
         String nonExistingPath = "non/existing/path/file.txt";
         String destinationPath = "path/to/destination/directory";
@@ -38,6 +45,40 @@ public class CopyFileActionTest {
 
         // Verify
         assertEquals(-1, result);
+    }
+    
+    @Test
+    public void testGetStartingPath(){
+        assertEquals(filePathSource, copyFileAction.getStartingPath());
+    }
+    
+    @Test
+    public void testGetDestinationPath(){
+        assertEquals(filePathDest, copyFileAction.getDestinationPath());
+    }
+    
+    @Test
+    public void testGetParam1(){
+        assertEquals(copyFileAction.getStartingPath(), copyFileAction.getParam1());
+    }
+    
+    @Test
+    public void testGetParam2(){
+        assertEquals(copyFileAction.getDestinationPath(), copyFileAction.getParam2());
+    }
+    
+    @Test
+    public void testSetStartingPath(){
+        String path = "D:/Unisa/Magistrale/1--1/Software Engineering/progetto/provaDirectory2/file_example_WAV_1MG - Copia.wav";
+        copyFileAction.setStartingPath(path);
+        assertEquals(path, copyFileAction.getStartingPath());
+    }
+    
+    @Test
+    public void testSetDestinationPath(){
+        String path = "D:/Unisa/Magistrale/1--1/Software Engineering/progetto/provaDirectory2/file_example_WAV_1MG - Copia.wav";
+        copyFileAction.setDestinationPath(path);
+        assertEquals(path, copyFileAction.getDestinationPath());
     }
     
     @Test
