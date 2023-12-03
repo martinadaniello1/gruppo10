@@ -51,5 +51,13 @@ public class CopyFileAction implements Action{
         return "Copy a file to a directory";
     }
     
+    @Override
+    public String toString(){
+        StringBuilder s = new StringBuilder();
+        s.append(this.getStartingPath());
+        s.append(" to ");
+        s.append(this.getDestinationPath());
+        return s.toString();
+    }
     
 }
