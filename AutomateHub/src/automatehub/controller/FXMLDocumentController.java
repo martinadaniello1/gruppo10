@@ -309,12 +309,12 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
 
     @Override
     public void onActionExecuted(Rule rule) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         switch (rule.getAction().getType()) {
             case "Show a message":
                 DialogBoxAction action = (DialogBoxAction) rule.getAction();
                 if (action.getMessage() != null) {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Message");
+                    alert.setTitle(rule.getNameRule() + " rule executed");
                     alert.setHeaderText(null);
                     alert.setContentText(action.getMessage());
                     alert.getButtonTypes().setAll(ButtonType.OK);
@@ -345,7 +345,33 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
                     audioAction.stopPlaying();
                 });
                 s.show();
-
+            case "Copy a file to a directory":
+                CopyFileAction copyAction = (CopyFileAction) rule.getAction();
+                alert.setTitle(rule.getNameRule()+" rule executed");
+                alert.setHeaderText(null);
+                alert.setContentText("Successful copying of the " + copyAction.getStartingPath() + " file");
+                //alert.getButtonTypes().setAll(ButtonType.OK);
+                // Show the dialog box 
+                alert.show();
+                break;
+            case "Move a file from a directory":
+                MoveFileAction moveAction = (MoveFileAction) rule.getAction();
+                alert.setTitle(rule.getNameRule()+" rule executed");
+                alert.setHeaderText(null);
+                alert.setContentText("Successful moving of the " + moveAction.getStartingPath() + " file");
+                //alert.getButtonTypes().setAll(ButtonType.OK);
+                // Show the dialog box 
+                alert.show();
+                break;
+            case "Append a string at the end of a text file":
+                AppendToFileAction appendAction = (AppendToFileAction) rule.getAction();
+                alert.setTitle( rule.getNameRule() + " rule executed");
+                alert.setHeaderText(null);
+                alert.setContentText("String " + appendAction.getStringToAppend() + " successfully added to "+ appendAction.getFilePath() + " file");
+                //alert.getButtonTypes().setAll(ButtonType.OK);
+                // Show the dialog box 
+                alert.show();
+                break;
         }
     }
 
