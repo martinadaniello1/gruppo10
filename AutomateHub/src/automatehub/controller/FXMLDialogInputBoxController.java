@@ -2,6 +2,7 @@ package automatehub.controller;
 
 import automatehub.model_view.*;
 import java.io.File;
+import static java.lang.Integer.parseInt;
 import java.net.URL;
 import java.time.Duration;
 import javafx.scene.control.Button;
@@ -65,6 +66,10 @@ public class FXMLDialogInputBoxController implements Initializable {
     private HBox secondBox = new HBox();
     private Label secondLabel = new Label("");
     private TextField secondTextField = new TextField();
+    
+    private ActionContext context = new ActionContext();
+    private CreatorTrigger trigger;
+    private CreatorAction action;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -94,12 +99,10 @@ public class FXMLDialogInputBoxController implements Initializable {
     private void setupActionUI(String actionType) {
         switch (actionType) {
             case "Play an audio file":
-                this.actionLabel.setText("Insert the file audio's path:");
-                addFileChooser(actionBox, FileExtensionFilter.WAV);
-                actionTextField.setEditable(false);
-                actionTextField.focusTraversableProperty().set(false);
+                context.changeState(new AudioActionUI(actionTextField, actionLabel, actionBox));
+                context.setupUI();
                 break;
-            case "Show a message":
+           /* case "Show a message":
                 this.actionLabel.setText("Insert the text to display:");
                 break;
             case "Copy a file to a directory":
@@ -134,7 +137,7 @@ public class FXMLDialogInputBoxController implements Initializable {
                 addFileChooser(secondBox, FileExtensionFilter.TEXT);
                 secondTextField.setEditable(false);
                 secondTextField.focusTraversableProperty().set(false);
-                break;
+                break;*/
         }
 
     }
@@ -152,6 +155,16 @@ public class FXMLDialogInputBoxController implements Initializable {
         });
 
     }
+    
+    private void setupDayValidation() {
+        triggerTextField.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) {
+                if (!triggerTextField.getText().matches("^(0?[1-9]|[12][0-9]|3[01])$")) {
+                    triggerTextField.setText("");
+                }
+            }
+        });
+    }
 
     /**
      * This method sets up the UI according to the type of Trigger selected.
@@ -159,14 +172,22 @@ public class FXMLDialogInputBoxController implements Initializable {
      * @param triggerType
      */
     private void setupTriggerUI(String triggerType) {
-        if (triggerType.equals("When the clock hits ...")) {
-            this.triggerLabel.setText("Select the time");
-            setupTimeValidation();
+        switch (triggerType) {
+            case "When the clock hits ...":
+                triggerLabel.setText("Select the time");
+                setupTimeValidation();
+                break;
+            case "When it is this day of the month ...":
+                triggerLabel.setText("Select the day of the month");
+                setupDayValidation();
+                break;
+
         }
     }
 
     public void initData(String actionType, String triggerType) {
-        setupActionUI(actionType);
+        //setupActionUI(actionType);
+        action = createAction(actionType);
         setupTriggerUI(triggerType);
 
         Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
@@ -213,7 +234,7 @@ public class FXMLDialogInputBoxController implements Initializable {
         }
     }
 
-    private void addFileChooser(HBox box, FileExtensionFilter fileFilter) {
+   /* private void addFileChooser(HBox box, FileExtensionFilter fileFilter) {
         Button fileChooserButton = new Button("...");
         box.getChildren().add(fileChooserButton);
         TextField tf = findTextFieldInHBox(box);
@@ -246,7 +267,7 @@ public class FXMLDialogInputBoxController implements Initializable {
                 }
             });
         }
-    }
+    }*/
 
     /**
      * Creates the corresponding trigger when the user selects it.
@@ -258,6 +279,8 @@ public class FXMLDialogInputBoxController implements Initializable {
         switch (triggerType) {
             case "When the clock hits ...":
                 return new TimeTriggerCreator(triggerTextField.getText());
+            case "When it is this day of the month ...":
+                return new DayOfMonthTriggerCreator(parseInt(triggerTextField.getText()));
             default:
                 return null;
         }
@@ -274,7 +297,9 @@ public class FXMLDialogInputBoxController implements Initializable {
             case "Show a message":
                 return new DialogBoxActionCreator(actionTextField.getText());
             case "Play an audio file":
-                return new AudioActionCreator(actionTextField.getText());
+                context.changeState(new AudioActionUI(actionTextField, actionLabel, actionBox));
+                context.setupUI();
+                return context.getCreator();
             case "Append a string at the end of a text file":
                 return new AppendToFileActionCreator(actionTextField.getText(), secondTextField.getText());
             case "Copy a file to a directory":
@@ -296,9 +321,7 @@ public class FXMLDialogInputBoxController implements Initializable {
      * @param oldRule
      */
     private void processRule(String ruleName, String actionType, String triggerType, Rule oldRule) {
-        CreatorAction action = createAction(actionType);
-        CreatorTrigger trigger = createTrigger(triggerType);
-
+        trigger = createTrigger(triggerType);
         if (!intervalHbox.isDisable()) {
 
             d = d.plusDays(daySpinner.getValue());
@@ -308,9 +331,11 @@ public class FXMLDialogInputBoxController implements Initializable {
             System.out.println(d.toString());
         }
         boolean active;
-        if (oldRule==null)
-            active =true;
-        else active = oldRule.getActive();
+        if (oldRule == null) {
+            active = true;
+        } else {
+            active = oldRule.getActive();
+        }
         Rule r = new Rule(ruleName, action.create(), trigger.create(), active, d);
         if (oldRule != null) {
             ruleManager.editRule(oldRule, r);
@@ -323,7 +348,6 @@ public class FXMLDialogInputBoxController implements Initializable {
     }
 
     private void createRule(String actionType, String triggerType, String ruleName) {
-
         processRule(ruleName, actionType, triggerType, null);
     }
 
@@ -331,7 +355,7 @@ public class FXMLDialogInputBoxController implements Initializable {
         processRule(ruleName, actionType, triggerType, oldRule);
     }
 
-    private TextField findTextFieldInHBox(HBox hbox) {
+  /*  private TextField findTextFieldInHBox(HBox hbox) {
         for (Node node : hbox.getChildren()) {
             if (node instanceof TextField) {
                 return (TextField) node;
@@ -339,5 +363,5 @@ public class FXMLDialogInputBoxController implements Initializable {
         }
         return null;
     }
-
+*/
 }
