@@ -68,6 +68,7 @@ public class FXMLDialogInputBoxController implements Initializable {
     private TextField secondTextField = new TextField();
     
     private ActionContext context = new ActionContext();
+    private TriggerContext triggerContext = new TriggerContext();
     private CreatorTrigger trigger;
     private CreatorAction action;
 
@@ -102,69 +103,26 @@ public class FXMLDialogInputBoxController implements Initializable {
                 context.changeState(new AudioActionUI(actionTextField, actionLabel, actionBox));
                 context.setupUI();
                 break;
-           /* case "Show a message":
-                this.actionLabel.setText("Insert the text to display:");
+            case "Show a message":
+                context.changeState(new DialogBoxUI(actionLabel));
+                context.setupUI();
                 break;
-            case "Copy a file to a directory":
-                this.actionLabel.setText("Choose the file you want to copy:");
-                addFileChooser(actionBox, FileExtensionFilter.ALL);
-                actionTextField.setEditable(false);
-                actionTextField.focusTraversableProperty().set(false);
-                //Set up the new hbox
-                vBox.getChildren().add(3, secondBox);
-                secondLabel.setText("Choose the destination directory:");
-                addFileChooser(secondBox, FileExtensionFilter.DIRECTORY);
-                secondTextField.setEditable(false);
-                secondTextField.focusTraversableProperty().set(false);
+             case "Copy a file to a directory":
+                context.changeState(new CopyFileActionUI(actionTextField, secondTextField, actionLabel, secondLabel, actionBox, secondBox, vBox));
+                context.setupUI();
                 break;
-            case "Move a file from a directory":
-                this.actionLabel.setText("Choose the file you want to move:");
-                addFileChooser(actionBox, FileExtensionFilter.ALL);
-                actionTextField.setEditable(false);
-                actionTextField.focusTraversableProperty().set(false);
-                //Set up the new hbox
-                vBox.getChildren().add(3, secondBox);
-                secondLabel.setText("Choose the destination directory:");
-                addFileChooser(secondBox, FileExtensionFilter.DIRECTORY);
-                secondTextField.setEditable(false);
-                secondTextField.focusTraversableProperty().set(false);
+             case "Move a file from a directory":
+                context.changeState(new MoveFileActionUI(actionTextField, secondTextField, actionLabel, secondLabel, actionBox, secondBox, vBox));
+                context.setupUI();
                 break;
             case "Append a string at the end of a text file":
-                this.actionLabel.setText("Write the text to append:");
-                //Set up the new hbox
-                vBox.getChildren().add(3, secondBox);
-                secondLabel.setText("Choose the text file:");
-                addFileChooser(secondBox, FileExtensionFilter.TEXT);
-                secondTextField.setEditable(false);
-                secondTextField.focusTraversableProperty().set(false);
-                break;*/
+                context.changeState(new AppendToFileActionUI(secondTextField, actionLabel, secondLabel, secondBox, vBox));
+                context.setupUI();
+                break;
         }
 
     }
 
-    /**
-     * This method checks user's input when typing the hour of the day.
-     */
-    private void setupTimeValidation() {
-        triggerTextField.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-            if (!newValue) {
-                if (!triggerTextField.getText().matches("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")) {
-                    triggerTextField.setText("");
-                }
-            }
-        });
-
-    }
-    
-    private void setupDayValidation() {
-        triggerTextField.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-            if (!newValue) {
-                if (!triggerTextField.getText().matches("^(0?[1-9]|[12][0-9]|3[01])$")) {
-                    triggerTextField.setText("");
-                }
-            }
-        });
-    }
 
     /**
      * This method sets up the UI according to the type of Trigger selected.
@@ -174,20 +132,19 @@ public class FXMLDialogInputBoxController implements Initializable {
     private void setupTriggerUI(String triggerType) {
         switch (triggerType) {
             case "When the clock hits ...":
-                triggerLabel.setText("Select the time");
-                setupTimeValidation();
+                triggerContext.changeState(new TimeTriggerUI(triggerLabel, triggerTextField));
                 break;
             case "When it is this day of the month ...":
-                triggerLabel.setText("Select the day of the month");
-                setupDayValidation();
+                triggerContext.changeState(new DayOfMonthTriggerUI(triggerLabel, triggerTextField));
                 break;
-
+                
         }
+        triggerContext.setupUI();
     }
 
     public void initData(String actionType, String triggerType) {
-        //setupActionUI(actionType);
-        action = createAction(actionType);
+        setupActionUI(actionType);
+        //action = createAction(actionType);
         setupTriggerUI(triggerType);
 
         Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
@@ -234,41 +191,6 @@ public class FXMLDialogInputBoxController implements Initializable {
         }
     }
 
-   /* private void addFileChooser(HBox box, FileExtensionFilter fileFilter) {
-        Button fileChooserButton = new Button("...");
-        box.getChildren().add(fileChooserButton);
-        TextField tf = findTextFieldInHBox(box);
-
-        if (fileFilter != FileExtensionFilter.DIRECTORY) {
-            fileChooserButton.setOnAction(event -> {
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.setTitle("Choose the file");
-
-                if (fileFilter != FileExtensionFilter.ALL) {
-                    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-                            fileFilter.getDescription(),
-                            fileFilter.getExtension()
-                    );
-                    fileChooser.getExtensionFilters().add(extFilter);
-                }
-                File selectedFile = fileChooser.showOpenDialog(box.getScene().getWindow());
-                if (selectedFile != null) {
-                    tf.setText(selectedFile.getAbsolutePath());
-                }
-            });
-        } else {
-            fileChooserButton.setOnAction(event -> {
-                DirectoryChooser directoryChooser = new DirectoryChooser();
-                directoryChooser.setTitle("Choose the directory");
-
-                File selectedFile = directoryChooser.showDialog(box.getScene().getWindow());
-                if (selectedFile != null) {
-                    tf.setText(selectedFile.getAbsolutePath());
-                }
-            });
-        }
-    }*/
-
     /**
      * Creates the corresponding trigger when the user selects it.
      *
@@ -297,9 +219,7 @@ public class FXMLDialogInputBoxController implements Initializable {
             case "Show a message":
                 return new DialogBoxActionCreator(actionTextField.getText());
             case "Play an audio file":
-                context.changeState(new AudioActionUI(actionTextField, actionLabel, actionBox));
-                context.setupUI();
-                return context.getCreator();
+                return new AudioActionCreator(actionTextField.getText());
             case "Append a string at the end of a text file":
                 return new AppendToFileActionCreator(actionTextField.getText(), secondTextField.getText());
             case "Copy a file to a directory":
@@ -321,6 +241,7 @@ public class FXMLDialogInputBoxController implements Initializable {
      * @param oldRule
      */
     private void processRule(String ruleName, String actionType, String triggerType, Rule oldRule) {
+        action = createAction(actionType);
         trigger = createTrigger(triggerType);
         if (!intervalHbox.isDisable()) {
 
@@ -354,14 +275,4 @@ public class FXMLDialogInputBoxController implements Initializable {
     private void editRule(Rule oldRule, String triggerString, String actionString, String ruleName, String actionType, String triggerType) {
         processRule(ruleName, actionType, triggerType, oldRule);
     }
-
-  /*  private TextField findTextFieldInHBox(HBox hbox) {
-        for (Node node : hbox.getChildren()) {
-            if (node instanceof TextField) {
-                return (TextField) node;
-            }
-        }
-        return null;
-    }
-*/
 }

@@ -1,6 +1,7 @@
 package automatehub.controller;
 
 import automatehub.model_view.CreatorAction;
+import automatehub.model_view.Rule;
 
 public class ActionContext {
     private ActionState currentState;
@@ -12,9 +13,8 @@ public class ActionContext {
     public void setupUI() {
         currentState.setupUI(this);
     }
-    
-    public CreatorAction getCreator() {
-        return currentState.getCreator(this);
-    }
    
+    public void exec(Rule rule){
+        currentState.exec(rule);
+    }
 }

@@ -1,9 +1,10 @@
 package automatehub.model_view;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class DayOfMonthTrigger implements Trigger {
+public class DayOfMonthTrigger implements Trigger, Serializable {
 
     private Integer dayOfMonth;
 

@@ -1,11 +1,14 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package automatehub.controller;
 
-import automatehub.model_view.*;
+import automatehub.model_view.FileExtensionFilter;
+import automatehub.model_view.MoveFileAction;
+import automatehub.model_view.Rule;
 import java.io.File;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -13,61 +16,49 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
-public class AudioActionUI extends ActionState {
-
+/**
+ *
+ * @author mapic
+ */
+public class MoveFileActionUI extends ActionState {
     private TextField actionTextField;
+    private TextField secondTextField;
     private Label actionLabel;
+    private Label secondLabel;
     private HBox hBox;
+    private HBox hBox2;
+    private VBox vBox;
 
-    public AudioActionUI() {
+    public MoveFileActionUI() {
     }
     
-    public AudioActionUI(TextField actionTextField, Label actionLabel, HBox hBox) {
+    public MoveFileActionUI(TextField actionTextField, TextField secondTextField, Label actionLabel, Label secondLabel, HBox hBox, HBox hBox2, VBox vBox) {
         this.actionTextField = actionTextField;
+        this.secondTextField = secondTextField;
         this.actionLabel = actionLabel;
+        this.secondLabel = secondLabel;
         this.hBox = hBox;
+        this.hBox2 = hBox2;
+        this.vBox = vBox;
     }
     
-
+    
     @Override
     public void setupUI(ActionContext context) {
-        actionLabel.setText("Insert the file audio's path:");
+        this.actionLabel.setText("Choose the file you want to move:");
+        addFileChooser(hBox, FileExtensionFilter.ALL);
         actionTextField.setEditable(false);
         actionTextField.focusTraversableProperty().set(false);
-        addFileChooser(hBox, FileExtensionFilter.WAV);
-    }
-
-    @Override
-    public void exec(Rule rule) {
-        AudioAction audioAction = (AudioAction) rule.getAction();
-                VBox root = new VBox();
-                Scene scene = new Scene(root, 128, 128);
-                Button btn = new Button();
-                btn.setText("Stop Sound");
-                btn.setOnAction(new EventHandler<ActionEvent>() {
-
-                    @Override
-                    public void handle(ActionEvent event) {
-                        audioAction.stopPlaying();
-                    }
-                });
-                root.setAlignment(Pos.CENTER); // Center aligns its children
-                root.setSpacing(10); // You can adjust the spacing as needed
-                root.getChildren().add(btn);
-                Stage s = new Stage();
-                s.setScene(scene);
-                s.setOnCloseRequest(e -> {
-                    // Interrompi la riproduzione audio quando lo stage viene chiuso
-                    audioAction.stopPlaying();
-                });
-                s.show();
+        //Set up the new hbox
+        vBox.getChildren().add(3, hBox2);
+        secondLabel.setText("Choose the destination directory:");
+        addFileChooser(hBox2, FileExtensionFilter.DIRECTORY);
+        secondTextField.setEditable(false);
+        secondTextField.focusTraversableProperty().set(false);   
     }
     
-    
-    
-    @Override
+     @Override
     public void addFileChooser(HBox box, FileExtensionFilter fileFilter) {
         Button fileChooserButton = new Button("...");
         box.getChildren().add(fileChooserButton);
@@ -102,6 +93,17 @@ public class AudioActionUI extends ActionState {
             });
         }
     }
-    
+
+    @Override
+    public void exec(Rule rule) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        MoveFileAction moveAction = (MoveFileAction) rule.getAction();
+        alert.setTitle(rule.getNameRule()+" rule executed");
+        alert.setHeaderText(null);
+        alert.setContentText("Successful moving of the " + moveAction.getStartingPath() + " file");
+        //alert.getButtonTypes().setAll(ButtonType.OK);
+        // Show the dialog box 
+        alert.show();
+    }
     
 }

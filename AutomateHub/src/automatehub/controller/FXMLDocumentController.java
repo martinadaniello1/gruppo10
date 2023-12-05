@@ -48,6 +48,8 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
     private Button removeButton;
     @FXML
     private Button editButton;
+    
+    private ActionContext context = new ActionContext();
 
     /**
      * Starts the RuleManagerService.
@@ -309,71 +311,24 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
 
     @Override
     public void onActionExecuted(Rule rule) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         switch (rule.getAction().getType()) {
             case "Show a message":
-                DialogBoxAction action = (DialogBoxAction) rule.getAction();
-                if (action.getMessage() != null) {
-                    alert.setTitle(rule.getNameRule() + " rule executed");
-                    alert.setHeaderText(null);
-                    alert.setContentText(action.getMessage());
-                    alert.getButtonTypes().setAll(ButtonType.OK);
-                    // Show the dialog box 
-                    alert.show();
-                }
+                context.changeState(new DialogBoxUI());                
                 break;
             case "Play an audio file":
-                AudioAction audioAction = (AudioAction) rule.getAction();
-                VBox root = new VBox();
-                Scene scene = new Scene(root, 128, 128);
-                Button btn = new Button();
-                btn.setText("Stop Sound");
-                btn.setOnAction(new EventHandler<ActionEvent>() {
-
-                    @Override
-                    public void handle(ActionEvent event) {
-                        audioAction.stopPlaying();
-                    }
-                });
-                root.setAlignment(Pos.CENTER); // Center aligns its children
-                root.setSpacing(10); // You can adjust the spacing as needed
-                root.getChildren().add(btn);
-                Stage s = new Stage();
-                s.setScene(scene);
-                s.setOnCloseRequest(e -> {
-                    // Interrompi la riproduzione audio quando lo stage viene chiuso
-                    audioAction.stopPlaying();
-                });
-                s.show();
+                context.changeState(new AudioActionUI());              
                 break;
             case "Copy a file to a directory":
-                CopyFileAction copyAction = (CopyFileAction) rule.getAction();
-                alert.setTitle(rule.getNameRule()+" rule executed");
-                alert.setHeaderText(null);
-                alert.setContentText("Successful copying of the " + copyAction.getStartingPath() + " file");
-                //alert.getButtonTypes().setAll(ButtonType.OK);
-                // Show the dialog box 
-                alert.show();
+                context.changeState(new CopyFileActionUI());
                 break;
             case "Move a file from a directory":
-                MoveFileAction moveAction = (MoveFileAction) rule.getAction();
-                alert.setTitle(rule.getNameRule()+" rule executed");
-                alert.setHeaderText(null);
-                alert.setContentText("Successful moving of the " + moveAction.getStartingPath() + " file");
-                //alert.getButtonTypes().setAll(ButtonType.OK);
-                // Show the dialog box 
-                alert.show();
+                context.changeState(new MoveFileActionUI());  
                 break;
             case "Append a string at the end of a text file":
-                AppendToFileAction appendAction = (AppendToFileAction) rule.getAction();
-                alert.setTitle( rule.getNameRule() + " rule executed");
-                alert.setHeaderText(null);
-                alert.setContentText("String " + appendAction.getStringToAppend() + " successfully added to "+ appendAction.getFilePath() + " file");
-                //alert.getButtonTypes().setAll(ButtonType.OK);
-                // Show the dialog box 
-                alert.show();
+                context.changeState(new AppendToFileActionUI());  
                 break;
         }
+        context.exec(rule);
     }
 
 }

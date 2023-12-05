@@ -54,15 +54,17 @@ public class RuleManagerService implements Serializable {
                             }
                         } else if (!rule.getPeriod().isZero()) {
                             new Thread(() -> {
-                                try {
-                                    Thread.sleep(rule.getPeriod().toMillis());
-                                    rule.setActive(true);
-                                } catch (InterruptedException ex) {
-                                    Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
+                                while (isCheckingRules){
+                                   try {
+                                        Thread.sleep(rule.getPeriod().toMillis());
+                                        rule.setActive(true);
+                                    } catch (InterruptedException ex) {
+                                        Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
+                                    } 
                                 }
+                                
 
                             }).start();
-
                         }
                     }
                 }
