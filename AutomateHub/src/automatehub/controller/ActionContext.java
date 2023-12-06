@@ -1,6 +1,5 @@
 package automatehub.controller;
 
-import automatehub.model_view.CreatorAction;
 import automatehub.model_view.Rule;
 
 public class ActionContext {

@@ -19,11 +19,8 @@ import java.util.regex.Pattern;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class FXMLDialogInputBoxController implements Initializable {
@@ -42,8 +39,6 @@ public class FXMLDialogInputBoxController implements Initializable {
     private TextField triggerTextField;
     @FXML
     private HBox actionBox;
-    @FXML
-    private Label ruleNameLabel;
     @FXML
     private TextField ruleTextField;
     @FXML
