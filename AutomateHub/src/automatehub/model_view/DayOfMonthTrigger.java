@@ -1,10 +1,9 @@
 package automatehub.model_view;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class DayOfMonthTrigger implements Trigger, Serializable {
+public class DayOfMonthTrigger implements Trigger {
 
     private Integer dayOfMonth;
 
@@ -33,7 +32,7 @@ public class DayOfMonthTrigger implements Trigger, Serializable {
 
     @Override
     public String toString() {
-        return this.getDayOfMonth().toString();
+        return "Every month on the "+this.getDayOfMonth().toString();
     }
 
     @Override

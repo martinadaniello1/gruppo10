@@ -18,9 +18,13 @@ public enum ActionMenuText {
         return menuText;
     }
 
-    @Override
-    public String toString() {
-        return this.getMenuText();
+    public static ActionMenuText getByMenuText(String menuText) {
+        for (ActionMenuText enumType : values()) {
+            if (enumType.getMenuText().equalsIgnoreCase(menuText)) {
+                return enumType;
+            }
+        }
+        throw new IllegalArgumentException("No enum constant with menu text: " + menuText);
     }
 
 }

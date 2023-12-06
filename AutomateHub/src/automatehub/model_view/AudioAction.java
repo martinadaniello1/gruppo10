@@ -4,7 +4,7 @@ import javax.sound.sampled.*;
 import java.io.*;
 import java.util.Objects;
         
-public class AudioAction implements Action, Serializable {
+public class AudioAction implements Action {
     
     private File file;
     private Clip clip;

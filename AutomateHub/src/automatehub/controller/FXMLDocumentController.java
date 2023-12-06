@@ -308,7 +308,8 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
 
     @Override
     public void onActionExecuted(Rule rule) {
-        ActionMenuText actionEnum = ActionMenuText.valueOf(rule.getAction().getType());
+        //ActionMenuText actionEnum = ActionMenuText.valueOf(rule.getAction().getType());
+        ActionMenuText actionEnum = ActionMenuText.getByMenuText(rule.getAction().getType());
         switch (actionEnum) {
             case MEX:
                 context.changeState(new DialogBoxUI());
@@ -325,6 +326,8 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
             case APPEND:
                 context.changeState(new AppendToFileActionUI());
                 break;
+            case REMOVE:
+                context.changeState(new RemoveFileActionUI());
         }
         context.exec(rule);
     }
