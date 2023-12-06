@@ -1,13 +1,16 @@
 package automatehub.model_view;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
 
 public class MoveFileAction implements Action {
-    private String startingPath ;
-    private String destinationPath ;
+
+    private String startingPath;
+    private String destinationPath;
 
     public MoveFileAction(String startingPath, String destinationPath) {
         this.startingPath = startingPath;
@@ -15,7 +18,7 @@ public class MoveFileAction implements Action {
     }
 
     @Override
-    public int execute(){
+    public int execute() {
         try {
             FileUtils.moveFileToDirectory(new File(startingPath), new File(destinationPath), false);
             return 0;
@@ -24,9 +27,7 @@ public class MoveFileAction implements Action {
         }
         return 0;
     }
-    
-    
-    
+
     public String getStartingPath() {
         return startingPath;
     }
@@ -47,24 +48,53 @@ public class MoveFileAction implements Action {
     public String getType() {
         return "Move a file from a directory";
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder s = new StringBuilder();
         s.append(this.getStartingPath());
         s.append(" to ");
         s.append(this.getDestinationPath());
         return s.toString();
     }
-    
+
     @Override
-    public String getParam1(){
+    public String getParam1() {
         return this.getStartingPath();
     }
-    
+
     @Override
-    public String getParam2(){
+    public String getParam2() {
         return this.getDestinationPath();
     }
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.startingPath);
+        hash = 97 * hash + Objects.hashCode(this.destinationPath);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final MoveFileAction other = (MoveFileAction) obj;
+        if (!Objects.equals(this.startingPath, other.startingPath)) {
+            return false;
+        }
+        if (!Objects.equals(this.destinationPath, other.destinationPath)) {
+            return false;
+        }
+        return true;
+    }
+
 }

@@ -2,6 +2,7 @@ package automatehub.model_view;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 import org.apache.commons.io.FileUtils;
 
 public class CopyFileAction implements Action {
@@ -12,6 +13,35 @@ public class CopyFileAction implements Action {
     public CopyFileAction(String startingPath, String destinationPath) {
         this.startingPath = startingPath;
         this.destinationPath = destinationPath;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 11 * hash + Objects.hashCode(this.startingPath);
+        hash = 11 * hash + Objects.hashCode(this.destinationPath);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final CopyFileAction other = (CopyFileAction) obj;
+        if (!Objects.equals(this.startingPath, other.startingPath)) {
+            return false;
+        }
+        if (!Objects.equals(this.destinationPath, other.destinationPath)) {
+            return false;
+        }
+        return true;
     }
 
     @Override

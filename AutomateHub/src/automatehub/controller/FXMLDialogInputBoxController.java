@@ -84,8 +84,6 @@ public class FXMLDialogInputBoxController implements Initializable {
      * @param actionType
      */
     private void setupActionUI(String actionType) {
-        //ActionMenuText enumType = Enum.valueOf(ActionMenuText.class, actionType);
-        //ActionMenuText enumType = ActionMenuText.valueOf(actionType);
         ActionMenuText enumType = ActionMenuText.getByMenuText(actionType);
         ActionState state = null;
         switch (enumType) {
@@ -188,7 +186,6 @@ public class FXMLDialogInputBoxController implements Initializable {
      * @return
      */
     private CreatorTrigger createTrigger(String triggerType) {
-        //TriggerMenuText enumType = TriggerMenuText.valueOf(triggerType);
         TriggerMenuText enumType = TriggerMenuText.getByMenuText(triggerType);
 
         switch (enumType) {
@@ -208,7 +205,6 @@ public class FXMLDialogInputBoxController implements Initializable {
      * @return
      */
     private CreatorAction createAction(String actionType) {
-        //ActionMenuText enumType = ActionMenuText.valueOf(actionType);
         ActionMenuText enumType = ActionMenuText.getByMenuText(actionType);
         switch (enumType) {
             case MEX:
