@@ -69,7 +69,7 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
         actionsList = FXCollections.observableArrayList();
         triggersList = FXCollections.observableArrayList();
 
-        actionsList.addAll("Play an audio file", "Show a message","Append a string at the end of a text file", "Copy a file to a directory", "Move a file from a directory");
+        actionsList.addAll("Play an audio file", "Show a message","Append a string at the end of a text file", "Copy a file to a directory", "Move a file from a directory","Execute external programm");
         triggersList.addAll("When the clock hits ...");
         actionsBox.setItems(actionsList);
         triggersBox.setItems(triggersList);

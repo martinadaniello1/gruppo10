@@ -135,6 +135,15 @@ public class FXMLDialogInputBoxController implements Initializable {
                 secondTextField.setEditable(false);
                 secondTextField.focusTraversableProperty().set(false);
                 break;
+            case "Execute external programm":
+                this.actionLabel.setText("Choose a programm to run");
+                addFileChooser(actionBox, FileExtensionFilter.ALL);
+                actionTextField.setEditable(false);
+                actionTextField.focusTraversableProperty().set(false);
+                vBox.getChildren().add(3, secondBox);
+                this.secondLabel.setText("Insert arguments");
+                secondTextField.focusTraversableProperty().set(false);
+                break;
         }
 
     }
@@ -281,6 +290,8 @@ public class FXMLDialogInputBoxController implements Initializable {
                 return new CopyFileActionCreator(actionTextField.getText(), secondTextField.getText());
             case "Move a file from a directory":
                 return new MoveFileActionCreator(actionTextField.getText(), secondTextField.getText());
+            case "Execute external programm":
+                return new ExecutorFileActionCreator(actionTextField.getText(), secondTextField.getText());
             default:
                 return null;
         }

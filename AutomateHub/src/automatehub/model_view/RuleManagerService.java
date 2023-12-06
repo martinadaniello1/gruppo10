@@ -48,6 +48,7 @@ public class RuleManagerService implements Serializable {
                     for (Rule rule : ruleList) {
                         if (rule.getActive()) {
                             if (rule.getTrigger().check()) {
+                                rule.setActive(false);
                                 notifyRuleVerified(rule);
                             } else {
                                 System.out.println("Rule verification failed: " + rule.toString());
