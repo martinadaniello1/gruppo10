@@ -27,9 +27,12 @@ public class AutomateHub extends Application {
                 Logger.getLogger(AutomateHub.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        stage.show();  
- 
+        stage.show(); 
+        String[] ar = new String[]{"1","2"};
+        ExecutorFileAction ex = new ExecutorFileAction("C:\\Users\\mapic\\Desktop\\prova.py",ar);
+        
         controller.startAction();
+        ex.execute();
         
         stage.setOnCloseRequest(event -> controller.handleCloseRequest(event));
              
