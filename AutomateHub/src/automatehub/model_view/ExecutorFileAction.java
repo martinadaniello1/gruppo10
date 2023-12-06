@@ -7,13 +7,12 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ExecutorFileAction implements Action, Serializable {
 
     private String filePath;
     private String[] commandLineArgs;
+    private int exitCode;
 
     public ExecutorFileAction(String filePath, String[] commandLineArgs) {
         this.filePath = filePath;
@@ -50,21 +49,7 @@ public class ExecutorFileAction implements Action, Serializable {
     public int execute() {
         try {
             ProcessBuilder processBuilder = new ProcessBuilder();
-            String fileExtension = getFileExtension(filePath);
-            switch (fileExtension.toLowerCase()) {
-                case "java":
-                    processBuilder.command("java", "-jar", filePath);
-                    break;
-                case "py":
-                    processBuilder.command("python", filePath);
-                    break;
-                case "sh":
-                    processBuilder.command("bash", filePath);
-                    break;
-                default:
-                    System.out.println("Linguaggio non supportato");
-                    return -1;
-            }
+            processBuilder.command("python", filePath);           
 
             if (commandLineArgs != null && commandLineArgs.length > 0) {
                 processBuilder.command().addAll(Arrays.asList(commandLineArgs));
@@ -73,11 +58,12 @@ public class ExecutorFileAction implements Action, Serializable {
             processBuilder.redirectInput(ProcessBuilder.Redirect.INHERIT);
             processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
             processBuilder.redirectError(ProcessBuilder.Redirect.INHERIT);
+            
             Process process = processBuilder.start();
             readOutput(process);
 
-            int exitCode = process.waitFor();
-            System.out.println("Exit code: " + exitCode);
+            setExitCode(process.waitFor());
+            System.out.println("Exit code: " + getExitCode());
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -97,17 +83,11 @@ public class ExecutorFileAction implements Action, Serializable {
         }
     }
 
-    private String getFileExtension(String fileName) {
-        int lastDotIndex = fileName.lastIndexOf('.');
-        if (lastDotIndex == -1) {
-            return ""; // Nessuna estensione trovata
-        }
-        return fileName.substring(lastDotIndex + 1);
-    }
+    
 
     @Override
     public String getType() {
-        return "Execute file";
+        return "Execute external programm";
     }
 
     @Override
@@ -117,7 +97,7 @@ public class ExecutorFileAction implements Action, Serializable {
 
     @Override
     public String getParam2() {
-        return Arrays.toString(commandLineArgs);
+        return String.join("; ", Arrays.asList(commandLineArgs));
     }
 
     public String getFilePath() {
@@ -135,4 +115,14 @@ public class ExecutorFileAction implements Action, Serializable {
     public void setCommandLineArgs(String[] commandLineArgs) {
         this.commandLineArgs = commandLineArgs;
     }
+
+    public int getExitCode() {
+        return exitCode;
+    }
+
+    public void setExitCode(int exitCode) {
+        this.exitCode = exitCode;
+    }
+    
+    
 }

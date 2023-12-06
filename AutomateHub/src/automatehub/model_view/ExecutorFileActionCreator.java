@@ -12,9 +12,9 @@ public class ExecutorFileActionCreator implements CreatorAction{
     private String filePath;
     private String[] arguments;
 
-    public ExecutorFileActionCreator(String filePath, String arguments) {
+    public ExecutorFileActionCreator(String filePath, String[] arguments) {
         this.filePath = filePath;
-        this.arguments =arguments.split(";");
+        this.arguments =arguments;
     }
 
     @Override

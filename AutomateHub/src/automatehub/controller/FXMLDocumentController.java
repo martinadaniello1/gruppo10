@@ -372,6 +372,18 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
                 // Show the dialog box 
                 alert.show();
                 break;
+            case "Execute external programm":
+                ExecutorFileAction executedAction = (ExecutorFileAction) rule.getAction();
+                alert.setTitle( rule.getNameRule() + " rule executed");
+                alert.setHeaderText(null);
+                if(executedAction.getExitCode()==0)
+                    alert.setContentText(executedAction.getFilePath()+" programme successfully executed");
+                else
+                    alert.setContentText(executedAction.getFilePath()+" programme returned a non-zero exit code");
+                //alert.getButtonTypes().setAll(ButtonType.OK);
+                // Show the dialog box 
+                alert.show();
+                break;
         }
     }
 

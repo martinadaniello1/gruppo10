@@ -53,7 +53,8 @@ public class RuleManagerService implements Serializable {
                             } else {
                                 System.out.println("Rule verification failed: " + rule.toString());
                             }
-                        } else if (!rule.getPeriod().isZero()) {
+                        } 
+                        if (!rule.getPeriod().isZero()) {
                             new Thread(() -> {
                                 try {
                                     Thread.sleep(rule.getPeriod().toMillis());
