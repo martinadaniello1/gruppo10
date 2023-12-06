@@ -48,15 +48,13 @@ public class MoveFileActionTest {
 
     @Test
     public void testGetStartingPath() {
-        moveFileAction.setDestinationPath("D:/Unisa/Magistrale/1--1/Software Engineering/progetto/provaDirectory2/prova_prova.txt");
-        assertEquals(destinationPath, moveFileAction.getDestinationPath());
+        moveFileAction.setStartingPath("D:/Unisa/Magistrale/1--1/Software Engineering/progetto/provaDirectory2/prova_prova.txt");
+        assertEquals(startingPath, moveFileAction.getStartingPath());
     }
-
     @Test
     public void testSetStartingPath() {
         moveFileAction.setStartingPath("startingPath");
         assertEquals("startingPath", moveFileAction.getStartingPath());
-
     }
 
     @Test
