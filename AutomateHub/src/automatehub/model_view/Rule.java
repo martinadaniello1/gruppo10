@@ -15,13 +15,15 @@ public class Rule implements Comparable, Serializable{
     private Trigger trigger;
     private final BooleanProperty active;
     private Duration period;
-
+    private Thread repeteable;
+    
     public Rule(String nameRule, Action action, Trigger trigger, Boolean active,Duration period) {
         this.nameRule = nameRule;
         this.action = action;
         this.trigger = trigger;
         this.active = new SimpleBooleanProperty(active);
         this.period= period;
+        
     }
 
     public String getNameRule() {
@@ -66,6 +68,18 @@ public class Rule implements Comparable, Serializable{
 
     public void setPeriod(Duration period) {
         this.period = period;
+    }
+    
+    public void setRepeteable(){
+        
+    }
+    
+    public void startRepeteable(){
+        repeteable.start();
+    }
+    
+    public void stopRepeteable(){
+        repeteable.interrupt();
     }
    
     @Override

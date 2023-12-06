@@ -19,6 +19,7 @@ public class RuleManagerService implements Serializable {
 
     private ArrayList<RuleObserver> observers;
     private ArrayList<Rule> ruleList;
+    private Thread repeteable;
     private boolean isCheckingRules = true;
     //Unica istanza della classe
     private static RuleManagerService instance = null;
@@ -43,29 +44,32 @@ public class RuleManagerService implements Serializable {
 
     public void start() {
         new Thread(() -> {
+            System.out.println("MAIN Thread" );
             while (isCheckingRules) {
                 synchronized (ruleList) {
                     for (Rule rule : ruleList) {
                         if (rule.getActive()) {
                             if (rule.getTrigger().check()) {
-                                notifyRuleVerified(rule);
+                                notifyRuleVerified(rule);                                
                             } else {
                                 System.out.println("Rule verification failed: " + rule.toString());
                             }
-                        } else if (!rule.getPeriod().isZero()) {
-                            new Thread(() -> {
-                                while (isCheckingRules){
-                                   try {
-                                        Thread.sleep(rule.getPeriod().toMillis());
-                                        rule.setActive(true);
-                                    } catch (InterruptedException ex) {
-                                        Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
-                                    } 
-                                }
-                                
-
-                            }).start();
-                        }
+                            if (!rule.getPeriod().isZero()) {
+                                repeteable = new Thread(() -> {
+                                System.out.println("repeteable Thread 0" );
+                                    while(!repeteable.isInterrupted()){
+                                        try {
+                                            System.out.println("repeteable Thread" );
+                                            Thread.sleep(rule.getPeriod().toMillis());
+                                            rule.setActive(true);
+                                        } catch (InterruptedException ex) {
+                                            repeteable.interrupt();
+                                        }
+                                    }
+                                });
+                                repeteable.start();                                    
+                            }
+                        } 
                     }
                 }
                 try {
@@ -80,7 +84,18 @@ public class RuleManagerService implements Serializable {
     }
 
     public void stop() {
+        System.out.println("Stop Thread ....");
         isCheckingRules = false;
+        if(repeteable!=null){
+            repeteable.interrupt();
+            try {
+                repeteable.join();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        System.out.println("Stop Thread eseguito correttamente");
     }
 
     public void addRule(Rule r) {

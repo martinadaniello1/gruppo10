@@ -251,7 +251,6 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
             // Save the rules when the application is closed
             ruleManager.exportRule();
             ruleManager.stop();
-
         } catch (IOException exc) {
             System.out.printf("IOException: " + exc);
         }
