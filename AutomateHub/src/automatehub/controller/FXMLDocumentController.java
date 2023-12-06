@@ -10,11 +10,9 @@ import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.*;
 import javafx.fxml.*;
-import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.*;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.*;
@@ -48,7 +46,7 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
     private Button removeButton;
     @FXML
     private Button editButton;
-    
+
     private ActionContext context = new ActionContext();
 
     /**
@@ -66,12 +64,12 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ruleManager.addObserver(this);    
+        ruleManager.addObserver(this);
         //Setting up the choice boxes for the types of triggers and actions.
         actionsList = FXCollections.observableArrayList();
         triggersList = FXCollections.observableArrayList();
 
-        actionsList.addAll("Play an audio file", "Show a message","Append a string at the end of a text file", "Copy a file to a directory", "Move a file from a directory", "Remove a file from a directory");
+        actionsList.addAll("Play an audio file", "Show a message", "Append a string at the end of a text file", "Copy a file to a directory", "Move a file from a directory", "Remove a file from a directory");
         triggersList.addAll("When the clock hits ...", "When it is this day of the month ...");
         actionsBox.setItems(actionsList);
         triggersBox.setItems(triggersList);
@@ -313,19 +311,19 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
         ActionMenuText actionEnum = ActionMenuText.valueOf(rule.getAction().getType());
         switch (actionEnum) {
             case MEX:
-                context.changeState(new DialogBoxUI());                
+                context.changeState(new DialogBoxUI());
                 break;
             case PLAY:
-                context.changeState(new AudioActionUI());              
+                context.changeState(new AudioActionUI());
                 break;
             case COPY:
                 context.changeState(new CopyFileActionUI());
                 break;
             case MOVE:
-                context.changeState(new MoveFileActionUI());  
+                context.changeState(new MoveFileActionUI());
                 break;
             case APPEND:
-                context.changeState(new AppendToFileActionUI());  
+                context.changeState(new AppendToFileActionUI());
                 break;
         }
         context.exec(rule);

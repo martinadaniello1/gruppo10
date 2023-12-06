@@ -4,22 +4,14 @@ import automatehub.model_view.*;
 import static java.lang.Integer.parseInt;
 import java.net.URL;
 import java.time.Duration;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class FXMLDialogInputBoxController implements Initializable {
@@ -60,7 +52,7 @@ public class FXMLDialogInputBoxController implements Initializable {
     private HBox secondBox = new HBox();
     private Label secondLabel = new Label("");
     private TextField secondTextField = new TextField();
-    
+
     private ActionContext context = new ActionContext();
     private TriggerContext triggerContext = new TriggerContext();
     private CreatorTrigger trigger;
@@ -68,7 +60,7 @@ public class FXMLDialogInputBoxController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         intervalHbox.disableProperty().bind(repetitionBox.selectedProperty().not());
         repetitionLabel.disableProperty().bind(repetitionBox.selectedProperty().not());
 
@@ -102,10 +94,10 @@ public class FXMLDialogInputBoxController implements Initializable {
             case MEX:
                 state = new DialogBoxUI(actionLabel);
                 break;
-             case COPY:
+            case COPY:
                 state = new CopyFileActionUI(actionTextField, secondTextField, actionLabel, secondLabel, actionBox, secondBox, vBox);
                 break;
-             case MOVE:
+            case MOVE:
                 state = new MoveFileActionUI(actionTextField, secondTextField, actionLabel, secondLabel, actionBox, secondBox, vBox);
                 break;
             case APPEND:
@@ -116,7 +108,6 @@ public class FXMLDialogInputBoxController implements Initializable {
         context.setupUI();
 
     }
-
 
     /**
      * This method sets up the UI according to the type of Trigger selected.

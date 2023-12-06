@@ -1,12 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package automatehub.controller;
 
-import automatehub.model_view.AppendToFileAction;
-import automatehub.model_view.FileExtensionFilter;
-import automatehub.model_view.Rule;
+import automatehub.model_view.*;
 import java.io.File;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -18,8 +12,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 /**
- *
- * @author mapic
+ * This class is the ActionState for the Action of appending a string to a file.
  */
 public class AppendToFileActionUI extends ActionState {
     private TextField secondTextField;

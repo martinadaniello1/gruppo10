@@ -1,17 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package automatehub.controller;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 /**
- *
- * @author mapic
+ * This class is the TriggerState for the Trigger TimeTrigger.
  */
-public class TimeTriggerUI extends TriggerState{
+public class TimeTriggerUI extends TriggerState {
 
     private Label triggerLabel;
     private TextField triggerTextField;
@@ -20,13 +15,14 @@ public class TimeTriggerUI extends TriggerState{
         this.triggerLabel = triggerLabel;
         this.triggerTextField = triggerTextField;
     }
-    
+
     @Override
     public void setupUI(TriggerContext context) {
         triggerLabel.setText("Select the time");
+        triggerTextField.setPromptText("e.g. 17:30");
         setupTimeValidation();
     }
-    
+
     private void setupTimeValidation() {
         triggerTextField.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) {
@@ -37,5 +33,5 @@ public class TimeTriggerUI extends TriggerState{
         });
 
     }
-    
+
 }

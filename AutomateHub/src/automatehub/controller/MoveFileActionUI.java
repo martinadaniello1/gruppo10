@@ -1,27 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package automatehub.controller;
 
-import automatehub.model_view.FileExtensionFilter;
-import automatehub.model_view.MoveFileAction;
-import automatehub.model_view.Rule;
+import automatehub.model_view.*;
 import java.io.File;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 /**
- *
- * @author mapic
+ * This class is the ActionState for the Action of moving a file to another
+ * directory.
  */
 public class MoveFileActionUI extends ActionState {
+
     private TextField actionTextField;
     private TextField secondTextField;
     private Label actionLabel;
@@ -32,7 +24,7 @@ public class MoveFileActionUI extends ActionState {
 
     public MoveFileActionUI() {
     }
-    
+
     public MoveFileActionUI(TextField actionTextField, TextField secondTextField, Label actionLabel, Label secondLabel, HBox hBox, HBox hBox2, VBox vBox) {
         this.actionTextField = actionTextField;
         this.secondTextField = secondTextField;
@@ -42,8 +34,7 @@ public class MoveFileActionUI extends ActionState {
         this.hBox2 = hBox2;
         this.vBox = vBox;
     }
-    
-    
+
     @Override
     public void setupUI(ActionContext context) {
         this.actionLabel.setText("Choose the file you want to move:");
@@ -55,10 +46,10 @@ public class MoveFileActionUI extends ActionState {
         secondLabel.setText("Choose the destination directory:");
         addFileChooser(hBox2, FileExtensionFilter.DIRECTORY);
         secondTextField.setEditable(false);
-        secondTextField.focusTraversableProperty().set(false);   
+        secondTextField.focusTraversableProperty().set(false);
     }
-    
-     @Override
+
+    @Override
     public void addFileChooser(HBox box, FileExtensionFilter fileFilter) {
         Button fileChooserButton = new Button("...");
         box.getChildren().add(fileChooserButton);
@@ -98,12 +89,12 @@ public class MoveFileActionUI extends ActionState {
     public void exec(Rule rule) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         MoveFileAction moveAction = (MoveFileAction) rule.getAction();
-        alert.setTitle(rule.getNameRule()+" rule executed");
+        alert.setTitle(rule.getNameRule() + " rule executed");
         alert.setHeaderText(null);
         alert.setContentText("Successful moving of the " + moveAction.getStartingPath() + " file");
         //alert.getButtonTypes().setAll(ButtonType.OK);
         // Show the dialog box 
         alert.show();
     }
-    
+
 }

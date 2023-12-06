@@ -1,12 +1,14 @@
 package automatehub.controller;
 
-import automatehub.model_view.CreatorAction;
 import automatehub.model_view.FileExtensionFilter;
 import automatehub.model_view.Rule;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
+/**
+ * This class contains all the methods that the ActionState objects will override, if necessary.
+ */
 public abstract class ActionState {
 
     public abstract void setupUI(ActionContext context);
@@ -23,9 +25,9 @@ public abstract class ActionState {
     public void addFileChooser(HBox box, FileExtensionFilter fileFilter) {
 
     }
-    
-    public void exec(Rule rule){
-        
+
+    public void exec(Rule rule) {
+
     }
 
 }

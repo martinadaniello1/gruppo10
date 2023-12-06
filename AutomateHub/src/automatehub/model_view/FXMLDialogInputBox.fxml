@@ -43,7 +43,7 @@
                                 <Insets right="10.0" />
                             </HBox.margin>
                         </Label>
-                        <TextField fx:id="triggerTextField" promptText="e.g. 17:30">
+                        <TextField fx:id="triggerTextField">
                             <HBox.margin>
                                 <Insets left="50.0" />
                             </HBox.margin>

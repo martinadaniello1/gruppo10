@@ -1,15 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package automatehub.controller;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 /**
- *
- * @author mapic
+ * This class is the TriggerState for the Trigger DayOfMonthTrigger.
  */
 public class DayOfMonthTriggerUI extends TriggerState {
     
@@ -24,6 +19,7 @@ public class DayOfMonthTriggerUI extends TriggerState {
     @Override
     public void setupUI(TriggerContext context) {
         triggerLabel.setText("Select the day of the month");
+        triggerTextField.setPromptText("e.g. 4 (every month on the 4th)");
         setupDayValidation();
     }
     
