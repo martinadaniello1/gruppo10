@@ -2,7 +2,8 @@ package automatehub.model_view;
 
 
 public enum TriggerMenuText {
-    TIME("When the clock hits ...");
+    TIME("When the clock hits ..."),
+    DAYMONTH("When it is this day of the month ...");
 
     private final String menuText;
 
@@ -12,6 +13,11 @@ public enum TriggerMenuText {
 
     public String getMenuText(){
         return menuText;
+    }
+
+    @Override
+    public String toString() {
+        return this.getMenuText();
     }
     
 }

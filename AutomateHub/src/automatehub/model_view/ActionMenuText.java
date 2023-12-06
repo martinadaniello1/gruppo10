@@ -17,5 +17,10 @@ public enum ActionMenuText {
     public String getMenuText(){
         return menuText;
     }
-    
+
+    @Override
+    public String toString() {
+        return this.getMenuText();
+    }
+
 }

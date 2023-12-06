@@ -1,7 +1,6 @@
 package automatehub.controller;
 
 import automatehub.model_view.*;
-import java.io.File;
 import static java.lang.Integer.parseInt;
 import java.net.URL;
 import java.time.Duration;
@@ -69,6 +68,7 @@ public class FXMLDialogInputBoxController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         intervalHbox.disableProperty().bind(repetitionBox.selectedProperty().not());
         repetitionLabel.disableProperty().bind(repetitionBox.selectedProperty().not());
 
@@ -84,7 +84,7 @@ public class FXMLDialogInputBoxController implements Initializable {
         secondBox.getChildren().addAll(secondLabel, secondTextField);
         secondBox.setMargin(secondLabel, new Insets(0, 10, 10, 0));
         secondBox.setMargin(secondTextField, new Insets(0, 10, 10, 0));
-
+        System.out.println("String representation of PLAY: " + ActionMenuText.PLAY.toString());
     }
 
     /**
@@ -93,28 +93,27 @@ public class FXMLDialogInputBoxController implements Initializable {
      * @param actionType
      */
     private void setupActionUI(String actionType) {
-        switch (actionType) {
-            case "Play an audio file":
-                context.changeState(new AudioActionUI(actionTextField, actionLabel, actionBox));
-                context.setupUI();
+        ActionMenuText enumType = ActionMenuText.valueOf(actionType);
+        ActionState state = null;
+        switch (enumType) {
+            case PLAY:
+                state = new AudioActionUI(actionTextField, actionLabel, actionBox);
                 break;
-            case "Show a message":
-                context.changeState(new DialogBoxUI(actionLabel));
-                context.setupUI();
+            case MEX:
+                state = new DialogBoxUI(actionLabel);
                 break;
-             case "Copy a file to a directory":
-                context.changeState(new CopyFileActionUI(actionTextField, secondTextField, actionLabel, secondLabel, actionBox, secondBox, vBox));
-                context.setupUI();
+             case COPY:
+                state = new CopyFileActionUI(actionTextField, secondTextField, actionLabel, secondLabel, actionBox, secondBox, vBox);
                 break;
-             case "Move a file from a directory":
-                context.changeState(new MoveFileActionUI(actionTextField, secondTextField, actionLabel, secondLabel, actionBox, secondBox, vBox));
-                context.setupUI();
+             case MOVE:
+                state = new MoveFileActionUI(actionTextField, secondTextField, actionLabel, secondLabel, actionBox, secondBox, vBox);
                 break;
-            case "Append a string at the end of a text file":
-                context.changeState(new AppendToFileActionUI(secondTextField, actionLabel, secondLabel, secondBox, vBox));
-                context.setupUI();
+            case APPEND:
+                state = new AppendToFileActionUI(secondTextField, actionLabel, secondLabel, secondBox, vBox);
                 break;
         }
+        context.changeState(state);
+        context.setupUI();
 
     }
 
@@ -125,21 +124,22 @@ public class FXMLDialogInputBoxController implements Initializable {
      * @param triggerType
      */
     private void setupTriggerUI(String triggerType) {
-        switch (triggerType) {
-            case "When the clock hits ...":
-                triggerContext.changeState(new TimeTriggerUI(triggerLabel, triggerTextField));
+        TriggerMenuText enumType = TriggerMenuText.valueOf(triggerType);
+        TriggerState state = null;
+        switch (enumType) {
+            case TIME:
+                state = new TimeTriggerUI(triggerLabel, triggerTextField);
                 break;
-            case "When it is this day of the month ...":
-                triggerContext.changeState(new DayOfMonthTriggerUI(triggerLabel, triggerTextField));
+            case DAYMONTH:
+                state = new DayOfMonthTriggerUI(triggerLabel, triggerTextField);
                 break;
-                
         }
+        triggerContext.changeState(state);
         triggerContext.setupUI();
     }
 
     public void initData(String actionType, String triggerType) {
         setupActionUI(actionType);
-        //action = createAction(actionType);
         setupTriggerUI(triggerType);
 
         Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
@@ -193,10 +193,11 @@ public class FXMLDialogInputBoxController implements Initializable {
      * @return
      */
     private CreatorTrigger createTrigger(String triggerType) {
-        switch (triggerType) {
-            case "When the clock hits ...":
+        TriggerMenuText enumType = TriggerMenuText.valueOf(triggerType);
+        switch (enumType) {
+            case TIME:
                 return new TimeTriggerCreator(triggerTextField.getText());
-            case "When it is this day of the month ...":
+            case DAYMONTH:
                 return new DayOfMonthTriggerCreator(parseInt(triggerTextField.getText()));
             default:
                 return null;
@@ -210,17 +211,20 @@ public class FXMLDialogInputBoxController implements Initializable {
      * @return
      */
     private CreatorAction createAction(String actionType) {
-        switch (actionType) {
-            case "Show a message":
+        ActionMenuText enumType = ActionMenuText.valueOf(actionType);
+        switch (enumType) {
+            case MEX:
                 return new DialogBoxActionCreator(actionTextField.getText());
-            case "Play an audio file":
+            case PLAY:
                 return new AudioActionCreator(actionTextField.getText());
-            case "Append a string at the end of a text file":
+            case APPEND:
                 return new AppendToFileActionCreator(actionTextField.getText(), secondTextField.getText());
-            case "Copy a file to a directory":
+            case COPY:
                 return new CopyFileActionCreator(actionTextField.getText(), secondTextField.getText());
-            case "Move a file from a directory":
+            case MOVE:
                 return new MoveFileActionCreator(actionTextField.getText(), secondTextField.getText());
+            case REMOVE:
+                return new RemoveFileActionCreator(actionTextField.getText());
             default:
                 return null;
         }

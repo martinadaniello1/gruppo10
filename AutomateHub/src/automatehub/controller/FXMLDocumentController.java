@@ -66,12 +66,12 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ruleManager.addObserver(this);
+        ruleManager.addObserver(this);    
         //Setting up the choice boxes for the types of triggers and actions.
         actionsList = FXCollections.observableArrayList();
         triggersList = FXCollections.observableArrayList();
 
-        actionsList.addAll("Play an audio file", "Show a message","Append a string at the end of a text file", "Copy a file to a directory", "Move a file from a directory");
+        actionsList.addAll("Play an audio file", "Show a message","Append a string at the end of a text file", "Copy a file to a directory", "Move a file from a directory", "Remove a file from a directory");
         triggersList.addAll("When the clock hits ...", "When it is this day of the month ...");
         actionsBox.setItems(actionsList);
         triggersBox.setItems(triggersList);
@@ -310,20 +310,21 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
 
     @Override
     public void onActionExecuted(Rule rule) {
-        switch (rule.getAction().getType()) {
-            case "Show a message":
+        ActionMenuText actionEnum = ActionMenuText.valueOf(rule.getAction().getType());
+        switch (actionEnum) {
+            case MEX:
                 context.changeState(new DialogBoxUI());                
                 break;
-            case "Play an audio file":
+            case PLAY:
                 context.changeState(new AudioActionUI());              
                 break;
-            case "Copy a file to a directory":
+            case COPY:
                 context.changeState(new CopyFileActionUI());
                 break;
-            case "Move a file from a directory":
+            case MOVE:
                 context.changeState(new MoveFileActionUI());  
                 break;
-            case "Append a string at the end of a text file":
+            case APPEND:
                 context.changeState(new AppendToFileActionUI());  
                 break;
         }
