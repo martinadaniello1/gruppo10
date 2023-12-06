@@ -4,6 +4,9 @@ import automatehub.model_view.*;
 import java.io.File;
 import java.net.URL;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
@@ -153,6 +156,20 @@ public class FXMLDialogInputBoxController implements Initializable {
 
     }
 
+    private void setupDayValidation() {
+
+        List<String> daysOfWeek = Arrays.asList("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
+
+        triggerTextField.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) {
+                if (!(daysOfWeek.contains(triggerTextField.getText()) || daysOfWeek.contains(triggerTextField.getText().trim()))) {
+                    triggerTextField.setText("");
+                }
+            }
+        });
+
+    }
+
     /**
      * This method sets up the UI according to the type of Trigger selected.
      *
@@ -162,6 +179,10 @@ public class FXMLDialogInputBoxController implements Initializable {
         if (triggerType.equals("When the clock hits ...")) {
             this.triggerLabel.setText("Select the time");
             setupTimeValidation();
+        } else if (triggerType.equals("When the day is ...")) {
+            this.triggerLabel.setText("Select the day");
+            triggerTextField.setPromptText("e.g. Saturday");
+            setupDayValidation();
         }
     }
 
@@ -258,6 +279,8 @@ public class FXMLDialogInputBoxController implements Initializable {
         switch (triggerType) {
             case "When the clock hits ...":
                 return new TimeTriggerCreator(triggerTextField.getText());
+            case "When the day is ...":
+                return new DayofWeekTriggerCreator(triggerTextField.getText());
             default:
                 return null;
         }
@@ -308,9 +331,11 @@ public class FXMLDialogInputBoxController implements Initializable {
             System.out.println(d.toString());
         }
         boolean active;
-        if (oldRule==null)
-            active =true;
-        else active = oldRule.getActive();
+        if (oldRule == null) {
+            active = true;
+        } else {
+            active = oldRule.getActive();
+        }
         Rule r = new Rule(ruleName, action.create(), trigger.create(), active, d);
         if (oldRule != null) {
             ruleManager.editRule(oldRule, r);

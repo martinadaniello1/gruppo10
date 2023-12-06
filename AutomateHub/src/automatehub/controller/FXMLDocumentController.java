@@ -69,8 +69,8 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
         actionsList = FXCollections.observableArrayList();
         triggersList = FXCollections.observableArrayList();
 
-        actionsList.addAll("Play an audio file", "Show a message","Append a string at the end of a text file", "Copy a file to a directory", "Move a file from a directory");
-        triggersList.addAll("When the clock hits ...");
+        actionsList.addAll("Play an audio file", "Show a message", "Append a string at the end of a text file", "Copy a file to a directory", "Move a file from a directory");
+        triggersList.addAll("When the clock hits ...", "When the day is ...");
         actionsBox.setItems(actionsList);
         triggersBox.setItems(triggersList);
 
@@ -347,7 +347,7 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
                 s.show();
             case "Copy a file to a directory":
                 CopyFileAction copyAction = (CopyFileAction) rule.getAction();
-                alert.setTitle(rule.getNameRule()+" rule executed");
+                alert.setTitle(rule.getNameRule() + " rule executed");
                 alert.setHeaderText(null);
                 alert.setContentText("Successful copying of the " + copyAction.getStartingPath() + " file");
                 //alert.getButtonTypes().setAll(ButtonType.OK);
@@ -356,7 +356,7 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
                 break;
             case "Move a file from a directory":
                 MoveFileAction moveAction = (MoveFileAction) rule.getAction();
-                alert.setTitle(rule.getNameRule()+" rule executed");
+                alert.setTitle(rule.getNameRule() + " rule executed");
                 alert.setHeaderText(null);
                 alert.setContentText("Successful moving of the " + moveAction.getStartingPath() + " file");
                 //alert.getButtonTypes().setAll(ButtonType.OK);
@@ -365,9 +365,9 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
                 break;
             case "Append a string at the end of a text file":
                 AppendToFileAction appendAction = (AppendToFileAction) rule.getAction();
-                alert.setTitle( rule.getNameRule() + " rule executed");
+                alert.setTitle(rule.getNameRule() + " rule executed");
                 alert.setHeaderText(null);
-                alert.setContentText("String " + appendAction.getStringToAppend() + " successfully added to "+ appendAction.getFilePath() + " file");
+                alert.setContentText("String " + appendAction.getStringToAppend() + " successfully added to " + appendAction.getFilePath() + " file");
                 //alert.getButtonTypes().setAll(ButtonType.OK);
                 // Show the dialog box 
                 alert.show();
