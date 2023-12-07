@@ -10,11 +10,9 @@ import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.*;
 import javafx.fxml.*;
-import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.*;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.*;
@@ -49,6 +47,8 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
     @FXML
     private Button editButton;
 
+    private ActionContext context = new ActionContext();
+
     /**
      * Starts the RuleManagerService.
      */
@@ -69,8 +69,10 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
         actionsList = FXCollections.observableArrayList();
         triggersList = FXCollections.observableArrayList();
 
-        actionsList.addAll("Play an audio file", "Show a message", "Append a string at the end of a text file", "Copy a file to a directory", "Move a file from a directory");
-        triggersList.addAll("When the clock hits ...", "When the day is ...", "Found a file in a directory ...");
+
+        actionsList.addAll("Play an audio file", "Show a message", "Append a string at the end of a text file", "Copy a file to a directory", "Move a file from a directory", "Remove a file from a directory");
+        triggersList.addAll("When the clock hits ...", "When it is this day of the month ...", "When the day is ...", "Found a file in a directory ..." );
+
         actionsBox.setItems(actionsList);
         triggersBox.setItems(triggersList);
 
@@ -249,7 +251,6 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
             // Save the rules when the application is closed
             ruleManager.exportRule();
             ruleManager.stop();
-
         } catch (IOException exc) {
             System.out.printf("IOException: " + exc);
         }
@@ -309,70 +310,29 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
 
     @Override
     public void onActionExecuted(Rule rule) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        switch (rule.getAction().getType()) {
-            case "Show a message":
-                DialogBoxAction action = (DialogBoxAction) rule.getAction();
-                if (action.getMessage() != null) {
-                    alert.setTitle(rule.getNameRule() + " rule executed");
-                    alert.setHeaderText(null);
-                    alert.setContentText(action.getMessage());
-                    alert.getButtonTypes().setAll(ButtonType.OK);
-                    // Show the dialog box 
-                    alert.show();
-                }
+        //ActionMenuText actionEnum = ActionMenuText.valueOf(rule.getAction().getType());
+        ActionMenuText actionEnum = ActionMenuText.getByMenuText(rule.getAction().getType());
+        switch (actionEnum) {
+            case MEX:
+                context.changeState(new DialogBoxUI());
                 break;
-            case "Play an audio file":
-                AudioAction audioAction = (AudioAction) rule.getAction();
-                VBox root = new VBox();
-                Scene scene = new Scene(root, 128, 128);
-                Button btn = new Button();
-                btn.setText("Stop Sound");
-                btn.setOnAction(new EventHandler<ActionEvent>() {
 
-                    @Override
-                    public void handle(ActionEvent event) {
-                        audioAction.stopPlaying();
-                    }
-                });
-                root.setAlignment(Pos.CENTER); // Center aligns its children
-                root.setSpacing(10); // You can adjust the spacing as needed
-                root.getChildren().add(btn);
-                Stage s = new Stage();
-                s.setScene(scene);
-                s.setOnCloseRequest(e -> {
-                    // Interrompi la riproduzione audio quando lo stage viene chiuso
-                    audioAction.stopPlaying();
-                });
-                s.show();
-            case "Copy a file to a directory":
-                CopyFileAction copyAction = (CopyFileAction) rule.getAction();
-                alert.setTitle(rule.getNameRule() + " rule executed");
-                alert.setHeaderText(null);
-                alert.setContentText("Successful copying of the " + copyAction.getStartingPath() + " file");
-                //alert.getButtonTypes().setAll(ButtonType.OK);
-                // Show the dialog box 
-                alert.show();
+            case PLAY:
+                context.changeState(new AudioActionUI());
                 break;
-            case "Move a file from a directory":
-                MoveFileAction moveAction = (MoveFileAction) rule.getAction();
-                alert.setTitle(rule.getNameRule() + " rule executed");
-                alert.setHeaderText(null);
-                alert.setContentText("Successful moving of the " + moveAction.getStartingPath() + " file");
-                //alert.getButtonTypes().setAll(ButtonType.OK);
-                // Show the dialog box 
-                alert.show();
+            case COPY:
+                context.changeState(new CopyFileActionUI());
                 break;
-            case "Append a string at the end of a text file":
-                AppendToFileAction appendAction = (AppendToFileAction) rule.getAction();
-                alert.setTitle(rule.getNameRule() + " rule executed");
-                alert.setHeaderText(null);
-                alert.setContentText("String " + appendAction.getStringToAppend() + " successfully added to " + appendAction.getFilePath() + " file");
-                //alert.getButtonTypes().setAll(ButtonType.OK);
-                // Show the dialog box 
-                alert.show();
+            case MOVE:
+                context.changeState(new MoveFileActionUI());
                 break;
+            case APPEND:
+                context.changeState(new AppendToFileActionUI());
+                break;
+            case REMOVE:
+                context.changeState(new RemoveFileActionUI());
         }
+        context.exec(rule);
     }
 
 }
