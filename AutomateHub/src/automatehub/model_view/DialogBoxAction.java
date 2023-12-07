@@ -1,10 +1,9 @@
 package automatehub.model_view;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 
-public class DialogBoxAction implements Action, Serializable {
+public class DialogBoxAction implements Action {
     
     private String message;
 

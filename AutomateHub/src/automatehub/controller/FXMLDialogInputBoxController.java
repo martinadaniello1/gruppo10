@@ -76,7 +76,6 @@ public class FXMLDialogInputBoxController implements Initializable {
         secondBox.getChildren().addAll(secondLabel, secondTextField);
         secondBox.setMargin(secondLabel, new Insets(0, 10, 10, 0));
         secondBox.setMargin(secondTextField, new Insets(0, 10, 10, 0));
-        System.out.println("String representation of PLAY: " + ActionMenuText.PLAY.toString());
     }
 
     /**
@@ -85,7 +84,7 @@ public class FXMLDialogInputBoxController implements Initializable {
      * @param actionType
      */
     private void setupActionUI(String actionType) {
-        ActionMenuText enumType = ActionMenuText.valueOf(actionType);
+        ActionMenuText enumType = ActionMenuText.getByMenuText(actionType);
         ActionState state = null;
         switch (enumType) {
             case PLAY:
@@ -103,6 +102,8 @@ public class FXMLDialogInputBoxController implements Initializable {
             case APPEND:
                 state = new AppendToFileActionUI(secondTextField, actionLabel, secondLabel, secondBox, vBox);
                 break;
+            case REMOVE:
+                state = new RemoveFileActionUI(actionLabel, actionTextField, actionBox);
         }
         context.changeState(state);
         context.setupUI();
@@ -115,7 +116,8 @@ public class FXMLDialogInputBoxController implements Initializable {
      * @param triggerType
      */
     private void setupTriggerUI(String triggerType) {
-        TriggerMenuText enumType = TriggerMenuText.valueOf(triggerType);
+        //TriggerMenuText enumType = TriggerMenuText.valueOf(triggerType);
+        TriggerMenuText enumType = TriggerMenuText.getByMenuText(triggerType);
         TriggerState state = null;
         switch (enumType) {
             case TIME:
@@ -155,7 +157,7 @@ public class FXMLDialogInputBoxController implements Initializable {
         b.setOnAction(event -> editRule(oldRule, triggerTextField.getText(), actionTextField.getText(), ruleTextField.getText(), actionType, triggerType));
         if (!oldRule.getPeriod().isZero()) {
             repetitionBox.setSelected(true);
-            Pattern pattern = Pattern.compile("^PT((\\d+)H)?((\\d+)M)?((\\d+)(\\.\\d+)?S)?$");
+            Pattern pattern = Pattern.compile("^PT((\\d+)H)?((\\d+)M)?((\\d+)(\\.\\d+)?S)?$"); //Pattern for the Duration string
             Matcher matcher = pattern.matcher(oldRule.getPeriod().toString());
 
             if (matcher.matches()) {
@@ -184,7 +186,8 @@ public class FXMLDialogInputBoxController implements Initializable {
      * @return
      */
     private CreatorTrigger createTrigger(String triggerType) {
-        TriggerMenuText enumType = TriggerMenuText.valueOf(triggerType);
+        TriggerMenuText enumType = TriggerMenuText.getByMenuText(triggerType);
+
         switch (enumType) {
             case TIME:
                 return new TimeTriggerCreator(triggerTextField.getText());
@@ -202,7 +205,7 @@ public class FXMLDialogInputBoxController implements Initializable {
      * @return
      */
     private CreatorAction createAction(String actionType) {
-        ActionMenuText enumType = ActionMenuText.valueOf(actionType);
+        ActionMenuText enumType = ActionMenuText.getByMenuText(actionType);
         switch (enumType) {
             case MEX:
                 return new DialogBoxActionCreator(actionTextField.getText());

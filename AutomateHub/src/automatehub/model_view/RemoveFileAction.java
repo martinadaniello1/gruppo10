@@ -3,17 +3,17 @@ package automatehub.model_view;
 import java.io.File;
 import java.util.Objects;
 
-public class RemoveFileAction implements Action{
-    
-    private String filePath ;
-    
+public class RemoveFileAction implements Action {
+
+    private String filePath;
+
     @Override
     public int execute() {
         File f = new File(this.filePath);
-        if(f.delete()){
-            System.out.println("Rimozione del file "+f.getAbsolutePath()+" avvenuta con successo" );
+        if (f.delete()) {
+            System.out.println("Rimozione del file " + f.getAbsolutePath() + " avvenuta con successo");
             return 0;
-        } else{
+        } else {
             System.out.println("Rimozione fallita del file " + f.getAbsolutePath());
             return -1;
         }
@@ -35,7 +35,7 @@ public class RemoveFileAction implements Action{
     public void setFilePath(String filePath) {
         this.filePath = filePath;
     }
-    
+
     @Override
     public String getParam1() {
         return this.getFilePath();
@@ -69,6 +69,5 @@ public class RemoveFileAction implements Action{
         }
         return true;
     }
-    
-    
+
 }

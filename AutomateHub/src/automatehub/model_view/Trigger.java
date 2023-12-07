@@ -1,11 +1,10 @@
 package automatehub.model_view;
 
-public interface Trigger {
+import java.io.Serializable;
+
+public interface Trigger extends Serializable {
     
     public boolean check();
     public String getType();
-
-   /* @Override
-    public String toString();*/
     
 }

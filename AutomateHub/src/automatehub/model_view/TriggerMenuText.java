@@ -15,9 +15,13 @@ public enum TriggerMenuText {
         return menuText;
     }
 
-    @Override
-    public String toString() {
-        return this.getMenuText();
+     public static TriggerMenuText getByMenuText(String menuText) {
+        for (TriggerMenuText enumType : values()) {
+            if (enumType.getMenuText().equalsIgnoreCase(menuText)) {
+                return enumType;
+            }
+        }
+        throw new IllegalArgumentException("No enum constant with menu text: " + menuText);
     }
     
 }
