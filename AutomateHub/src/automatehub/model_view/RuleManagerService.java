@@ -7,13 +7,13 @@ import java.io.*;
 import java.util.ArrayList;
 
 /**
- * Tale classe ha lo scopo di andare a gestire l'insieme di regole presenti
- * nell' applicativo, controllandone le condizioni periodicamente. Si implementa
- * il pattern singleton. Tale implementazione del pattern singleton risulta
- * valido fintanto stiamo lavorando in ambito single-thread. Come collezione per
- * gestire l'insieme di regole si è scelta una ArrayList.
+ * The RuleManagerService class manages a list of rules, performs periodic
+ * checks on active rules, and provides functionalities for adding, removing,
+ * editing, importing, and exporting rules. It also implements the Observer
+ * pattern to notify registered observers about rule-related events. This class
+ * is designed as a Singleton to ensure a single instance throughout the
+ * application.
  *
- * @author adc01
  */
 public class RuleManagerService implements Serializable {
 
@@ -33,6 +33,10 @@ public class RuleManagerService implements Serializable {
     ;
     
     //Lazy initialization
+     /**
+     * Returns the singleton instance of RuleManagerService. If the instance doesn't exist, it creates a new one.
+     * @return The singleton instance of RuleManagerService.
+     */
     public static RuleManagerService getRuleManager() {
         //Crea l'oggetto solo se non esiste
         if (instance == null) {
@@ -44,22 +48,22 @@ public class RuleManagerService implements Serializable {
 
     public void start() {
         new Thread(() -> {
-            System.out.println("MAIN Thread" );
+            System.out.println("MAIN Thread");
             while (isCheckingRules) {
                 synchronized (ruleList) {
                     for (Rule rule : ruleList) {
                         if (rule.getActive()) {
                             if (rule.getTrigger().check()) {
-                                notifyRuleVerified(rule);                                
+                                notifyRuleVerified(rule);
                             } else {
                                 System.out.println("Rule verification failed: " + rule.toString());
                             }
                             if (!rule.getPeriod().isZero()) {
                                 repeteable = new Thread(() -> {
-                                System.out.println("repeteable Thread 0" );
-                                    while(!repeteable.isInterrupted()){
+                                    System.out.println("repeteable Thread 0");
+                                    while (!repeteable.isInterrupted()) {
                                         try {
-                                            System.out.println("repeteable Thread" );
+                                            System.out.println("repeteable Thread");
                                             Thread.sleep(rule.getPeriod().toMillis());
                                             rule.setActive(true);
                                         } catch (InterruptedException ex) {
@@ -67,9 +71,9 @@ public class RuleManagerService implements Serializable {
                                         }
                                     }
                                 });
-                                repeteable.start();                                    
+                                repeteable.start();
                             }
-                        } 
+                        }
                     }
                 }
                 try {
@@ -86,7 +90,7 @@ public class RuleManagerService implements Serializable {
     public void stop() {
         System.out.println("Stop Thread ....");
         isCheckingRules = false;
-        if(repeteable!=null){
+        if (repeteable != null) {
             repeteable.interrupt();
             try {
                 repeteable.join();
@@ -94,7 +98,7 @@ public class RuleManagerService implements Serializable {
                 Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         System.out.println("Stop Thread eseguito correttamente");
     }
 
