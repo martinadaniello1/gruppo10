@@ -1,9 +1,10 @@
 package automatehub.model_view;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class RemoveFileAction implements Action{
+public class RemoveFileAction implements Action, Serializable{
     
     private String filePath ;
     

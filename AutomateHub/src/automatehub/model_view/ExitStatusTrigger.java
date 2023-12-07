@@ -2,12 +2,13 @@ package automatehub.model_view;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ExitStatusTrigger implements Trigger {
+public class ExitStatusTrigger implements Trigger, Serializable {
 
     private String filePath;
     private int exitCodeDesired;

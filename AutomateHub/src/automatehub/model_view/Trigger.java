@@ -5,7 +5,4 @@ public interface Trigger {
     public boolean check();
     public String getType();
 
-   /* @Override
-    public String toString();*/
-    
 }
