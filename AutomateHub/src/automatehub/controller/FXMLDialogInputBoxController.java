@@ -68,6 +68,7 @@ public class FXMLDialogInputBoxController implements Initializable {
     private HBox secondBox = new HBox();
     private Label secondLabel = new Label("");
     private TextField secondTextField = new TextField();
+    private String directoryPath = "";
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -170,6 +171,18 @@ public class FXMLDialogInputBoxController implements Initializable {
 
     }
 
+    private void setupFileValidation() {
+
+        triggerTextField.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) {
+                String newText = triggerTextField.getText().replaceAll("\\\\+", "");
+                triggerTextField.setText(newText);
+
+            }
+
+        });
+    }
+
     /**
      * This method sets up the UI according to the type of Trigger selected.
      *
@@ -180,9 +193,17 @@ public class FXMLDialogInputBoxController implements Initializable {
             this.triggerLabel.setText("Select the time");
             setupTimeValidation();
         } else if (triggerType.equals("When the day is ...")) {
-            this.triggerLabel.setText("Select the day");
+            this.triggerLabel.setText("Insert the day");
             triggerTextField.setPromptText("e.g. Saturday");
             setupDayValidation();
+        } else if (triggerType.equals("Found a file in a directory ...")) {
+            this.triggerLabel.setText("Insert the filename to find");
+            triggerTextField.setPromptText("e.g. file.txt");
+            setupFileValidation();
+            vBox.getChildren().add(2, secondBox);
+            secondLabel.setText("Choose the directory:");
+            addFileChooser(secondBox, FileExtensionFilter.DIRECTORY);
+
         }
     }
 
@@ -265,6 +286,7 @@ public class FXMLDialogInputBoxController implements Initializable {
                 if (selectedFile != null) {
                     tf.setText(selectedFile.getAbsolutePath());
                 }
+                directoryPath = selectedFile.getAbsolutePath();
             });
         }
     }
@@ -281,6 +303,8 @@ public class FXMLDialogInputBoxController implements Initializable {
                 return new TimeTriggerCreator(triggerTextField.getText());
             case "When the day is ...":
                 return new DayofWeekTriggerCreator(triggerTextField.getText());
+            case "Found a file in a directory ...":
+                return new FoundFileTriggerCreator(triggerTextField.getText(), directoryPath);
             default:
                 return null;
         }
