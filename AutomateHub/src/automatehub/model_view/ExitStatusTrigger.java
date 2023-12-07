@@ -10,14 +10,11 @@ import java.util.logging.Logger;
 public class ExitStatusTrigger implements Trigger {
 
     private String filePath;
-    private final String suffix = "-output";
     private int exitCodeDesired;
-    private File statusFile;
 
     public ExitStatusTrigger(String filePath, int exitCode) {
-        this.filePath = filePath + suffix;
+        this.filePath = filePath;
         this.exitCodeDesired = exitCode;
-        statusFile = new File(this.filePath);
     }
 
     public String getFilePath() {
@@ -62,23 +59,29 @@ public class ExitStatusTrigger implements Trigger {
 
     @Override
     public boolean check() {
-        if (!statusFile.exists()) {
+        File f = new File(filePath);
+        if (!f.exists()) {
             return false;
         } else {
             try {
-                String exitStatusString = new String(Files.readAllBytes(statusFile.toPath()));
-                int exitStatus = Integer.parseInt(exitStatusString);
-                statusFile.delete();
-                if (exitStatus == exitCodeDesired) {
+                // execute the program
+                Process process = Runtime.getRuntime().exec(filePath);
+
+                // wait for the result
+                int exitCode = process.waitFor();
+
+                // check the result
+                if (exitCode == exitCodeDesired) {
                     return true;
                 } else {
                     return false;
                 }
-            } catch (IOException ex) {
-                Logger.getLogger(ExitStatusTrigger.class.getName()).log(Level.SEVERE, null, ex);
+
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
             }
-            return false;
         }
+        return false;
     }
 
     @Override
