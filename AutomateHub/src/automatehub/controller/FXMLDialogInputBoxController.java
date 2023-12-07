@@ -57,13 +57,17 @@ public class FXMLDialogInputBoxController implements Initializable {
     private Spinner<Integer> hourSpinner;
     @FXML
     private Spinner<Integer> minuteSpinner;
+    @FXML
+    private HBox triggerHBox;
+    private HBox dirBox = new HBox();
+    private Label dirLabel = new Label("");
+    private String directoryPath;
 
     @FXML
     private VBox vBox;
     private HBox secondBox = new HBox();
     private Label secondLabel = new Label("");
     private TextField secondTextField = new TextField();
-    private String directoryPath = "";
 
     private ActionContext context = new ActionContext();
     private TriggerContext triggerContext = new TriggerContext();
@@ -88,6 +92,11 @@ public class FXMLDialogInputBoxController implements Initializable {
         secondBox.getChildren().addAll(secondLabel, secondTextField);
         secondBox.setMargin(secondLabel, new Insets(0, 10, 10, 0));
         secondBox.setMargin(secondTextField, new Insets(0, 10, 10, 0));
+
+        dirBox.getChildren().addAll(dirLabel);
+        dirBox.setMargin(dirLabel, new Insets(0, 10, 15, 0));
+        directoryPath = "";
+
     }
 
     /**
@@ -142,7 +151,10 @@ public class FXMLDialogInputBoxController implements Initializable {
                 state = new DayofWeekTriggerUI(triggerLabel, triggerTextField);
                 break;
             case FINDFILE:
-                state = new FoundFileTriggerUI(triggerLabel, triggerTextField);
+                TriggerState tmp = null;
+                tmp = new FoundFileTriggerUI(triggerLabel, triggerTextField, triggerHBox, dirBox, dirLabel, vBox);
+                directoryPath = FoundFileTriggerUI.getTf();
+                state = tmp;
                 break;
         }
         triggerContext.changeState(state);
@@ -197,42 +209,6 @@ public class FXMLDialogInputBoxController implements Initializable {
         }
     }
 
-
-    /*private void addFileChooser(HBox box, FileExtensionFilter fileFilter) {
-        Button fileChooserButton = new Button("...");
-        box.getChildren().add(fileChooserButton);
-        TextField tf = findTextFieldInHBox(box);
-
-        if (fileFilter != FileExtensionFilter.DIRECTORY) {
-            fileChooserButton.setOnAction(event -> {
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.setTitle("Choose the file");
-
-                if (fileFilter != FileExtensionFilter.ALL) {
-                    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-                            fileFilter.getDescription(),
-                            fileFilter.getExtension()
-                    );
-                    fileChooser.getExtensionFilters().add(extFilter);
-                }
-                File selectedFile = fileChooser.showOpenDialog(box.getScene().getWindow());
-                if (selectedFile != null) {
-                    tf.setText(selectedFile.getAbsolutePath());
-                }
-            });
-        } else {
-            fileChooserButton.setOnAction(event -> {
-                DirectoryChooser directoryChooser = new DirectoryChooser();
-                directoryChooser.setTitle("Choose the directory");
-
-                File selectedFile = directoryChooser.showDialog(box.getScene().getWindow());
-                if (selectedFile != null) {
-                    tf.setText(selectedFile.getAbsolutePath());
-                }
-                directoryPath = selectedFile.getAbsolutePath();
-            });
-        }
-    }*/
     /**
      * Creates the corresponding trigger when the user selects it.
      *

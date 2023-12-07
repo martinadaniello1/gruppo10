@@ -42,7 +42,7 @@ public class FoundFileTrigger implements Trigger, Serializable {
 
     @Override
     public boolean check() {
-        Path directoryPath = FileSystems.getDefault().getPath(referentDirectory, fileToSearch);
+        Path directoryPath = FileSystems.getDefault().getPath(this.referentDirectory, this.fileToSearch);
         return !Files.notExists(directoryPath);
     }
 
@@ -82,7 +82,7 @@ public class FoundFileTrigger implements Trigger, Serializable {
 
     @Override
     public String toString() {
-        return "Searching file: " + fileToSearch + " in directory: " + referentDirectory;
+        return "Searching file: " + this.fileToSearch + " in directory: " + this.referentDirectory;
     }
 
 }
