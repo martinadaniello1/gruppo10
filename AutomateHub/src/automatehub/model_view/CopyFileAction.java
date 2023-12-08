@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Objects;
 import org.apache.commons.io.FileUtils;
 
-public class CopyFileAction implements Action {
+public class CopyFileAction extends Action {
 
     private String startingPath;
     private String destinationPath;

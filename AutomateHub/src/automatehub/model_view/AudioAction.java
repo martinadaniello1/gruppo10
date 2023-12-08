@@ -4,7 +4,7 @@ import javax.sound.sampled.*;
 import java.io.*;
 import java.util.Objects;
 
-public class AudioAction implements Serializable, Action {
+public class AudioAction extends Action {
 
     private File file;
     // The Clip object is not serialisable, 
@@ -121,9 +121,5 @@ public class AudioAction implements Serializable, Action {
         return this.getFile().getAbsolutePath();
     }
 
-    @Override
-    public String getParam2() {
-        return "";
-    }
 
 }

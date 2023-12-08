@@ -6,7 +6,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 
-public class TimeTrigger implements Trigger {
+public class TimeTrigger extends Trigger {
     
     private LocalTime time;
     

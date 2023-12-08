@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class ExecutorFileAction implements Action, Serializable {
+public class ExecutorFileAction extends Action {
 
     private String filePath;
     private String[] commandLineArgs;

@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class AppendToFileAction implements Action {
+public class AppendToFileAction extends Action {
 
     private String stringToAppend;
     private String filePath;

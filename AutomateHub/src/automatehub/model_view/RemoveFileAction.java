@@ -3,7 +3,7 @@ package automatehub.model_view;
 import java.io.File;
 import java.util.Objects;
 
-public class RemoveFileAction implements Action {
+public class RemoveFileAction extends Action {
 
     private String filePath;
 
@@ -41,10 +41,6 @@ public class RemoveFileAction implements Action {
         return this.getFilePath();
     }
 
-    @Override
-    public String getParam2() {
-        return "";
-    }
 
     @Override
     public String toString() {

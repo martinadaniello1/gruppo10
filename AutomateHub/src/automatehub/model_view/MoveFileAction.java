@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
 
-public class MoveFileAction implements Action {
+public class MoveFileAction extends Action {
 
     private String startingPath;
     private String destinationPath;

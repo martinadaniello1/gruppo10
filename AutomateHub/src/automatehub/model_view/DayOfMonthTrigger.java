@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class DayOfMonthTrigger implements Trigger, Serializable {
+public class DayOfMonthTrigger extends Trigger {
 
     private Integer dayOfMonth;
 
