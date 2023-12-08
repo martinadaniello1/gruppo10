@@ -85,6 +85,7 @@ public class ExitStatusTrigger extends Trigger {
 
                 Process process = processBuilder.start();
                 Integer actualExitCode = process.waitFor();
+                System.out.println("Actual exit code:" + actualExitCode);
                 if (actualExitCode.equals(exitCodeDesired)) {
                     return true;
                 } else {
