@@ -34,13 +34,16 @@ public class ExitStatusTriggerUI extends TriggerState{
     @Override
     public void setupUI(TriggerContext context) {
         triggerLabel1.setText("Choose the program you want to monitor: ");
-        //addFileChooser(box1, FileExtensionFilter.ALL);
+        addFileChooser(box1, FileExtensionFilter.PYTHON);
         triggerTextField1.setEditable(false);
-        triggerTextField2.focusTraversableProperty().set(false);
-        vbox.getChildren().add(3 , box2);
+        triggerTextField1.focusTraversableProperty().set(false);
+        vbox.getChildren().add(2 , box2);
         setUpValueValidation();
+        //Set up the new box
+        triggerLabel2.setText("Insert an integer value: ");
     }
 
+    //Methods below are used to check the value in second textField
    private void setUpValueValidation() {
         triggerTextField2.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), 0,
                 getIntegerFilter()));
