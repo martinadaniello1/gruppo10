@@ -3,7 +3,7 @@ package automatehub.model_view;
 import java.util.Objects;
 
 
-public class DialogBoxAction implements Action {
+public class DialogBoxAction extends Action {
     
     private String message;
 
@@ -66,10 +66,6 @@ public class DialogBoxAction implements Action {
         return this.getMessage();
     }
 
-    @Override
-    public String getParam2() {
-        return "";
-    }
    
     
 }

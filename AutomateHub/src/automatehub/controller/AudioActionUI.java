@@ -2,6 +2,7 @@ package automatehub.controller;
 
 import automatehub.model_view.*;
 import java.io.File;
+import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -67,40 +68,6 @@ public class AudioActionUI extends ActionState {
         s.show();
     }
 
-    @Override
-    public void addFileChooser(HBox box, FileExtensionFilter fileFilter) {
-        Button fileChooserButton = new Button("...");
-        box.getChildren().add(fileChooserButton);
-        TextField tf = findTextFieldInHBox(box);
 
-        if (fileFilter != FileExtensionFilter.DIRECTORY) {
-            fileChooserButton.setOnAction(event -> {
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.setTitle("Choose the file");
-
-                if (fileFilter != FileExtensionFilter.ALL) {
-                    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-                            fileFilter.getDescription(),
-                            fileFilter.getExtension()
-                    );
-                    fileChooser.getExtensionFilters().add(extFilter);
-                }
-                File selectedFile = fileChooser.showOpenDialog(box.getScene().getWindow());
-                if (selectedFile != null) {
-                    tf.setText(selectedFile.getAbsolutePath());
-                }
-            });
-        } else {
-            fileChooserButton.setOnAction(event -> {
-                DirectoryChooser directoryChooser = new DirectoryChooser();
-                directoryChooser.setTitle("Choose the directory");
-
-                File selectedFile = directoryChooser.showDialog(box.getScene().getWindow());
-                if (selectedFile != null) {
-                    tf.setText(selectedFile.getAbsolutePath());
-                }
-            });
-        }
-    }
 
 }

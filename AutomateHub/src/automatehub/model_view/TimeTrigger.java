@@ -5,23 +5,18 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
+public class TimeTrigger extends Trigger {
 
-public class TimeTrigger implements Trigger {
-    
     private LocalTime time;
-    
 
-    public TimeTrigger(String timeInserted) {
-        
-        DateTimeFormatter dtf= DateTimeFormatter.ofPattern("HH:mm");
-        this.time = LocalTime.parse(timeInserted,dtf).truncatedTo(ChronoUnit.MINUTES);  
-        
+    public TimeTrigger(LocalTime time) {
+        this.time = time.truncatedTo(ChronoUnit.MINUTES);
     }
-    
+
     public String getType() {
-        return "When the clock hits ...";
+        return "When the clock hits...";
     }
-   
+
     public LocalTime getTime() {
         return time;
     }
@@ -29,15 +24,15 @@ public class TimeTrigger implements Trigger {
     public void setTime(LocalTime time) {
         this.time = time;
     }
-       
+
     @Override
     public boolean check() {
-        
-        LocalTime actualTime= LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
-                
+
+        LocalTime actualTime = LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
+
         return actualTime.equals(this.time);
     }
-    
+
     @Override
     public String toString() {
         return this.getTime().toString();
@@ -67,8 +62,10 @@ public class TimeTrigger implements Trigger {
         hash = 97 * hash + Objects.hashCode(this.time);
         return hash;
     }
-    
-    
-    
+
+    @Override
+    public String getParam1() {
+        return this.getTime().format(DateTimeFormatter.ofPattern("HH:mm"));
+    }
 
 }

@@ -3,6 +3,7 @@ package automatehub.model_view;
 public enum FileExtensionFilter {
     WAV("*.wav", "Audio Files (*.wav)"),
     TEXT("*.txt", "Text Files (*.txt)"),
+    PYTHON("*.py", "Python file (*.py)"),
     ALL("*.*", "All Files (*.*)"),
     DIRECTORY("*.directory", "Directory");
 

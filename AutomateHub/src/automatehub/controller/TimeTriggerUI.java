@@ -18,7 +18,7 @@ public class TimeTriggerUI extends TriggerState {
 
     @Override
     public void setupUI(TriggerContext context) {
-        triggerLabel.setText("Select the time");
+        triggerLabel.setText("Select the time: ");
         triggerTextField.setPromptText("e.g. 17:30");
         setupTimeValidation();
     }

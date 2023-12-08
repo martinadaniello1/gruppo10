@@ -1,13 +1,14 @@
 package automatehub.model_view;
 
+import java.time.LocalTime;
+
 public class TimeTriggerCreator implements CreatorTrigger {
     
-    private String timeInserted;
+    private LocalTime timeInserted;
 
-    public TimeTriggerCreator(String timeInserted) {
+    public TimeTriggerCreator(LocalTime timeInserted) {
         this.timeInserted = timeInserted;
     }
-    
 
     @Override
     public Trigger create() {

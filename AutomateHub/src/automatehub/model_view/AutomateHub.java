@@ -8,6 +8,7 @@ import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class AutomateHub extends Application {
@@ -20,6 +21,9 @@ public class AutomateHub extends Application {
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
+        Image icon = new Image(getClass().getResourceAsStream("logo_unisa.png"));
+        stage.getIcons().add(icon);
+        stage.setTitle("AutomateHub");
         stage.setOnShowing(event -> {
             try {
                 controller.handleOpenRequest(event);
@@ -27,8 +31,8 @@ public class AutomateHub extends Application {
                 Logger.getLogger(AutomateHub.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        stage.show();  
- 
+        stage.show(); 
+
         controller.startAction();
         
         stage.setOnCloseRequest(event -> controller.handleCloseRequest(event));

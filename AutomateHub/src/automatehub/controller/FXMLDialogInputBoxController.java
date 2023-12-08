@@ -2,8 +2,12 @@ package automatehub.controller;
 
 import automatehub.model_view.*;
 import static java.lang.Integer.parseInt;
+import static java.lang.Long.parseLong;
 import java.net.URL;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import javafx.scene.control.*;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -33,10 +37,14 @@ public class FXMLDialogInputBoxController implements Initializable {
     @FXML
     private TextField ruleTextField;
     @FXML
+    private Label ruleNameLabel;
+    @FXML
+    private HBox triggerBox;
+    @FXML
     private Label repetitionLabel;
     @FXML
     private CheckBox repetitionBox;
-
+    
     private Duration d = Duration.ZERO;
     @FXML
     private HBox intervalHbox;
@@ -46,17 +54,22 @@ public class FXMLDialogInputBoxController implements Initializable {
     private Spinner<Integer> hourSpinner;
     @FXML
     private Spinner<Integer> minuteSpinner;
-
     @FXML
     private VBox vBox;
-    private HBox secondBox = new HBox();
-    private Label secondLabel = new Label("");
-    private TextField secondTextField = new TextField();
+    //Custom items
+    private HBox secondBoxAction = new HBox();
+    private Label secondLabelAction = new Label("");
+    private TextField secondTextFieldAction = new TextField();
+
+    private HBox secondBoxTrigger = new HBox();
+    private Label secondLabelTrigger = new Label("");
+    private TextField secondTextFieldTrigger = new TextField();
 
     private ActionContext context = new ActionContext();
     private TriggerContext triggerContext = new TriggerContext();
     private CreatorTrigger trigger;
     private CreatorAction action;
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -73,9 +86,14 @@ public class FXMLDialogInputBoxController implements Initializable {
         SpinnerValueFactory<Integer> minuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59);
         minuteSpinner.setValueFactory(minuteValueFactory);
 
-        secondBox.getChildren().addAll(secondLabel, secondTextField);
-        secondBox.setMargin(secondLabel, new Insets(0, 10, 10, 0));
-        secondBox.setMargin(secondTextField, new Insets(0, 10, 10, 0));
+        secondBoxAction.getChildren().addAll(secondLabelAction, secondTextFieldAction);
+        secondBoxAction.setMargin(secondLabelAction, new Insets(0, 10, 10, 0));
+        secondBoxAction.setMargin(secondTextFieldAction, new Insets(0, 10, 10, 0));
+    
+        secondBoxTrigger.getChildren().addAll(secondLabelTrigger, secondTextFieldTrigger);
+        secondBoxTrigger.setMargin(secondLabelTrigger, new Insets(0,10,10,0));
+        secondBoxTrigger.setMargin(secondTextFieldTrigger, new Insets(0, 10, 10, 0));
+        
     }
 
     /**
@@ -94,13 +112,16 @@ public class FXMLDialogInputBoxController implements Initializable {
                 state = new DialogBoxUI(actionLabel);
                 break;
             case COPY:
-                state = new CopyFileActionUI(actionTextField, secondTextField, actionLabel, secondLabel, actionBox, secondBox, vBox);
+                state = new CopyFileActionUI(actionTextField, secondTextFieldAction, actionLabel, secondLabelAction, actionBox, secondBoxAction, vBox);
                 break;
             case MOVE:
-                state = new MoveFileActionUI(actionTextField, secondTextField, actionLabel, secondLabel, actionBox, secondBox, vBox);
+                state = new MoveFileActionUI(actionTextField, secondTextFieldAction, actionLabel, secondLabelAction, actionBox, secondBoxAction, vBox);
                 break;
             case APPEND:
-                state = new AppendToFileActionUI(secondTextField, actionLabel, secondLabel, secondBox, vBox);
+                state = new AppendToFileActionUI(secondTextFieldAction, actionLabel, secondLabelAction, secondBoxAction, vBox);
+                break;
+            case EXECUTE:
+                state = new ExecutorFileActionUI(actionTextField, secondTextFieldAction, actionLabel, secondLabelAction, actionBox, secondBoxAction, vBox);
                 break;
             case REMOVE:
                 state = new RemoveFileActionUI(actionLabel, actionTextField, actionBox);
@@ -116,7 +137,6 @@ public class FXMLDialogInputBoxController implements Initializable {
      * @param triggerType
      */
     private void setupTriggerUI(String triggerType) {
-        //TriggerMenuText enumType = TriggerMenuText.valueOf(triggerType);
         TriggerMenuText enumType = TriggerMenuText.getByMenuText(triggerType);
         TriggerState state = null;
         switch (enumType) {
@@ -125,6 +145,15 @@ public class FXMLDialogInputBoxController implements Initializable {
                 break;
             case DAYMONTH:
                 state = new DayOfMonthTriggerUI(triggerLabel, triggerTextField);
+                break;
+            case FILESIZE:
+                state = new FileSizeTriggerUI(triggerLabel, secondLabelTrigger, triggerTextField, secondTextFieldTrigger, vBox, triggerBox, secondBoxTrigger);
+                break;
+            case CURRENTDAY:
+                state = new CurrentDayTriggerUI(triggerLabel, triggerTextField);
+                break;
+            case EXIT:
+                state = new ExitStatusTriggerUI(triggerLabel, secondLabelTrigger, triggerTextField, secondTextFieldTrigger, triggerBox, secondBoxTrigger, vBox);
                 break;
         }
         triggerContext.changeState(state);
@@ -147,9 +176,10 @@ public class FXMLDialogInputBoxController implements Initializable {
         setupTriggerUI(triggerType);
 
         ruleTextField.setText(oldRule.getNameRule());
-        triggerTextField.setText(oldRule.getTrigger().toString());
+        triggerTextField.setText(oldRule.getTrigger().getParam1());
         actionTextField.setText(oldRule.getAction().getParam1());
-        secondTextField.setText(oldRule.getAction().getParam2());
+        secondTextFieldAction.setText(oldRule.getAction().getParam2());
+        secondTextFieldTrigger.setText(oldRule.getTrigger().getParam2());
 
         Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
         b.setDefaultButton(true);
@@ -190,9 +220,15 @@ public class FXMLDialogInputBoxController implements Initializable {
 
         switch (enumType) {
             case TIME:
-                return new TimeTriggerCreator(triggerTextField.getText());
+                return new TimeTriggerCreator(LocalTime.parse(triggerTextField.getText(), DateTimeFormatter.ofPattern("HH:mm")));
             case DAYMONTH:
                 return new DayOfMonthTriggerCreator(parseInt(triggerTextField.getText()));
+            case CURRENTDAY:
+                return new CurrentDayTriggerCreator(LocalDate.parse(triggerTextField.getText()));
+            case FILESIZE:
+                return new FileSizeTriggerCreator(triggerTextField.getText(), parseLong(secondTextFieldTrigger.getText()));
+            case EXIT:
+                return new ExitStatusTriggerCreator(triggerTextField.getText(),parseInt(secondTextFieldTrigger.getText()));
             default:
                 return null;
         }
@@ -212,11 +248,13 @@ public class FXMLDialogInputBoxController implements Initializable {
             case PLAY:
                 return new AudioActionCreator(actionTextField.getText());
             case APPEND:
-                return new AppendToFileActionCreator(actionTextField.getText(), secondTextField.getText());
+                return new AppendToFileActionCreator(actionTextField.getText(), secondTextFieldAction.getText());
             case COPY:
-                return new CopyFileActionCreator(actionTextField.getText(), secondTextField.getText());
+                return new CopyFileActionCreator(actionTextField.getText(), secondTextFieldAction.getText());
             case MOVE:
-                return new MoveFileActionCreator(actionTextField.getText(), secondTextField.getText());
+                return new MoveFileActionCreator(actionTextField.getText(), secondTextFieldAction.getText());
+            case EXECUTE:
+                return new ExecutorFileActionCreator(actionTextField.getText(), secondTextFieldAction.getText().split(";"));
             case REMOVE:
                 return new RemoveFileActionCreator(actionTextField.getText());
             default:

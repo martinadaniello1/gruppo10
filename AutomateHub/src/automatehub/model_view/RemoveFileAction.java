@@ -3,10 +3,10 @@ package automatehub.model_view;
 import java.io.File;
 import java.util.Objects;
 
-public class RemoveFileAction implements Action {
-
-    private String filePath;
-
+public class RemoveFileAction extends Action{
+    
+    private String filePath ;
+    
     @Override
     public int execute() {
         File f = new File(this.filePath);
@@ -41,9 +41,13 @@ public class RemoveFileAction implements Action {
         return this.getFilePath();
     }
 
+
     @Override
-    public String getParam2() {
-        return "";
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        s.append("Remove the ");
+        s.append(this.getFilePath());
+        return s.toString();
     }
 
     @Override

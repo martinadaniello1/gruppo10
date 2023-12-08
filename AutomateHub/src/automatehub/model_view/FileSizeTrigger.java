@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class FileSizeTrigger implements Trigger {
+public class FileSizeTrigger extends Trigger {
 
     private String filePath;
     private Long specifiedSize;
@@ -49,7 +49,7 @@ public class FileSizeTrigger implements Trigger {
 
     @Override
     public String getType() {
-        return "When this file's size is bigger than this value ...";
+        return "When this file's size is bigger than this value...";
     }
 
     @Override
@@ -84,6 +84,16 @@ public class FileSizeTrigger implements Trigger {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String getParam1() {
+        return this.getFilePath();
+    }
+
+    @Override
+    public String getParam2() {
+        return this.getSpecifiedSize().toString();
     }
 
 }
