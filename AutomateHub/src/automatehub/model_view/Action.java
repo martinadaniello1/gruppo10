@@ -1,6 +1,8 @@
 package automatehub.model_view;
 
-public interface Action {
+import java.io.Serializable;
+
+public interface Action extends Serializable {
 
     public int execute();
     public String getType();

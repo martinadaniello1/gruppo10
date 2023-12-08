@@ -2,8 +2,8 @@ package automatehub.model_view;
 
 public class MoveFileActionCreator implements CreatorAction {
  
-    private String startingPath ;
-    private String destinationPath ;
+    private String startingPath;
+    private String destinationPath;
 
     public MoveFileActionCreator(String startingPath, String destinationPath) {
         this.startingPath = startingPath;

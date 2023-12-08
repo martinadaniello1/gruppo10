@@ -1,8 +1,8 @@
 package automatehub.model_view;
 
 import java.time.Duration;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.*;
+import java.util.*;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -19,6 +19,7 @@ public class RuleManagerService implements Serializable {
 
     private ArrayList<RuleObserver> observers;
     private ArrayList<Rule> ruleList;
+    private List<Thread> repeteableThreads;
     private boolean isCheckingRules = true;
     //Unica istanza della classe
     private static RuleManagerService instance = null;
@@ -27,6 +28,7 @@ public class RuleManagerService implements Serializable {
     private RuleManagerService() {
         this.observers = new ArrayList<RuleObserver>();
         this.ruleList = new ArrayList<Rule>();
+        this.repeteableThreads = new ArrayList<>();
     }
 
     ;
@@ -50,22 +52,27 @@ public class RuleManagerService implements Serializable {
                             if (rule.getTrigger().check()) {
                                 rule.setActive(false);
                                 notifyRuleVerified(rule);
+                                if (!rule.getPeriod().isZero()) {
+                                    Thread repeteable = new Thread(() -> {
+                                        while (!Thread.currentThread().isInterrupted()) {
+                                            try {
+                                                System.out.println("repeteable Thread:  " + rule.getNameRule());
+                                                Thread.sleep(rule.getPeriod().toMillis());
+                                                rule.setActive(true);
+                                                Thread.currentThread().interrupt();
+                                            } catch (InterruptedException ex) {
+                                                Thread.currentThread().interrupt();
+                                            }
+                                        }
+                                    });
+                                    repeteableThreads.add(repeteable);
+                                    repeteable.start();
+                                }
                             } else {
                                 System.out.println("Rule verification failed: " + rule.toString());
                             }
                         } 
-                        if (!rule.getPeriod().isZero()) {
-                            new Thread(() -> {
-                                try {
-                                    Thread.sleep(rule.getPeriod().toMillis());
-                                    rule.setActive(true);
-                                } catch (InterruptedException ex) {
-                                    Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-
-                            }).start();
-
-                        }
+                        
                     }
                 }
                 try {
@@ -80,7 +87,18 @@ public class RuleManagerService implements Serializable {
     }
 
     public void stop() {
+        System.out.println("Stop Thread ....");
         isCheckingRules = false;
+        for (Thread thread : repeteableThreads) {
+            thread.interrupt();
+            try {
+                thread.join();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        System.out.println("Stop Thread eseguito correttamente");
     }
 
     public void addRule(Rule r) {
@@ -154,6 +172,22 @@ public class RuleManagerService implements Serializable {
                 Rule rule = new Rule(name, action, trigger, active, duration);
                 addRule(rule);
                 System.out.println("        Importazione regola " + rule.getNameRule() + " effettuata");
+                /*if (!active && !duration.isZero()) {
+                    Thread repeteable = new Thread(() -> {
+                        System.out.println("repeteable Thread " + rule.getNameRule());
+                        while (!Thread.currentThread().isInterrupted()) {
+                            try {
+                                System.out.println("repeteable Thread");
+                                Thread.sleep(rule.getPeriod().toMillis());
+                                rule.setActive(true);
+                            } catch (InterruptedException ex) {
+                                Thread.currentThread().interrupt();
+                            }
+                        }
+                    });
+                    repeteableThreads.add(repeteable);
+                    repeteable.start();
+                }*/
             }
         } catch (IOException e) {
             System.out.println("Importazione completata");

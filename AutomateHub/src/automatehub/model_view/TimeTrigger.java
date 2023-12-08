@@ -1,14 +1,12 @@
 package automatehub.model_view;
 
-
-import java.io.Serializable;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 
-public class TimeTrigger implements Trigger, Serializable{
+public class TimeTrigger implements Trigger {
     
     private LocalTime time;
     
