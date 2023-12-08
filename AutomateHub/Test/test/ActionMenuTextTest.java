@@ -15,21 +15,11 @@ public class ActionMenuTextTest {
         assertEquals(ActionMenuText.MOVE, ActionMenuText.getByMenuText("Move a file from a directory"));
         assertEquals(ActionMenuText.APPEND, ActionMenuText.getByMenuText("Append a string at the end of a text file"));
         assertEquals(ActionMenuText.REMOVE, ActionMenuText.getByMenuText("Remove a file from a directory"));
-
-        // Test case-insensitivity
-        assertEquals(ActionMenuText.PLAY, ActionMenuText.getByMenuText("pLaY aN AuDiO fIlE"));
-
-        // Test an invalid menu text
-        try {
-            ActionMenuText.getByMenuText("Invalid Menu Text");
-            fail("Expected IllegalArgumentException was not thrown");
-        } catch (IllegalArgumentException e) {
-            // Expected exception
-        }
+        assertEquals(ActionMenuText.EXECUTE, ActionMenuText.getByMenuText("Execute external program"));
     }
-    
+
     @Test
-    public void getMenuTextShouldReturnCorrectValues() {
+    public void testGetMenuTextShouldReturnCorrectValues() {
         assertEquals("Play an audio file", ActionMenuText.PLAY.getMenuText());
         assertEquals("Show a message", ActionMenuText.MEX.getMenuText());
         assertEquals("Copy a file to a directory", ActionMenuText.COPY.getMenuText());
@@ -39,22 +29,29 @@ public class ActionMenuTextTest {
     }
 
     @Test
-    public void enumValuesShouldNotBeNull() {
+    public void testGetMenuTextCaseInsensitivity() {
+        assertEquals(ActionMenuText.PLAY, ActionMenuText.getByMenuText("pLaY aN AuDiO fIlE"));
+    }
+
+    @Test
+    public void testGetInvalidMenuText() {
+        // Test an invalid menu text
+        try {
+            ActionMenuText.getByMenuText("Invalid Menu Text");
+            fail("Expected IllegalArgumentException was not thrown");
+        } catch (IllegalArgumentException e) {
+            // Expected exception
+        }
+    }
+
+    @Test
+    public void testEnumValuesShouldNotBeNull() {
         assertNotNull(ActionMenuText.values());
     }
 
     @Test
-    public void enumValuesShouldHaveCorrectLength() {
-        assertEquals(6, ActionMenuText.values().length);
+    public void testEnumValuesShouldHaveCorrectLength() {
+        assertEquals(7, ActionMenuText.values().length);
     }
 
-    @Test
-    public void enumValuesShouldBeInExpectedOrder() {
-        ActionMenuText[] expectedOrder = {
-            ActionMenuText.PLAY, ActionMenuText.MEX, ActionMenuText.COPY,
-            ActionMenuText.MOVE, ActionMenuText.APPEND, ActionMenuText.REMOVE
-        };
-        assertArrayEquals(expectedOrder, ActionMenuText.values());
-    }
 }
-

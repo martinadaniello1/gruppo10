@@ -21,7 +21,6 @@ public class AppendToFileActionTest {
 
     @Test
     public void testExecute() throws IOException {
-
         //Test to verify that the execute method has not failed, checking its return value.
         int result = appendStringAction.execute();
         assertEquals(0, result);

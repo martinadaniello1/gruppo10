@@ -7,7 +7,7 @@ public enum ActionMenuText {
     MOVE("Move a file from a directory"),
     APPEND("Append a string at the end of a text file"),
     REMOVE("Remove a file from a directory"),
-    EXECUTE("Execute external programm");
+    EXECUTE("Execute external program");
     
     private final String menuText;
     

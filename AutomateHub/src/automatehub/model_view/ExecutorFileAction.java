@@ -87,7 +87,7 @@ public class ExecutorFileAction extends Action {
 
     @Override
     public String getType() {
-        return "Execute external programm";
+        return "Execute external program";
     }
 
     @Override

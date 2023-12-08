@@ -6,6 +6,7 @@ import automatehub.model_view.Rule;
 import automatehub.model_view.TimeTrigger;
 import automatehub.model_view.AudioAction;
 import java.time.Duration;
+import java.time.LocalTime;
 
 public class RuleTest {
 
@@ -16,7 +17,7 @@ public class RuleTest {
     @Before
     public void setUp() {
         a = new AudioAction("C:\\Users\\mapic\\Desktop\\Progetto\\ONE MORE TIME.wav");
-        t = new TimeTrigger("10:47");
+        t = new TimeTrigger(LocalTime.of(10, 47));
         rule= new Rule("Test rule",a,t,true,Duration.ZERO);
 
     }
@@ -65,8 +66,7 @@ public class RuleTest {
 
     @Test
     public void testSetTrigger() {
-        TimeTrigger t1 = new TimeTrigger("10:47");
-
+        TimeTrigger t1 = new TimeTrigger(LocalTime.of(10, 37));
         rule.setTrigger(t1);
         assertEquals(t1, rule.getTrigger());
     }
@@ -74,12 +74,10 @@ public class RuleTest {
     @Test
     public void testGetActive() {
         assertEquals(true, rule.getActive());
-
     }
 
     @Test
     public void testSetActive() {
-
         rule.setActive(false);
         assertEquals(false, rule.getActive());
     }

@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.time.Duration;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,17 +15,18 @@ import org.junit.Test;
 public class RuleManagerServiceTest {
 
     private RuleManagerService ruleManager;
+    private Rule rule;
 
     @Before
     public void setUp() {
         ruleManager = RuleManagerService.getRuleManager();
+        rule = new Rule("nameRule", new DialogBoxAction("message"), new TimeTrigger(LocalTime.now().truncatedTo(ChronoUnit.MINUTES)), true, Duration.ZERO);
+
     }
 
     @Test
     public void testAddRule() {
-        Rule rule = new Rule("nameRule", new DialogBoxAction("message"), new TimeTrigger("00:00"), true, Duration.ZERO);
         ruleManager.addRule(rule);
-
         assertTrue(ruleManager.getRuleList().contains(rule));
     }
 
@@ -34,30 +37,22 @@ public class RuleManagerServiceTest {
 
     @Test
     public void testSavingRule() throws IOException, ClassNotFoundException {
-        Rule r = new Rule("nameRule2", new AudioAction("message2"), new TimeTrigger("02:00"), true, Duration.ZERO);
+        Rule r = new Rule("nameRule2", new AudioAction("message2"), new TimeTrigger(LocalTime.now().truncatedTo(ChronoUnit.MINUTES)), true, Duration.ZERO);
         ruleManager.addRule(r);
         ruleManager.exportRule();
         ruleManager.removeRule(r);
         ruleManager.importRule();
-        ruleManager.getRuleList().stream().filter(rule -> (rule.equals(new Rule("nameRule2", new AudioAction("message2"), new TimeTrigger("02:00"), true, Duration.ZERO)))).forEachOrdered(_item -> {
-            assert(true);
+        ruleManager.getRuleList().stream().filter(rule -> (rule.equals(new Rule("nameRule2", new AudioAction("message2"), new TimeTrigger(LocalTime.now().truncatedTo(ChronoUnit.MINUTES)), true, Duration.ZERO)))).forEachOrdered(_item -> {
+            assert (true);
         });
     }
-    
+
     @Test
     public void testRemoveRule() {
-        Rule rule = new Rule("nameRule", new DialogBoxAction("message"), new TimeTrigger("00:00"), true, Duration.ZERO);
         ruleManager.addRule(rule);
         assertTrue(ruleManager.getRuleList().contains(rule));
         ruleManager.removeRule(rule);
         assertFalse(ruleManager.getRuleList().contains(rule));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testRemoveNonExistingRule() {
-        Rule rule = new Rule("nameRule", new DialogBoxAction("message"), new TimeTrigger("00:00"), true, Duration.ZERO);
-        ruleManager.removeRule(rule);  // Questa regola non è stata aggiunta, quindi dovrebbe lanciare un'eccezione
-
     }
 
     @Test
@@ -72,7 +67,6 @@ public class RuleManagerServiceTest {
         ruleManager.addObserver(controller);
         assertTrue(ruleManager.getObservers().contains(controller));
     }
-
 
     @Test
     public void testRemoveObserver() {

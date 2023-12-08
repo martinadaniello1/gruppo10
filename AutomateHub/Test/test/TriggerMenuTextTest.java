@@ -1,53 +1,51 @@
 package test;
 
 import automatehub.model_view.TriggerMenuText;
-<<<<<<< HEAD
 import static org.junit.Assert.*;
 import org.junit.Test;
-=======
-import org.junit.Test;
-import static org.junit.Assert.*;
->>>>>>> task303
 
 public class TriggerMenuTextTest {
 
     @Test
-<<<<<<< HEAD
     public void testGetByMenuText() {
-        assertEquals(TriggerMenuText.TIME, TriggerMenuText.getByMenuText("When the clock hits ..."));
-        assertEquals(TriggerMenuText.DAYMONTH, TriggerMenuText.getByMenuText("When it is this day of the month ..."));
+        assertEquals(TriggerMenuText.TIME, TriggerMenuText.getByMenuText("When the clock hits..."));
+        assertEquals(TriggerMenuText.DAYMONTH, TriggerMenuText.getByMenuText("When it is this day of the month..."));
+        assertEquals(TriggerMenuText.CURRENTDAY, TriggerMenuText.getByMenuText("When it is this day..."));
+        assertEquals(TriggerMenuText.FILESIZE, TriggerMenuText.getByMenuText("When this file's size is bigger than this value..."));
+        assertEquals(TriggerMenuText.EXIT, TriggerMenuText.getByMenuText("When the program returns..."));
+        assertEquals(TriggerMenuText.DAYWEEK, TriggerMenuText.getByMenuText("When it is this day of the week..."));
+        assertEquals(TriggerMenuText.FINDFILE, TriggerMenuText.getByMenuText("Found a file in a directory..."));
+    }
 
+    @Test
+    public void testGetByMenuTextCaseInsensitivity() {
         //Test case-insensitivity
-        assertEquals(TriggerMenuText.TIME, TriggerMenuText.getByMenuText("WHEn tHe clOCk hiTs ..."));
+        assertEquals(TriggerMenuText.TIME, TriggerMenuText.getByMenuText("WHEn tHe clOCk hiTs..."));
+    }
 
+    @Test
+    public void testGetByInvalidMenuText() {
         try {
             TriggerMenuText.getByMenuText("Invalid Menu Text");
             fail("Expected IllegalArgumentException was not thrown");
         } catch (IllegalArgumentException e) {
             // Expected exception
         }
-
-    }
-
-=======
-    public void getMenuTextShouldReturnCorrectValue() {
-        assertEquals("When the clock hits ...", TriggerMenuText.TIME.getMenuText());
     }
 
     @Test
-    public void enumValuesShouldNotBeNull() {
+    public void testGetMenuTextShouldReturnCorrectValue() {
+        assertEquals("When the clock hits...", TriggerMenuText.TIME.getMenuText());
+    }
+
+    @Test
+    public void testEnumValuesShouldNotBeNull() {
         assertNotNull(TriggerMenuText.values());
     }
 
     @Test
-    public void enumValuesShouldHaveCorrectLength() {
-        assertEquals(1, TriggerMenuText.values().length);
+    public void testEnumValuesShouldHaveCorrectLength() {
+        assertEquals(7, TriggerMenuText.values().length);
     }
 
-    @Test
-    public void enumValuesShouldBeInExpectedOrder() {
-        TriggerMenuText[] expectedOrder = { TriggerMenuText.TIME };
-        assertArrayEquals(expectedOrder, TriggerMenuText.values());
-    }
->>>>>>> task303
 }

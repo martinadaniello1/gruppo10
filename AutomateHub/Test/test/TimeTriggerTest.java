@@ -22,7 +22,7 @@ public class TimeTriggerTest {
     @Before
     public void setUp() {
 
-        timetrigger = new TimeTrigger("10:47");
+        timetrigger = new TimeTrigger(LocalTime.of(10, 47));
     }
 
     @Test
