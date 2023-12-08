@@ -8,6 +8,17 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -146,6 +157,7 @@ public class FXMLDialogInputBoxController implements Initializable {
     private void setupTriggerUI(String triggerType) {
         TriggerMenuText enumType = TriggerMenuText.getByMenuText(triggerType);
         TriggerState state = null;
+
         switch (enumType) {
             case TIME:
                 state = new TimeTriggerUI(triggerLabel, triggerTextField);
@@ -161,6 +173,12 @@ public class FXMLDialogInputBoxController implements Initializable {
                 break;
             case EXIT:
                 state = new ExitStatusTriggerUI(triggerLabel, secondLabelTrigger, thirdLabelTrigger, triggerTextField, secondTextFieldTrigger, thirdTextFieldTrigger, triggerBox, secondBoxTrigger, thirdBoxTrigger, vBox);
+                break;
+            case DAYWEEK:
+                state = new DayofWeekTriggerUI(triggerLabel, triggerTextField);
+                break;
+            case FINDFILE:
+                state = new FoundFileTriggerUI(triggerLabel, secondLabelTrigger, triggerTextField, secondTextFieldTrigger, triggerBox, secondBoxTrigger, vBox);
                 break;
         }
         triggerContext.changeState(state);
@@ -210,6 +228,10 @@ public class FXMLDialogInputBoxController implements Initializable {
         switch (enumType) {
             case TIME:
                 return new TimeTriggerCreator(LocalTime.parse(triggerTextField.getText(), DateTimeFormatter.ofPattern("HH:mm")));
+            case DAYWEEK:
+                return new DayofWeekTriggerCreator(triggerTextField.getText());
+            case FINDFILE:
+                return new FoundFileTriggerCreator(triggerTextField.getText(), secondTextFieldTrigger.getText());
             case DAYMONTH:
                 return new DayOfMonthTriggerCreator(parseInt(triggerTextField.getText()));
             case CURRENTDAY:
