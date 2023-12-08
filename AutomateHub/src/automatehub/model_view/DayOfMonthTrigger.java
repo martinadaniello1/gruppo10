@@ -28,7 +28,7 @@ public class DayOfMonthTrigger extends Trigger {
 
     @Override
     public String getType() {
-        return "When it is this day of the month ...";
+        return "When it is this day of the month...";
     }
 
     @Override
@@ -60,5 +60,9 @@ public class DayOfMonthTrigger extends Trigger {
         }
         return true;
     }
-
+    
+    @Override
+    public String getParam1(){
+        return getDayOfMonth().toString();
+    }
 }

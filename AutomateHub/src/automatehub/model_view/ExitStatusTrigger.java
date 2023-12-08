@@ -2,16 +2,27 @@ package automatehub.model_view;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Objects;
 
-public class ExitStatusTrigger extends Trigger{
+public class ExitStatusTrigger extends Trigger {
 
     private String filePath;
     private Integer exitCodeDesired;
+    private String[] commandLineArgs;
 
-    public ExitStatusTrigger(String filePath, Integer exitCode) {
+    public ExitStatusTrigger(String filePath, String[] commandLineArgs, Integer exitCode) {
         this.filePath = filePath;
+        this.commandLineArgs = commandLineArgs;
         this.exitCodeDesired = exitCode;
+    }
+
+    public String[] getCommandLineArgs() {
+        return commandLineArgs;
+    }
+
+    public void setCommandLineArgs(String[] commandLineArgs) {
+        this.commandLineArgs = commandLineArgs;
     }
 
     public String getFilePath() {
@@ -61,14 +72,20 @@ public class ExitStatusTrigger extends Trigger{
             return false;
         } else {
             try {
-                // execute the program
-                Process process = Runtime.getRuntime().exec(filePath);
+                ProcessBuilder processBuilder = new ProcessBuilder();
+                processBuilder.command("python", filePath);
 
-                // wait for the result
-                int exitCode = process.waitFor();
+                if (commandLineArgs != null && commandLineArgs.length > 0) {
+                    processBuilder.command().addAll(Arrays.asList(commandLineArgs));
+                }
 
-                // check the result
-                if (exitCode == exitCodeDesired) {
+                processBuilder.redirectInput(ProcessBuilder.Redirect.INHERIT);
+                processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+                processBuilder.redirectError(ProcessBuilder.Redirect.INHERIT);
+
+                Process process = processBuilder.start();
+                Integer actualExitCode = process.waitFor();
+                if (actualExitCode.equals(exitCodeDesired)) {
                     return true;
                 } else {
                     return false;
@@ -93,7 +110,24 @@ public class ExitStatusTrigger extends Trigger{
 
     @Override
     public String getParam2() {
+        return String.join(";", this.getCommandLineArgs());
+    }
+
+    @Override
+    public String getParam3() {
         return this.getExitCodeDesired().toString();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        s.append("Exit status desired: ");
+        s.append(getExitCodeDesired().toString());
+        s.append(" returned from program :");
+        s.append(getFilePath());
+        s.append(" with params: ");
+        s.append(Arrays.toString(getCommandLineArgs()));
+        return s.toString();
     }
 
 }

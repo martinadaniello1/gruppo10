@@ -64,6 +64,10 @@ public class FXMLDialogInputBoxController implements Initializable {
     private HBox secondBoxTrigger = new HBox();
     private Label secondLabelTrigger = new Label("");
     private TextField secondTextFieldTrigger = new TextField();
+    
+    private HBox thirdBoxTrigger = new HBox();
+    private Label thirdLabelTrigger = new Label("");
+    private TextField thirdTextFieldTrigger = new TextField();
 
     private ActionContext context = new ActionContext();
     private TriggerContext triggerContext = new TriggerContext();
@@ -94,6 +98,9 @@ public class FXMLDialogInputBoxController implements Initializable {
         secondBoxTrigger.setMargin(secondLabelTrigger, new Insets(0,10,10,0));
         secondBoxTrigger.setMargin(secondTextFieldTrigger, new Insets(0, 10, 10, 0));
         
+        thirdBoxTrigger.getChildren().addAll(thirdLabelTrigger, thirdTextFieldTrigger);
+        thirdBoxTrigger.setMargin(thirdBoxTrigger, new Insets(0,10,10,0));
+        thirdBoxTrigger.setMargin(thirdBoxTrigger, new Insets(0, 10, 10, 0));
     }
 
     /**
@@ -153,7 +160,7 @@ public class FXMLDialogInputBoxController implements Initializable {
                 state = new CurrentDayTriggerUI(triggerLabel, triggerTextField);
                 break;
             case EXIT:
-                state = new ExitStatusTriggerUI(triggerLabel, secondLabelTrigger, triggerTextField, secondTextFieldTrigger, triggerBox, secondBoxTrigger, vBox);
+                state = new ExitStatusTriggerUI(triggerLabel, secondLabelTrigger, thirdLabelTrigger, triggerTextField, secondTextFieldTrigger, thirdTextFieldTrigger, triggerBox, secondBoxTrigger, thirdBoxTrigger, vBox);
                 break;
         }
         triggerContext.changeState(state);
@@ -180,32 +187,14 @@ public class FXMLDialogInputBoxController implements Initializable {
         actionTextField.setText(oldRule.getAction().getParam1());
         secondTextFieldAction.setText(oldRule.getAction().getParam2());
         secondTextFieldTrigger.setText(oldRule.getTrigger().getParam2());
+        thirdTextFieldTrigger.setText(oldRule.getTrigger().getParam3());
 
         Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
         b.setDefaultButton(true);
         b.disableProperty().bind(ruleTextField.textProperty().isEmpty().or(actionTextField.textProperty().isEmpty().or(triggerTextField.textProperty().isEmpty())));
         b.setOnAction(event -> editRule(oldRule, triggerTextField.getText(), actionTextField.getText(), ruleTextField.getText(), actionType, triggerType));
         if (!oldRule.getPeriod().isZero()) {
-            repetitionBox.setSelected(true);
-            Pattern pattern = Pattern.compile("^PT((\\d+)H)?((\\d+)M)?((\\d+)(\\.\\d+)?S)?$"); //Pattern for the Duration string
-            Matcher matcher = pattern.matcher(oldRule.getPeriod().toString());
-
-            if (matcher.matches()) {
-                int hours = Integer.parseInt(matcher.group(2) != null ? matcher.group(2) : "0");
-                int minutes = Integer.parseInt(matcher.group(4) != null ? matcher.group(4) : "0");
-                int seconds = (int) Math.round(Double.parseDouble(matcher.group(6) != null ? matcher.group(6) : "0"));
-
-                int totalMinutes = hours * 60 + minutes;
-                int days = totalMinutes / (24 * 60);
-                int remainingMinutes = totalMinutes % (24 * 60);
-                int remainingHours = remainingMinutes / 60;
-                int finalMinutes = remainingMinutes % 60;
-
-                daySpinner.getValueFactory().setValue(days);
-                hourSpinner.getValueFactory().setValue(remainingHours);
-                minuteSpinner.getValueFactory().setValue(finalMinutes);
-            }
-
+            updateRepetionBox(oldRule);
         }
     }
 
@@ -228,7 +217,7 @@ public class FXMLDialogInputBoxController implements Initializable {
             case FILESIZE:
                 return new FileSizeTriggerCreator(triggerTextField.getText(), parseLong(secondTextFieldTrigger.getText()));
             case EXIT:
-                return new ExitStatusTriggerCreator(triggerTextField.getText(),parseInt(secondTextFieldTrigger.getText()));
+                return new ExitStatusTriggerCreator(triggerTextField.getText(), secondTextFieldTrigger.getText().split(";"), parseInt(thirdTextFieldTrigger.getText()));
             default:
                 return null;
         }
@@ -305,5 +294,28 @@ public class FXMLDialogInputBoxController implements Initializable {
 
     private void editRule(Rule oldRule, String triggerString, String actionString, String ruleName, String actionType, String triggerType) {
         processRule(ruleName, actionType, triggerType, oldRule);
+    }
+    
+    private void updateRepetionBox(Rule oldRule){
+        repetitionBox.setSelected(true);
+            Pattern pattern = Pattern.compile("^PT((\\d+)H)?((\\d+)M)?((\\d+)(\\.\\d+)?S)?$"); //Pattern for the Duration string
+            Matcher matcher = pattern.matcher(oldRule.getPeriod().toString());
+
+            if (matcher.matches()) {
+                int hours = Integer.parseInt(matcher.group(2) != null ? matcher.group(2) : "0");
+                int minutes = Integer.parseInt(matcher.group(4) != null ? matcher.group(4) : "0");
+                int seconds = (int) Math.round(Double.parseDouble(matcher.group(6) != null ? matcher.group(6) : "0"));
+
+                int totalMinutes = hours * 60 + minutes;
+                int days = totalMinutes / (24 * 60);
+                int remainingMinutes = totalMinutes % (24 * 60);
+                int remainingHours = remainingMinutes / 60;
+                int finalMinutes = remainingMinutes % 60;
+
+                daySpinner.getValueFactory().setValue(days);
+                hourSpinner.getValueFactory().setValue(remainingHours);
+                minuteSpinner.getValueFactory().setValue(finalMinutes);
+            }
+
     }
 }
