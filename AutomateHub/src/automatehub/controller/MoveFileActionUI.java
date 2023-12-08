@@ -49,8 +49,6 @@ public class MoveFileActionUI extends ActionState {
         secondTextField.focusTraversableProperty().set(false);
     }
 
-    
-
     @Override
     public void exec(Rule rule) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

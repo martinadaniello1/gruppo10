@@ -129,6 +129,8 @@ public class FXMLDialogInputBoxController implements Initializable {
             case DAYMONTH:
                 state = new DayOfMonthTriggerUI(triggerLabel, triggerTextField);
                 break;
+            case EXIT:
+                state = new ExitStatusTriggerUI(); // DA FINIRE
         }
         triggerContext.changeState(state);
         triggerContext.setupUI();

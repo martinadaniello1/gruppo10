@@ -11,6 +11,7 @@ public class FileExtensionFilterTest {
         assertEquals("*.wav", FileExtensionFilter.WAV.getExtension());
         assertEquals("*.txt", FileExtensionFilter.TEXT.getExtension());
         assertEquals("*.*", FileExtensionFilter.ALL.getExtension());
+        assertEquals("*.directory", FileExtensionFilter.DIRECTORY.getExtension());
     }
 
     @Test
@@ -18,6 +19,7 @@ public class FileExtensionFilterTest {
         assertEquals("Audio Files (*.wav)", FileExtensionFilter.WAV.getDescription());
         assertEquals("Text Files (*.txt)", FileExtensionFilter.TEXT.getDescription());
         assertEquals("All Files (*.*)", FileExtensionFilter.ALL.getDescription());
+        assertEquals("Directory", FileExtensionFilter.DIRECTORY.getDescription());
     }
 
     @Test
@@ -27,12 +29,12 @@ public class FileExtensionFilterTest {
 
     @Test
     public void enumValuesShouldHaveCorrectLength() {
-        assertEquals(3, FileExtensionFilter.values().length);
+        assertEquals(4, FileExtensionFilter.values().length);
     }
 
     @Test
     public void enumValuesShouldBeInExpectedOrder() {
-        FileExtensionFilter[] expectedOrder = { FileExtensionFilter.WAV, FileExtensionFilter.TEXT, FileExtensionFilter.ALL };
+        FileExtensionFilter[] expectedOrder = { FileExtensionFilter.WAV, FileExtensionFilter.TEXT, FileExtensionFilter.ALL, FileExtensionFilter.DIRECTORY };
         assertArrayEquals(expectedOrder, FileExtensionFilter.values());
     }
 }

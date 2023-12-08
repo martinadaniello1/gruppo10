@@ -1,11 +1,15 @@
 package automatehub.controller;
 
 import automatehub.model_view.FileExtensionFilter;
+import automatehub.model_view.RemoveFileAction;
+import automatehub.model_view.Rule;
 import java.io.File;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+
+
 
 public class RemoveFileActionUI extends ActionState {
 
@@ -64,5 +68,16 @@ public class RemoveFileActionUI extends ActionState {
                 }
             });
         }
+    }
+
+    @Override
+    public void exec(Rule rule) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        RemoveFileAction removeFile = (RemoveFileAction) rule.getAction();
+        alert.setTitle(rule.getNameRule() + " rule executed");
+        alert.setHeaderText(null);
+        alert.setContentText("Successful deletion of the " + removeFile.getFilePath() + " file");
+        // Show the dialog box 
+        alert.show();
     }
 }
