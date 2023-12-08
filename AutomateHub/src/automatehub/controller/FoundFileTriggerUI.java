@@ -9,6 +9,7 @@ import automatehub.controller.TriggerState;
 import automatehub.model_view.FileExtensionFilter;
 import java.io.File;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -28,7 +29,10 @@ public class FoundFileTriggerUI extends TriggerState {
     private HBox dirBox;
     private Label dirLabel;
     private VBox vBox;
-    private static TextField tf = new TextField();
+    private TextField tf = new TextField();
+
+    public FoundFileTriggerUI() {
+    }
 
     public FoundFileTriggerUI(Label triggerLabel, TextField triggerTextField, HBox triggerHBox, HBox dirBox, Label dirLabel, VBox vBox) {
         this.triggerLabel = triggerLabel;
@@ -65,7 +69,6 @@ public class FoundFileTriggerUI extends TriggerState {
         Button fileChooserButton = new Button("...");
         box.getChildren().add(fileChooserButton);
         box.setMargin(fileChooserButton, new Insets(0, 10, 15, 0));
-        
 
         if (filter.equals(FileExtensionFilter.DIRECTORY)) {
             box.getChildren().add(tf);
@@ -77,19 +80,16 @@ public class FoundFileTriggerUI extends TriggerState {
                 File selectedFile = directoryChooser.showDialog(box.getScene().getWindow());
                 if (selectedFile != null) {
                     tf.setText(selectedFile.getAbsolutePath());
-                   
+
                 }
             });
 
         }
-        
 
     }
 
-    public static String getTf() {
+    public String getTf() {
         return tf.getText();
     }
-    
-    
 
 }

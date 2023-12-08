@@ -61,7 +61,7 @@ public class FXMLDialogInputBoxController implements Initializable {
     private HBox triggerHBox;
     private HBox dirBox = new HBox();
     private Label dirLabel = new Label("");
-    private String directoryPath;
+    private FoundFileTriggerUI caseFindFile;
 
     @FXML
     private VBox vBox;
@@ -95,7 +95,6 @@ public class FXMLDialogInputBoxController implements Initializable {
 
         dirBox.getChildren().addAll(dirLabel);
         dirBox.setMargin(dirLabel, new Insets(0, 10, 15, 0));
-        directoryPath = "";
 
     }
 
@@ -140,6 +139,7 @@ public class FXMLDialogInputBoxController implements Initializable {
         //TriggerMenuText enumType = TriggerMenuText.valueOf(triggerType);
         TriggerMenuText enumType = TriggerMenuText.getByMenuText(triggerType);
         TriggerState state = null;
+
         switch (enumType) {
             case TIME:
                 state = new TimeTriggerUI(triggerLabel, triggerTextField);
@@ -151,10 +151,8 @@ public class FXMLDialogInputBoxController implements Initializable {
                 state = new DayofWeekTriggerUI(triggerLabel, triggerTextField);
                 break;
             case FINDFILE:
-                TriggerState tmp = null;
-                tmp = new FoundFileTriggerUI(triggerLabel, triggerTextField, triggerHBox, dirBox, dirLabel, vBox);
-                directoryPath = FoundFileTriggerUI.getTf();
-                state = tmp;
+                caseFindFile = new FoundFileTriggerUI(triggerLabel, triggerTextField, triggerHBox, dirBox, dirLabel, vBox);
+                state = caseFindFile;
                 break;
         }
         triggerContext.changeState(state);
@@ -224,7 +222,7 @@ public class FXMLDialogInputBoxController implements Initializable {
             case DAYWEEK:
                 return new DayofWeekTriggerCreator(triggerTextField.getText());
             case FINDFILE:
-                return new FoundFileTriggerCreator(triggerTextField.getText(), directoryPath);
+                return new FoundFileTriggerCreator(triggerTextField.getText(), caseFindFile.getTf());
             case DAYMONTH:
                 return new DayOfMonthTriggerCreator(parseInt(triggerTextField.getText()));
             default:

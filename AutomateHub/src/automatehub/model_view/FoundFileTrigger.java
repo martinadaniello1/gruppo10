@@ -82,7 +82,7 @@ public class FoundFileTrigger implements Trigger, Serializable {
 
     @Override
     public String toString() {
-        return "Searching file: " + this.fileToSearch + " in directory: " + this.referentDirectory;
+        return this.fileToSearch;
     }
 
 }
