@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
 package test;
 
 import automatehub.model_view.FoundFileTrigger;
@@ -10,10 +6,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author Luca
- */
 public class FoundFileTriggerTest {
 
     private static String checkFile;
@@ -23,14 +15,14 @@ public class FoundFileTriggerTest {
     @BeforeClass
     public static void setUpClass() {
 
-        checkFile = "fileToSearch.txt";
-        checkDirectory = "C:\\Users\\Luca\\Documents\\Task308";
+        checkFile = "prova.txt";
+        checkDirectory = "./Test/test/testFiles/";
     }
 
     @Before
     public void setUp() {
 
-        fft = new FoundFileTrigger("fileToSearch.txt", "C:\\Users\\Luca\\Documents\\Task308");
+        fft = new FoundFileTrigger(checkFile, checkDirectory);
     }
 
     @Test
@@ -54,8 +46,8 @@ public class FoundFileTriggerTest {
     @Test
     public void testSetFileToSearch() {
 
-        fft.setFileToSearch("C:\\Users\\Luca\\Documents\\hadoop-cluster-3.3.6-arm64\\hddata\\income2015.txt");
-        assertEquals("C:\\Users\\Luca\\Documents\\hadoop-cluster-3.3.6-arm64\\hddata\\income2015.txt", fft.getFileToSearch());
+        fft.setFileToSearch("testing/the/set/method");
+        assertEquals("testing/the/set/method", fft.getFileToSearch());
     }
 
     /**
@@ -71,8 +63,8 @@ public class FoundFileTriggerTest {
      */
     @Test
     public void testSetReferentDirectory() {
-        fft.setReferentDirectory("C:\\Users\\Luca\\Documents\\hadoop-cluster-3.3.6-arm64\\hddata");
-        assertEquals("C:\\Users\\Luca\\Documents\\hadoop-cluster-3.3.6-arm64\\hddata", fft.getReferentDirectory());
+        fft.setReferentDirectory("testing/the/set/method");
+        assertEquals("testing/the/set/method", fft.getReferentDirectory());
     }
 
     /**
@@ -80,7 +72,6 @@ public class FoundFileTriggerTest {
      */
     @Test
     public void testCheck() {
-
         assertEquals(true, fft.check());
     }
 

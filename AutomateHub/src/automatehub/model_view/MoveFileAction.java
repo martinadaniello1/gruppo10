@@ -1,6 +1,7 @@
 package automatehub.model_view;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -22,10 +23,13 @@ public class MoveFileAction extends Action {
         try {
             FileUtils.moveFileToDirectory(new File(startingPath), new File(destinationPath), false);
             return 0;
+        } catch (FileNotFoundException ex ) {
+            ex.printStackTrace();
+            return -1;
         } catch (IOException ex) {
             Logger.getLogger(MoveFileAction.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
         }
-        return 0;
     }
 
     public String getStartingPath() {

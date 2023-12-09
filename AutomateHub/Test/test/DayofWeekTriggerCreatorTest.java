@@ -1,11 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
 package test;
 
-import automatehub.model_view.DayofWeekTrigger;
-import automatehub.model_view.DayofWeekTriggerCreator;
+import automatehub.model_view.DayOfWeekTrigger;
+import automatehub.model_view.DayOfWeekTriggerCreator;
 import automatehub.model_view.Trigger;
 import java.time.DayOfWeek;
 import org.junit.BeforeClass;
@@ -13,13 +9,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 
-/**
- *
- * @author Luca
- */
-public class DayofWeekTriggerCreatorTest {
+public class DayOfWeekTriggerCreatorTest {
 
-    private DayofWeekTriggerCreator dfwCreator;
+    private DayOfWeekTriggerCreator dfwCreator;
     private static String dayInserted;
 
     @BeforeClass
@@ -30,11 +22,11 @@ public class DayofWeekTriggerCreatorTest {
     @Before
     public void setUp() {
 
-        dfwCreator = new DayofWeekTriggerCreator("Friday");
+        dfwCreator = new DayOfWeekTriggerCreator("Friday");
     }
 
     /**
-     * Test of class DayofWeekTriggerCreator.
+     * Test of class DayOfWeekTriggerCreator.
      */
     @Test
     public void DayofWeekTriggerCreatorTest() {
@@ -45,19 +37,19 @@ public class DayofWeekTriggerCreatorTest {
     @Test
     public void testCreate() {
 
-        DayofWeekTrigger dwt = new DayofWeekTrigger("Friday");
+        DayOfWeekTrigger dwt = new DayOfWeekTrigger("Friday");
         Trigger triggerReturned = dfwCreator.create();
         assertEquals(dwt, triggerReturned);
     }
 
     @Test
-    public void testgetDayInserted() {
+    public void testGetDayInserted() {
 
-        assertEquals(dfwCreator.getDayInserted(), dayInserted);
+        assertEquals(dfwCreator.getDayInserted(), dayInserted); 
     }
 
     @Test
-    public void testsetDayInserted() {
+    public void testSetDayInserted() {
 
         dfwCreator.setDayInserted("Tuesday");
         assertEquals(DayOfWeek.TUESDAY, DayOfWeek.valueOf(dfwCreator.getDayInserted().toUpperCase()));

@@ -14,8 +14,8 @@ public class AppendToFileActionTest {
 
     @Before
     public void setUp() {
-        stringToTest = "prova";
-        filePath = "C:\\Users\\marti\\OneDrive\\Desktop\\prova.txt";
+        stringToTest = "Testing AppendToFileAction...";
+        filePath = "./Test/test/testFiles/prova.txt";
         appendStringAction = new AppendToFileAction(stringToTest, filePath);
     }
 
@@ -27,6 +27,7 @@ public class AppendToFileActionTest {
 
         //Test to verify that the execute method has written the correct string at the end of the file.
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            reader.readLine(); //Going to the new line
             String line = reader.readLine();
             assertEquals(stringToTest, line);
         }
@@ -56,21 +57,19 @@ public class AppendToFileActionTest {
 
     @Test
     public void testGetStringToAppend() {
-
-        appendStringAction.setStringToAppend("prova");
+        
         assertEquals(stringToTest, appendStringAction.getStringToAppend());
 
     }
     
     @Test
     public void testSetFilePath() {
-        appendStringAction.setFilePath("C:\\Users\\marti\\OneDrive\\Desktop\\file.txt");
-        assertEquals("C:\\Users\\marti\\OneDrive\\Desktop\\file.txt", appendStringAction.getFilePath());
+        appendStringAction.setFilePath("C:/path/di/prova/test");
+        assertEquals("C:/path/di/prova/test", appendStringAction.getFilePath());
     }
     
     @Test
     public void testGetFilePath() {
-        appendStringAction.setFilePath("C:\\Users\\marti\\OneDrive\\Desktop\\prova.txt");
         assertEquals(filePath, appendStringAction.getFilePath());
     }
     

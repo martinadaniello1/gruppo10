@@ -9,20 +9,19 @@ import org.junit.Test;
 
 public class DialogBoxActionCreatorTest {
 
-    private static String pathFile;
-    private static DialogBoxActionCreator ac;
+    private static String message;
+    private static DialogBoxActionCreator action;
 
     @BeforeClass
     public static void SetUpClass() {
-        pathFile = "C:\\Users\\mapic\\Desktop\\Progetto\\ONE MORE TIME.wav";
-        ac = new DialogBoxActionCreator(pathFile);
+        message = "TEST TEST TEST TEST TEST";
+        action = new DialogBoxActionCreator(message);
     }
 
     @Test
     public void createTest() {
-        DialogBoxAction a = new DialogBoxAction(pathFile);
-        Action acReturned = ac.create();
+        DialogBoxAction a = new DialogBoxAction(message);
+        Action acReturned = action.create();
         assertTrue(a.equals(acReturned));
-
     }
 }

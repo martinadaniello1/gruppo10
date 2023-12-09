@@ -1,10 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
 package test;
 
-import automatehub.model_view.DayofWeekTrigger;
+import automatehub.model_view.DayOfWeekTrigger;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import org.junit.Before;
@@ -12,14 +8,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author Luca
- */
-public class DayofWeekTriggerTest {
+public class DayOfWeekTriggerTest {
 
     private static String checkDay;
-    private DayofWeekTrigger dwt;
+    private DayOfWeekTrigger dwt;
 
     @BeforeClass
     public static void setUpClass() {
@@ -30,7 +22,7 @@ public class DayofWeekTriggerTest {
     @Before
     public void setUp() {
 
-        dwt = new DayofWeekTrigger("Monday");
+        dwt = new DayOfWeekTrigger("Monday");
     }
 
     @Test
@@ -40,7 +32,7 @@ public class DayofWeekTriggerTest {
     }
 
     /**
-     * Test of check method, of class DayofWeekTrigger.
+     * Test of check method, of class DayOfWeekTrigger.
      */
     @Test
     public void testCheck() {
@@ -50,7 +42,7 @@ public class DayofWeekTriggerTest {
     }
 
     /**
-     * Test of getDayOfWeek method, of class DayofWeekTrigger.
+     * Test of getDayOfWeek method, of class DayOfWeekTrigger.
      */
     @Test
     public void testGetDayOfWeek() {
@@ -59,7 +51,7 @@ public class DayofWeekTriggerTest {
     }
 
     /**
-     * Test of setDayOfWeek method, of class DayofWeekTrigger.
+     * Test of setDayOfWeek method, of class DayOfWeekTrigger.
      */
     @Test
     public void testSetDayOfWeek() {

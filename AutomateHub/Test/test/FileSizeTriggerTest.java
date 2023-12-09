@@ -13,7 +13,7 @@ public class FileSizeTriggerTest {
 
     @Before
     public void setUp() {
-        filePath = "/Users/martinadaniello/Desktop/prova.txt";
+        filePath = "./Test/test/testFiles/file_example_WAV_1MG.wav";
         specifiedSize = 1L;
         trigger = new FileSizeTrigger(filePath, specifiedSize);
     }
@@ -24,7 +24,7 @@ public class FileSizeTriggerTest {
         assertTrue(trigger.check());
 
         //Test check false
-        trigger.setSpecifiedSize(100L);
+        trigger.setSpecifiedSize(10000000L);
         assertFalse(trigger.check());
     }
 
@@ -38,8 +38,7 @@ public class FileSizeTriggerTest {
 
     @Test
     public void testGetFilePath() {
-        String provaFile = filePath;
-        assertEquals(trigger.getFilePath(), provaFile);
+        assertEquals(trigger.getFilePath(), filePath);
     }
 
     @Test
@@ -52,8 +51,7 @@ public class FileSizeTriggerTest {
     
     @Test
     public void testGetSpecifiedSize() {
-        Long sizeTest = specifiedSize;
-        assertEquals(trigger.getSpecifiedSize(), sizeTest);
+        assertEquals(trigger.getSpecifiedSize(), specifiedSize);
     }
     
     @Test

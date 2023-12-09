@@ -13,7 +13,7 @@ public class FileSizeTriggerCreatorTest {
     
     @Before
     public void setUp() {
-        filePath = "test/example.txt";
+        filePath = "./Test/test/testFiles/prova.txt";
         specifiedSize = 1200L;
         creator = new FileSizeTriggerCreator(filePath, specifiedSize);
     }

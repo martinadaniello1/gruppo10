@@ -19,25 +19,22 @@ public class DayOfMonthTriggerTest {
 
     @Test
     public void testDayOfMonthTrigger() {
-
         assertNotNull(dayOfMonth);
-
-        assertEquals(dayExpected, dayOfMonth.getDayOfMonth());
+        assertTrue(dayOfMonth instanceof DayOfMonthTrigger);
 
     }
 
     @Test
     public void testGetDayOfMonth() {
-        dayOfMonth.setDayOfMonth(4);
         assertEquals(dayExpected, dayOfMonth.getDayOfMonth());
 
     }
 
     @Test
     public void testSetDayOfMonth() {
-        dayOfMonth.setDayOfMonth(4);
-        assertEquals(dayExpected, dayOfMonth.getDayOfMonth());
-
+        Integer test = 4 ;
+        dayOfMonth.setDayOfMonth(test);
+        assertEquals(test , dayOfMonth.getDayOfMonth());
     }
 
     @Test
@@ -48,7 +45,7 @@ public class DayOfMonthTriggerTest {
     
     @Test
     public void testCheckIsNotTrue() {
-        dayOfMonth.setDayOfMonth(3);
+        dayOfMonth.setDayOfMonth(LocalDate.now().getDayOfMonth() + 1);
         assertEquals(false, dayOfMonth.check());
     }
 

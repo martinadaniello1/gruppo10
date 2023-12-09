@@ -4,6 +4,10 @@ import automatehub.model_view.MoveFileAction;
 import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.io.FileUtils;
+import org.junit.After;
 import static org.junit.Assert.*;
 import org.junit.Before;
 
@@ -15,8 +19,8 @@ public class MoveFileActionTest {
 
     @Before
     public void setUp() {
-        startingPath = "D:/Unisa/Magistrale/1--1/Software Engineering/progetto/provaDirectory2/prova_prova.txt";
-        destinationPath = "D:/Unisa/Magistrale/1--1/Software Engineering/progetto/provaDirectory1";
+        startingPath = "./Test/test/testFiles/testDirectory2/file_to_move.jpg";
+        destinationPath = "./Test/test/testFiles/testDirectory1";
         moveFileAction = new MoveFileAction(startingPath, destinationPath);
     }
 
@@ -27,7 +31,7 @@ public class MoveFileActionTest {
 
         assertEquals(0, result);
         //Verify the presence of the file in the new directory
-        File f = new File("D:/Unisa/Magistrale/1--1/Software Engineering/progetto/provaDirectory1/prova_prova.txt");
+        File f = new File(destinationPath + "/file_to_move.jpg");
         assertEquals(true, f.exists());
 
     }
@@ -48,25 +52,23 @@ public class MoveFileActionTest {
 
     @Test
     public void testGetStartingPath() {
-        moveFileAction.setStartingPath("D:/Unisa/Magistrale/1--1/Software Engineering/progetto/provaDirectory2/prova_prova.txt");
         assertEquals(startingPath, moveFileAction.getStartingPath());
     }
     @Test
     public void testSetStartingPath() {
-        moveFileAction.setStartingPath("startingPath");
-        assertEquals("startingPath", moveFileAction.getStartingPath());
+        moveFileAction.setStartingPath("starting/Path");
+        assertEquals("starting/Path", moveFileAction.getStartingPath());
     }
 
     @Test
     public void testGetDestinationPath() {
-        moveFileAction.setDestinationPath("D:/Unisa/Magistrale/1--1/Software Engineering/progetto/provaDirectory1");
         assertEquals(destinationPath, moveFileAction.getDestinationPath());
     }
 
     @Test
     public void testSetDestinationPath() {
-        moveFileAction.setDestinationPath("destinationPath");
-        assertEquals("destinationPath", moveFileAction.getDestinationPath());
+        moveFileAction.setDestinationPath("destination/Path");
+        assertEquals("destination/Path", moveFileAction.getDestinationPath());
     }
 
     @Test
@@ -78,5 +80,17 @@ public class MoveFileActionTest {
     public void testGetParam2() {
         assertEquals(moveFileAction.getDestinationPath(), moveFileAction.getParam2());
     }
-
+    
+    @After
+    public void resetDirectories(){
+        String path = "./Test/test/testFiles/testDirectory1/file_to_move.jpg";
+        File f = new File(path);
+        if(f.exists()){
+            try {
+                FileUtils.moveFileToDirectory(f, new File("./Test/test/testFiles/testDirectory2"), false);
+            } catch (IOException ex) {
+                Logger.getLogger(MoveFileActionTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 }

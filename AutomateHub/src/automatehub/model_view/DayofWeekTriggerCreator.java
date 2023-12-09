@@ -8,17 +8,17 @@ package automatehub.model_view;
  *
  * @author Luca
  */
-public class DayofWeekTriggerCreator implements CreatorTrigger {
+public class DayOfWeekTriggerCreator implements CreatorTrigger {
 
     private String dayInserted;
 
-    public DayofWeekTriggerCreator(String dayInserted) {
+    public DayOfWeekTriggerCreator(String dayInserted) {
         this.dayInserted = dayInserted;
     }
 
     @Override
     public Trigger create() {
-        return new DayofWeekTrigger(dayInserted);
+        return new DayOfWeekTrigger(dayInserted);
     }
 
     public String getDayInserted() {

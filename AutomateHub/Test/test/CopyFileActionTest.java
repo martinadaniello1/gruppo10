@@ -4,6 +4,7 @@ import automatehub.model_view.CopyFileAction;
 import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
+import org.junit.After;
 import static org.junit.Assert.*;
 import org.junit.Before;
 
@@ -12,11 +13,11 @@ public class CopyFileActionTest {
     private String filePathSource; 
     private String filePathDest;
     private CopyFileAction copyFileAction;
-    
+
     @Before
     public void setUp(){
-        filePathSource = "D:/Unisa/Magistrale/1--1/Software Engineering/progetto/provaDirectory1/file_example_WAV_1MG - Copia.wav";
-        filePathDest = "D:/Unisa/Magistrale/1--1/Software Engineering/progetto/provaDirectory2";
+        filePathSource = "./Test/test/testFiles/testDirectory1/file_to_copy.jpg";
+        filePathDest = "./Test/test/testFiles/testDirectory2";
         copyFileAction = new CopyFileAction(filePathSource, filePathDest);
     }
     
@@ -29,7 +30,7 @@ public class CopyFileActionTest {
         assertEquals(0, result);
         
         //Verify the presence of the file in the new directory
-        File f = new File("D:/Unisa/Magistrale/1--1/Software Engineering/progetto/provaDirectory2/file_example_WAV_1MG - Copia.wav");
+        File f = new File(filePathDest + "/file_to_copy.jpg");
         assertEquals(true,f.exists());
     }
 
@@ -81,34 +82,12 @@ public class CopyFileActionTest {
         assertEquals(path, copyFileAction.getDestinationPath());
     }
     
-    @Test
-    public void gettersShouldReturnCorrectValues() {
-        // Setup
-        String startingPath = "path/to/source/file.txt";
-        String destinationPath = "path/to/destination/directory";
-        CopyFileAction copyFileAction = new CopyFileAction("", "");
-
-
-        // Test
-        assertEquals(startingPath, copyFileAction.getStartingPath());
-        assertEquals(destinationPath, copyFileAction.getDestinationPath());
+    @After
+    public void resetDirectories(){
+        File f = new File("./Test/test/testFiles/testDirectory2/file_to_copy.jpg");
+        if(f.exists()){
+            f.delete();
+        }
     }
-
-    @Test
-    public void settersShouldSetCorrectValues() {
-        // Setup
-        CopyFileAction copyFileAction = new CopyFileAction("", "");
-
-        // Test
-        String newStartingPath = "new/source/path/file.txt";
-        String newDestinationPath = "new/destination/directory";
-        copyFileAction.setStartingPath(newStartingPath);
-        copyFileAction.setDestinationPath(newDestinationPath);
-
-        // Verify
-        assertEquals(newStartingPath, copyFileAction.getStartingPath());
-        assertEquals(newDestinationPath, copyFileAction.getDestinationPath());
-    }
-
-    
+        
 }

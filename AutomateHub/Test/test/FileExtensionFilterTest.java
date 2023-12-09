@@ -12,6 +12,7 @@ public class FileExtensionFilterTest {
         assertEquals("*.txt", FileExtensionFilter.TEXT.getExtension());
         assertEquals("*.*", FileExtensionFilter.ALL.getExtension());
         assertEquals("*.directory", FileExtensionFilter.DIRECTORY.getExtension());
+        assertEquals("*.py", FileExtensionFilter.PYTHON.getExtension() );
     }
 
     @Test
@@ -20,6 +21,7 @@ public class FileExtensionFilterTest {
         assertEquals("Text Files (*.txt)", FileExtensionFilter.TEXT.getDescription());
         assertEquals("All Files (*.*)", FileExtensionFilter.ALL.getDescription());
         assertEquals("Directory", FileExtensionFilter.DIRECTORY.getDescription());
+        assertEquals("Python file (*.py)", FileExtensionFilter.PYTHON.getDescription());
     }
 
     @Test
@@ -29,12 +31,12 @@ public class FileExtensionFilterTest {
 
     @Test
     public void enumValuesShouldHaveCorrectLength() {
-        assertEquals(4, FileExtensionFilter.values().length);
+        assertEquals(5, FileExtensionFilter.values().length);
     }
 
     @Test
     public void enumValuesShouldBeInExpectedOrder() {
-        FileExtensionFilter[] expectedOrder = { FileExtensionFilter.WAV, FileExtensionFilter.TEXT, FileExtensionFilter.ALL, FileExtensionFilter.DIRECTORY };
+        FileExtensionFilter[] expectedOrder = { FileExtensionFilter.WAV, FileExtensionFilter.TEXT, FileExtensionFilter.PYTHON, FileExtensionFilter.ALL, FileExtensionFilter.DIRECTORY };
         assertArrayEquals(expectedOrder, FileExtensionFilter.values());
     }
 }

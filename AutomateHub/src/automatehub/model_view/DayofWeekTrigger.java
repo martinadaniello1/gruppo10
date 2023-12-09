@@ -13,11 +13,11 @@ import java.util.Objects;
  *
  * @author Luca
  */
-public class DayofWeekTrigger extends Trigger {
+public class DayOfWeekTrigger extends Trigger {
 
     private DayOfWeek dayOfWeek;
 
-    public DayofWeekTrigger(String dayInserted) {
+    public DayOfWeekTrigger(String dayInserted) {
 
         String dayInsertedFormatted = dayInserted.replaceAll("\\s+", "").toUpperCase();
         dayOfWeek = DayOfWeek.valueOf(dayInsertedFormatted);
@@ -68,7 +68,7 @@ public class DayofWeekTrigger extends Trigger {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final DayofWeekTrigger other = (DayofWeekTrigger) obj;
+        final DayOfWeekTrigger other = (DayOfWeekTrigger) obj;
         if (this.dayOfWeek != other.dayOfWeek) {
             return false;
         }

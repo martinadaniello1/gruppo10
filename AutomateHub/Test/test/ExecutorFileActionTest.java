@@ -10,13 +10,14 @@ import org.junit.Assert;
 public class ExecutorFileActionTest {
 
     private ExecutorFileAction executorAction;
-    private String stringToTest;
+    private String[] commandLineArgs;
     private String filePath;
 
     @Before
     public void setUp() {
-        filePath = "C:\\Users\\mapic\\Downloads\\esempio.py";
-        executorAction = new ExecutorFileAction(filePath, new String[]{"15","17"});
+        filePath = "./Test/test/testFiles/example.py";
+        commandLineArgs = new String[]{"15","17"};
+        executorAction = new ExecutorFileAction(filePath, commandLineArgs);
     }
 
     @Test
@@ -34,9 +35,9 @@ public class ExecutorFileActionTest {
         String nonExistingPath = "non/existing/path/file.txt";
         ExecutorFileAction istance = new ExecutorFileAction(nonExistingPath, new String[]{"15","17"});
 
-         istance.execute();
+        istance.execute();
 
-        // Verify
+        // Verify //In Python, an exit code with a value of two indicates that an error occurred during execution.
         assertEquals(2, istance.getExitCode());
     }
 
@@ -51,27 +52,24 @@ public class ExecutorFileActionTest {
     @Test
     public void testGetCommandLineArgs() {
 
-        executorAction.setCommandLineArgs(new String[]{"2","3"});
-        Assert.assertArrayEquals(new String[]{"2","3"}, executorAction.getCommandLineArgs());
+        Assert.assertArrayEquals( commandLineArgs, executorAction.getCommandLineArgs());
 
     }
     
     @Test
     public void testSetFilePath() {
-        executorAction.setFilePath("C:\\Users\\mapic\\Downloads\\esempio.py");
-        assertEquals("C:\\Users\\mapic\\Downloads\\esempio.py", executorAction.getFilePath());
+        executorAction.setFilePath("testing/to/set/file/path");
+        assertEquals("testing/to/set/file/path", executorAction.getFilePath());
     }
     
     @Test
     public void testGetFilePath() {
-        executorAction.setFilePath("C:\\Users\\mapic\\Downloads\\esempio.py");
         assertEquals(filePath, executorAction.getFilePath());
     }
     
     @Test
     public void testGetParam1(){
-        executorAction.setCommandLineArgs(new String[]{"2","3"});
-        assertEquals("2; 3", executorAction.getParam2());
+        assertEquals(String.join("; ", commandLineArgs), executorAction.getParam2());
     }
     
     @Test

@@ -229,7 +229,7 @@ public class FXMLDialogInputBoxController implements Initializable {
             case TIME:
                 return new TimeTriggerCreator(LocalTime.parse(triggerTextField.getText(), DateTimeFormatter.ofPattern("HH:mm")));
             case DAYWEEK:
-                return new DayofWeekTriggerCreator(triggerTextField.getText());
+                return new DayOfWeekTriggerCreator(triggerTextField.getText());
             case FINDFILE:
                 return new FoundFileTriggerCreator(triggerTextField.getText(), secondTextFieldTrigger.getText());
             case DAYMONTH:

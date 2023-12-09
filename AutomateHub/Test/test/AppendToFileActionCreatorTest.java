@@ -9,8 +9,8 @@ import static org.junit.Assert.*;
 
 public class AppendToFileActionCreatorTest {
 
-    private final String filePath = "C:\\Users\\marti\\OneDrive\\Desktop\\prova.txt";
-    private final String stringToTest = "prova";
+    private final String filePath = "./Test/test/testFiles/prova.txt";
+    private final String stringToTest = "Testing AppendToFileAction...";
     private AppendToFileActionCreator appendStringCreator;
 
     @Before

@@ -2,6 +2,10 @@ package test;
 
 import automatehub.model_view.RemoveFileAction;
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,11 +14,22 @@ import org.junit.Test;
 public class RemoveFileActionTest {
     private String filePath;
     private RemoveFileAction removeFileAction;
-    @Before
     
+    @Before
     public void setUp(){
-        filePath="C:/Users/adc01/OneDrive/Desktop/provaDirectory2/rimuovi.txt";
+        filePath="./Test/test/testFiles/file_to_remove.txt";
         removeFileAction = new RemoveFileAction(filePath);
+        File file = new File(filePath);
+        if (!file.exists()) {
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();  // Crea le directory padre se non esistono
+            }
+            try {
+                file.createNewFile();  // Crea il file se non esiste
+            } catch (IOException ex) {
+                Logger.getLogger(RemoveFileActionTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
     @Test
@@ -29,9 +44,10 @@ public class RemoveFileActionTest {
     
     @Test
     public void testEcecuteShouldReturnErrorNegativeValueIfFileDoesNotExist(){
+        removeFileAction.setFilePath("non/esistente");
         int result = removeFileAction.execute();
         assertEquals(-1,result);
-        }
+    }
 
     @Test
     public void testGetFilePath(){
@@ -56,4 +72,18 @@ public class RemoveFileActionTest {
         assertEquals(removeFileAction.getParam2(), "");
     }
     
+    @After
+    public void recreateFileRemoved(){
+        File file = new File(filePath);
+        if (!file.exists()) {
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();  // Crea le directory padre se non esistono
+            }
+            try {
+                file.createNewFile();  // Crea il file se non esiste
+            } catch (IOException ex) {
+                Logger.getLogger(RemoveFileActionTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 }

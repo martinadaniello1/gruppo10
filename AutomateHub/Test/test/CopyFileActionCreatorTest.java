@@ -14,8 +14,8 @@ public class CopyFileActionCreatorTest {
 
     @Before
     public void setUp() {
-        startingPath = "esempio/prova/prova.txt";
-        destinationPath = "desktop/prova.txt";
+        startingPath = "./Test/test/testFiles/testDirectory1/file_to_copy.jpg";
+        destinationPath = "./Test/test/testFiles/testDirectory2";
         creator = new CopyFileActionCreator(startingPath, destinationPath);
     }
     
@@ -23,7 +23,6 @@ public class CopyFileActionCreatorTest {
     public void testCreate() {
         CopyFileAction action = new CopyFileAction(startingPath, destinationPath);
         assertEquals(action, creator.create());
-        
     }
 
 }

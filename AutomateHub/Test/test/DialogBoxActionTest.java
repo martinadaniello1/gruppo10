@@ -29,7 +29,6 @@ public class DialogBoxActionTest {
 
     @Test
     public void testGetMessage() {
-        dialogAction.setMessage("testing action");
         assertEquals(expectedMessage, dialogAction.getMessage());
     }
 
