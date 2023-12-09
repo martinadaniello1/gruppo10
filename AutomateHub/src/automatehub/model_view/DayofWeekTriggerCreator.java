@@ -5,8 +5,10 @@
 package automatehub.model_view;
 
 /**
+ * The class represents a ConcreteCreator of the factory method pattern. It
+ * inherit the factory method from the Creator and is responsible for the
+ * creation of the new Product.
  *
- * @author Luca
  */
 public class DayofWeekTriggerCreator implements CreatorTrigger {
 
@@ -16,6 +18,12 @@ public class DayofWeekTriggerCreator implements CreatorTrigger {
         this.dayInserted = dayInserted;
     }
 
+    /**
+     * The method inherited, through which a new DayofWeekTrigger will be
+     * instantiated.
+     *
+     * @return the Trigger instantiated.
+     */
     @Override
     public Trigger create() {
         return new DayofWeekTrigger(dayInserted);
