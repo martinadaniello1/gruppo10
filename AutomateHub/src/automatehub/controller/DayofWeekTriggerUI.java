@@ -7,12 +7,12 @@ import java.util.List;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class DayofWeekTriggerUI extends TriggerState {
+public class DayOfWeekTriggerUI extends TriggerState {
 
     private Label triggerLabel;
     private TextField triggerTextField;
 
-    public DayofWeekTriggerUI(Label triggerLabel, TextField triggerTextField) {
+    public DayOfWeekTriggerUI(Label triggerLabel, TextField triggerTextField) {
         this.triggerLabel = triggerLabel;
         this.triggerTextField = triggerTextField;
     }

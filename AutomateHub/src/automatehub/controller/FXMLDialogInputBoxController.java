@@ -175,7 +175,7 @@ public class FXMLDialogInputBoxController implements Initializable {
                 state = new ExitStatusTriggerUI(triggerLabel, secondLabelTrigger, thirdLabelTrigger, triggerTextField, secondTextFieldTrigger, thirdTextFieldTrigger, triggerBox, secondBoxTrigger, thirdBoxTrigger, vBox);
                 break;
             case DAYWEEK:
-                state = new DayofWeekTriggerUI(triggerLabel, triggerTextField);
+                state = new DayOfWeekTriggerUI(triggerLabel, triggerTextField);
                 break;
             case FINDFILE:
                 state = new FoundFileTriggerUI(triggerLabel, secondLabelTrigger, triggerTextField, secondTextFieldTrigger, triggerBox, secondBoxTrigger, vBox);

@@ -70,7 +70,7 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
         triggersList = FXCollections.observableArrayList();
 
         actionsList.addAll("Play an audio file", "Show a message", "Append a string at the end of a text file", "Copy a file to a directory", "Move a file from a directory", "Remove a file from a directory", "Execute external program");
-        triggersList.addAll("When the clock hits...", "When it is this day of the month...","When it is this day...","When it is this day of the week...", "Found a file in a directory...", "When this file's size is bigger than this value...", "When the program returns...");
+        triggersList.addAll("When the clock hits...", "When it is this day of the month...", "When it is this day...", "When it is this day of the week...", "Found a file in a directory...", "When this file's size is bigger than this value...", "When the program returns...");
 
         actionsBox.setItems(actionsList);
         triggersBox.setItems(triggersList);
@@ -301,9 +301,19 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
     public void onRuleVerified(Rule rule) {
         Platform.runLater(() -> {
             System.out.println("regola verificata con esito positivo:" + rule.toString()); //Logging            
-            rule.getAction().execute();
-            onActionExecuted(rule);
-            rule.setActive(false);
+            if (rule.getAction().execute() == 0) {
+                onActionExecuted(rule);
+                rule.setActive(false);
+            } else {
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Errore");
+                    alert.setContentText(rule.toString() + "\n This rule has generated an error. It will be removed.");
+                    alert.setHeaderText(null);
+                    alert.show();
+                });
+                rulesList.remove(rule);
+            }
         });
     }
 
@@ -326,7 +336,7 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
                 context.changeState(new MoveFileActionUI());
                 break;
             case EXECUTE:
-                 context.changeState(new ExecutorFileActionUI());
+                context.changeState(new ExecutorFileActionUI());
                 break;
             case APPEND:
                 context.changeState(new AppendToFileActionUI());
