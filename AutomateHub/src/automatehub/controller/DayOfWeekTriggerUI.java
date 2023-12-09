@@ -1,7 +1,5 @@
 package automatehub.controller;
 
-import automatehub.controller.TriggerContext;
-import automatehub.controller.TriggerState;
 import java.util.Arrays;
 import java.util.List;
 import javafx.scene.control.Label;
