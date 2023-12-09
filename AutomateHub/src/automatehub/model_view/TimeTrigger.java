@@ -17,6 +17,7 @@ public class TimeTrigger extends Trigger {
         this.time = time.truncatedTo(ChronoUnit.MINUTES);
     }
 
+    @Override
     public String getType() {
         return "When the clock hits...";
     }

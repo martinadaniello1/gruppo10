@@ -1,21 +1,28 @@
 package automatehub.model_view;
 
+import java.time.DayOfWeek;
+
 /**
  * The class represents a ConcreteCreator of the factory method pattern. It
- * inherit the factory method from the Creator and is responsible for the
+ * inherits the factory method from the Creator and is responsible for the
  * creation of the new Product.
  *
  */
 public class DayOfWeekTriggerCreator implements CreatorTrigger {
 
-    private String dayInserted;
+    private DayOfWeek dayInserted;
 
-    public DayOfWeekTriggerCreator(String dayInserted) {
+    /**
+     * Constructs a DayOfWeekTriggerCreator with the specified day of month.
+     *
+     * @param dayInserted the Integer value of the specified day of month
+     */
+    public DayOfWeekTriggerCreator(DayOfWeek dayInserted) {
         this.dayInserted = dayInserted;
     }
 
     /**
-     * The method inherited, through which a new DayofWeekTrigger will be
+     * The method inherited, through which a new DayOfWeekTrigger will be
      * instantiated.
      *
      * @return the Trigger instantiated.
@@ -23,14 +30,7 @@ public class DayOfWeekTriggerCreator implements CreatorTrigger {
     @Override
     public Trigger create() {
         return new DayOfWeekTrigger(dayInserted);
-    }
 
-    public String getDayInserted() {
-        return dayInserted;
-    }
-
-    public void setDayInserted(String dayInserted) {
-        this.dayInserted = dayInserted;
     }
 
 }

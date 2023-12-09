@@ -6,6 +6,10 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Represents a trigger that is verified when the specified file is bigger of
+ * the specified size.
+ */
 public class FileSizeTrigger extends Trigger {
 
     private String filePath;
@@ -16,6 +20,11 @@ public class FileSizeTrigger extends Trigger {
         this.specifiedSize = size;
     }
 
+    /**
+     * Checks if the specified file is bigger than the specified size.
+     *
+     * @return true if the condition is verified, false otherwise.
+     */
     @Override
     public boolean check() {
         Path path = Paths.get(this.getFilePath());

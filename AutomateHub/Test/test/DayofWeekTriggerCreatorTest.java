@@ -12,47 +12,23 @@ import org.junit.Before;
 public class DayOfWeekTriggerCreatorTest {
 
     private DayOfWeekTriggerCreator dfwCreator;
-    private static String dayInserted;
+    private static DayOfWeek dayInserted;
 
     @BeforeClass
     public static void setUpClass() {
-        dayInserted = "Friday";
+        dayInserted = DayOfWeek.FRIDAY;
     }
 
     @Before
     public void setUp() {
-
-        dfwCreator = new DayOfWeekTriggerCreator("Friday");
-    }
-
-    /**
-     * Test of class DayOfWeekTriggerCreator.
-     */
-    @Test
-    public void DayofWeekTriggerCreatorTest() {
-
-        assertEquals(dfwCreator.getDayInserted(), dayInserted);
+        dfwCreator = new DayOfWeekTriggerCreator(DayOfWeek.FRIDAY);
     }
 
     @Test
     public void testCreate() {
-
-        DayOfWeekTrigger dwt = new DayOfWeekTrigger("Friday");
+        DayOfWeekTrigger dwt = new DayOfWeekTrigger(dayInserted);
         Trigger triggerReturned = dfwCreator.create();
         assertEquals(dwt, triggerReturned);
-    }
-
-    @Test
-    public void testGetDayInserted() {
-
-        assertEquals(dfwCreator.getDayInserted(), dayInserted); 
-    }
-
-    @Test
-    public void testSetDayInserted() {
-
-        dfwCreator.setDayInserted("Tuesday");
-        assertEquals(DayOfWeek.TUESDAY, DayOfWeek.valueOf(dfwCreator.getDayInserted().toUpperCase()));
     }
 
 }

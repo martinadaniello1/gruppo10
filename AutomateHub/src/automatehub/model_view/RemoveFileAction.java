@@ -3,10 +3,17 @@ package automatehub.model_view;
 import java.io.File;
 import java.util.Objects;
 
-public class RemoveFileAction extends Action{
-    
-    private String filePath ;
-    
+/**
+ * Represents the action that removes a specified file.
+ */
+public class RemoveFileAction extends Action {
+
+    private String filePath;
+
+    /**
+     * Executes the action of removing the specified file. 
+     * @return 0 if the removal was successful, -1 otherwise.
+     */
     @Override
     public int execute() {
         File f = new File(this.filePath);
@@ -40,7 +47,6 @@ public class RemoveFileAction extends Action{
     public String getParam1() {
         return this.getFilePath();
     }
-
 
     @Override
     public String toString() {

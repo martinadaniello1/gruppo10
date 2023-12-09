@@ -8,6 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+
 public class DayOfWeekTriggerTest {
 
     private static String checkDay;
@@ -15,19 +16,16 @@ public class DayOfWeekTriggerTest {
 
     @BeforeClass
     public static void setUpClass() {
-
         checkDay = "Monday";
     }
 
     @Before
     public void setUp() {
-
-        dwt = new DayOfWeekTrigger("Monday");
+        dwt = new DayOfWeekTrigger(DayOfWeek.valueOf("Monday".toUpperCase()));
     }
 
     @Test
     public void testDayofWeekTrigger() {
-
         assertEquals(dwt.getDayOfWeek(), DayOfWeek.valueOf(checkDay.toUpperCase()));
     }
 
@@ -36,7 +34,6 @@ public class DayOfWeekTriggerTest {
      */
     @Test
     public void testCheck() {
-
         dwt.setDayOfWeek(LocalDate.now().getDayOfWeek());
         assertEquals(true, dwt.check());
     }
@@ -46,7 +43,6 @@ public class DayOfWeekTriggerTest {
      */
     @Test
     public void testGetDayOfWeek() {
-
         assertEquals(dwt.getDayOfWeek(), DayOfWeek.valueOf(checkDay.toUpperCase()));
     }
 
@@ -56,7 +52,6 @@ public class DayOfWeekTriggerTest {
     @Test
     public void testSetDayOfWeek() {
         dwt.setDayOfWeek(DayOfWeek.SATURDAY);
-
         assertEquals(DayOfWeek.SATURDAY, dwt.getDayOfWeek());
     }
 

@@ -1,12 +1,17 @@
 package automatehub.model_view;
 
 /**
- * The interface separate the client who is istantiating the trigger from how
- * the trigger will be create, through a factory method.
- *
+ * Interface for creating instances of the {@link Trigger} class. The interface
+ * CreatorTrigger separates the client who is instantiating the trigger from how
+ * the trigger will be created, through the Factory Method pattern.
  */
 public interface CreatorTrigger {
 
+    /**
+     * Creates an instance of the {@link Trigger} class.
+     *
+     * @return a new instance of the Trigger class.
+     */
     public Trigger create();
 
 }

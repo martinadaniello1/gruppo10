@@ -4,11 +4,14 @@ import javax.sound.sampled.*;
 import java.io.*;
 import java.util.Objects;
 
+/**
+ * Represents the action of playing an audio file.
+ */
 public class AudioAction extends Action {
 
     private File file;
-    // The Clip object is not serialisable, 
-    // the transient modifier indicates this object must be excluded from serialisation
+    /* The Clip object is not serializable, the transient modifier indicates that 
+    this object must be excluded from serialization*/
     private transient Clip clip;
     private Runnable atEnd;
 
@@ -44,6 +47,12 @@ public class AudioAction extends Action {
         return "Play an audio file";
     }
 
+    /**
+     * Executes the play audio file action.
+     *
+     * @return 0 if the action is executed successfully, -1 if an exception
+     * occurs.
+     */
     @Override
     public int execute() {
         try {
@@ -80,11 +89,20 @@ public class AudioAction extends Action {
         }
     }
 
+    /**
+     * Starts playing the audio and associates a runnable to be executed at the
+     * end of playback.
+     *
+     * @param atEnd the Runnable object to be executed at the end of playback.
+     */
     public void startPlaying(Runnable atEnd) {
         setAtEnd(atEnd);
         clip.start();
     }
 
+    /**
+     * Stops the audio playback.
+     */
     public void stopPlaying() {
         setAtEnd(null);
         clip.stop();
@@ -120,6 +138,5 @@ public class AudioAction extends Action {
     public String getParam1() {
         return this.getFile().getAbsolutePath();
     }
-
 
 }

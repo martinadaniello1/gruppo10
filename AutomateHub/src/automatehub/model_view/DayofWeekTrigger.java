@@ -1,23 +1,19 @@
 package automatehub.model_view;
 
-import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Objects;
 
 /**
- * The class represents a trigger whose condition is verified when the day week
+ * The class represents a trigger whose condition is verified when the day of week
  * inserted is the current day of the week.
  */
 public class DayOfWeekTrigger extends Trigger {
 
     private DayOfWeek dayOfWeek;
 
-    public DayOfWeekTrigger(String dayInserted) {
-
-        String dayInsertedFormatted = dayInserted.replaceAll("\\s+", "").toUpperCase();
-        dayOfWeek = DayOfWeek.valueOf(dayInsertedFormatted);
-
+    public DayOfWeekTrigger(DayOfWeek dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
     }
 
     /**
@@ -27,9 +23,7 @@ public class DayOfWeekTrigger extends Trigger {
      */
     @Override
     public boolean check() {
-
         DayOfWeek currentDayOfWeek = LocalDate.now().getDayOfWeek();
-
         return currentDayOfWeek.equals(dayOfWeek);
     }
 

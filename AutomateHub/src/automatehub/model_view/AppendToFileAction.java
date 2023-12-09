@@ -5,6 +5,10 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Represents an Action that appends a string to a text file. The action is
+ * defined by the string to append and the file path of the text file.
+ */
 public class AppendToFileAction extends Action {
 
     private String stringToAppend;
@@ -15,6 +19,13 @@ public class AppendToFileAction extends Action {
         this.filePath = filePath;
     }
 
+    /**
+     * Executes the append to file action by adding the string to the end of the
+     * specified text file.
+     *
+     * @return 0 if the action is executed successfully, -1 if an IOException
+     * occurs.
+     */
     @Override
     public int execute() {
         try {
@@ -26,8 +37,8 @@ public class AppendToFileAction extends Action {
         } catch (IOException ex) {
             Logger.getLogger(AppendToFileAction.class.getName()).log(Level.SEVERE, null, ex);
             return -1;
-        } 
-        
+        }
+
     }
 
     public String getStringToAppend() {

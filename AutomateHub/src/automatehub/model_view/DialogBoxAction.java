@@ -2,7 +2,9 @@ package automatehub.model_view;
 
 import java.util.Objects;
 
-
+/**
+ * Represents the action of displaying a customized message.
+ */
 public class DialogBoxAction extends Action {
     
     private String message;
@@ -14,7 +16,6 @@ public class DialogBoxAction extends Action {
 
     @Override
     public int execute() {
-        //Setting up the alert message to show
         
         return 0;
     }

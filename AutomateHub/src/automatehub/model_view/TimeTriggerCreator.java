@@ -4,7 +4,7 @@ import java.time.LocalTime;
 
 /**
  * The class represents a ConcreteCreator of the factory method pattern. It
- * inherit the factory method from the Creator and is responsible for the
+ * inherits the factory method from the Creator and is responsible for the
  * creation of the new Product.
  *
  */

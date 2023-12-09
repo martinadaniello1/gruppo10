@@ -1,9 +1,11 @@
 package automatehub.model_view;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+/**
+ * Represents the trigger that checks if the specified date is the current date.
+ */
 public class CurrentDayTrigger extends Trigger {
 
     private LocalDate date;
@@ -12,13 +14,15 @@ public class CurrentDayTrigger extends Trigger {
         this.date = date;
     }
 
+    /**
+     * Checks if the specified date is equal to today.
+     *
+     * @return true if the specified date is equal to the current date, false
+     * otherwise.
+     */
     @Override
     public boolean check() {
-        if (this.date.equals(LocalDate.now())) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.date.equals(LocalDate.now());
     }
 
     public LocalDate getDate() {
@@ -69,5 +73,4 @@ public class CurrentDayTrigger extends Trigger {
         return this.getParam1();
     }
 
-    
 }

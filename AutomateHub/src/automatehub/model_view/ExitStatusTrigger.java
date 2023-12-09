@@ -1,10 +1,15 @@
 package automatehub.model_view;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
 
+/**
+ * Represents a trigger that is verified when the exit status of a specified
+ * external program is equal to the desidered exit status. It is defined by the
+ * file path of the external program to be executed, the desired exit code and
+ * the command line arguments to be passed.
+ */
 public class ExitStatusTrigger extends Trigger {
 
     private String filePath;
@@ -15,6 +20,24 @@ public class ExitStatusTrigger extends Trigger {
         this.filePath = filePath;
         this.commandLineArgs = commandLineArgs;
         this.exitCodeDesired = exitCode;
+    }
+
+    /**
+     * Checks if the executed program has the desired exit status.
+     *
+     * @return true if the exit status is equal to the desired one, false
+     * otherwise.
+     */
+    @Override
+    public boolean check() {
+        File f = new File(filePath);
+        if (!f.exists()) {
+            return false;
+        } else {
+            Integer actualExitCode = RunExternalProgram.runProgram(filePath, commandLineArgs);
+            System.out.println("Actual exit code:" + actualExitCode);
+            return actualExitCode.equals(exitCodeDesired);
+        }
     }
 
     public String[] getCommandLineArgs() {
@@ -63,40 +86,6 @@ public class ExitStatusTrigger extends Trigger {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public boolean check() {
-        File f = new File(filePath);
-        if (!f.exists()) {
-            return false;
-        } else {
-            try {
-                ProcessBuilder processBuilder = new ProcessBuilder();
-                processBuilder.command("python", filePath);
-
-                if (commandLineArgs != null && commandLineArgs.length > 0) {
-                    processBuilder.command().addAll(Arrays.asList(commandLineArgs));
-                }
-
-                processBuilder.redirectInput(ProcessBuilder.Redirect.INHERIT);
-                processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
-                processBuilder.redirectError(ProcessBuilder.Redirect.INHERIT);
-
-                Process process = processBuilder.start();
-                Integer actualExitCode = process.waitFor();
-                System.out.println("Actual exit code:" + actualExitCode);
-                if (actualExitCode.equals(exitCodeDesired)) {
-                    return true;
-                } else {
-                    return false;
-                }
-
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        return false;
     }
 
     @Override

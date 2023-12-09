@@ -15,16 +15,17 @@ import java.util.ArrayList;
  * application.
  *
  */
+
 public class RuleManagerService implements Serializable {
 
     private ArrayList<RuleObserver> observers;
     private ArrayList<Rule> ruleList;
     private List<Thread> repeteableThreads;
     private boolean isCheckingRules = true;
-    //Unica istanza della classe
+    //Single instance of the class
     private static RuleManagerService instance = null;
 
-    //Costruttore privato
+    //Private constructor
     private RuleManagerService() {
         this.observers = new ArrayList<RuleObserver>();
         this.ruleList = new ArrayList<Rule>();
@@ -33,11 +34,12 @@ public class RuleManagerService implements Serializable {
 
     ;
     
-    //Lazy initialization
+    
      /**
      * Returns the singleton instance of RuleManagerService. If the instance doesn't exist, it creates a new one.
      * @return The singleton instance of RuleManagerService.
      */
+    //Lazy initialization
     public static RuleManagerService getRuleManager() {
         //Crea l'oggetto solo se non esiste
         if (instance == null) {

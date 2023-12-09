@@ -8,6 +8,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
 
+/**
+ * Represents the action of moving a file to another specified directory. It is
+ * defined by a starting path where the file is located and a destination path
+ * for the directory in which to move the file.
+ */
 public class MoveFileAction extends Action {
 
     private String startingPath;
@@ -18,12 +23,16 @@ public class MoveFileAction extends Action {
         this.destinationPath = destinationPath;
     }
 
+    /**
+     * Executes the action of moving the file to the specified directory.
+     * @return 0 if the action was successful, -1 otherwise.
+     */
     @Override
     public int execute() {
         try {
             FileUtils.moveFileToDirectory(new File(startingPath), new File(destinationPath), false);
             return 0;
-        } catch (FileNotFoundException ex ) {
+        } catch (FileNotFoundException ex) {
             ex.printStackTrace();
             return -1;
         } catch (IOException ex) {

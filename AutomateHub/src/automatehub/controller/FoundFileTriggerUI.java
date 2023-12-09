@@ -1,21 +1,14 @@
 package automatehub.controller;
 
-import automatehub.controller.TriggerContext;
-import automatehub.controller.TriggerState;
 import automatehub.model_view.FileExtensionFilter;
-import java.io.File;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
 
 public class FoundFileTriggerUI extends TriggerState {
 
-    private Label triggerLabel,secondTriggerLabel;
+    private Label triggerLabel, secondTriggerLabel;
     private TextField triggerTextField, secondTextFieldTrigger;
     private HBox triggerBox, secondTriggerBox;
     private VBox vBox;

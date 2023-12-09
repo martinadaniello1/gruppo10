@@ -1,9 +1,12 @@
 package automatehub.model_view;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/**
+ * Represents a trigger that checks if the current date is equal to the
+ * specified day of month.
+ */
 public class DayOfMonthTrigger extends Trigger {
 
     private Integer dayOfMonth;
@@ -12,6 +15,12 @@ public class DayOfMonthTrigger extends Trigger {
         this.dayOfMonth = dayOfMonth;
     }
 
+    /**
+     * Checks if the current day is equal to the specified day of month.
+     *
+     * @return true if the specified day of month is equal to the current date,
+     * false otherwise.
+     */
     @Override
     public boolean check() {
         Integer today = LocalDate.now().getDayOfMonth();
@@ -60,9 +69,9 @@ public class DayOfMonthTrigger extends Trigger {
         }
         return true;
     }
-    
+
     @Override
-    public String getParam1(){
+    public String getParam1() {
         return getDayOfMonth().toString();
     }
 }

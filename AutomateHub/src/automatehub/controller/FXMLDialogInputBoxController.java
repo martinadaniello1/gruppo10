@@ -4,21 +4,8 @@ import automatehub.model_view.*;
 import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 import java.net.URL;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -80,7 +67,7 @@ public class FXMLDialogInputBoxController implements Initializable {
     private Label thirdLabelTrigger = new Label("");
     private TextField thirdTextFieldTrigger = new TextField();
 
-    private ActionContext context = new ActionContext();
+    private ActionContext actionContext = new ActionContext();
     private TriggerContext triggerContext = new TriggerContext();
     private CreatorTrigger trigger;
     private CreatorAction action;
@@ -144,8 +131,8 @@ public class FXMLDialogInputBoxController implements Initializable {
             case REMOVE:
                 state = new RemoveFileActionUI(actionLabel, actionTextField, actionBox);
         }
-        context.changeState(state);
-        context.setupUI();
+        actionContext.changeState(state);
+        actionContext.setupUI();
 
     }
 
@@ -229,7 +216,7 @@ public class FXMLDialogInputBoxController implements Initializable {
             case TIME:
                 return new TimeTriggerCreator(LocalTime.parse(triggerTextField.getText(), DateTimeFormatter.ofPattern("HH:mm")));
             case DAYWEEK:
-                return new DayOfWeekTriggerCreator(triggerTextField.getText());
+                return new DayOfWeekTriggerCreator(DayOfWeek.valueOf(triggerTextField.getText().replaceAll("\\s+", "").toUpperCase()));
             case FINDFILE:
                 return new FoundFileTriggerCreator(triggerTextField.getText(), secondTextFieldTrigger.getText());
             case DAYMONTH:

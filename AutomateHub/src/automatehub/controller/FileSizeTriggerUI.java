@@ -31,7 +31,7 @@ public class FileSizeTriggerUI extends TriggerState {
         vBox.getChildren().add(2 , hBox2);
         setUpValueValidation();
         //Set up the new box
-        triggerLabel2.setText("Insert the size to compare: ");
+        triggerLabel2.setText("Insert the size in bytes to compare: ");
     }
     
     private void setUpValueValidation(){
