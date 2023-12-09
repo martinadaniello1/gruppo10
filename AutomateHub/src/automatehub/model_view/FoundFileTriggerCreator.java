@@ -5,8 +5,9 @@
 package automatehub.model_view;
 
 /**
- *
- * @author Luca
+ * The class represents a ConcreteCreator of the factory method pattern. It
+ * inherit the factory method from the Creator and is responsible for the
+ * creation of the new Product.
  */
 public class FoundFileTriggerCreator implements CreatorTrigger {
 
@@ -34,6 +35,12 @@ public class FoundFileTriggerCreator implements CreatorTrigger {
         this.referentDirectory = referentDirectory;
     }
 
+    /**
+     * The method inherited, through which a new FoundFileTrigger will be
+     * instantiated.
+     *
+     * @return the Trigger instantiated.
+     */
     @Override
     public Trigger create() {
         return new FoundFileTrigger(fileToSearch, referentDirectory);

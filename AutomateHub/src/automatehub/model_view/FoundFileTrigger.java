@@ -6,6 +6,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
 
+/**
+ * The class represents a trigger whose condition is verified when the search
+ * for a file in a specified directory is satisfied.
+ *
+ */
 public class FoundFileTrigger extends Trigger {
 
     private String fileToSearch;
@@ -32,6 +37,11 @@ public class FoundFileTrigger extends Trigger {
         this.referentDirectory = referentDirectory;
     }
 
+    /**
+     * The function is responsible for the validation of trigger condition.
+     *
+     * @return True if the condition is verified, False otherwise.
+     */
     @Override
     public boolean check() {
         Path directoryPath = FileSystems.getDefault().getPath(this.referentDirectory, this.fileToSearch);

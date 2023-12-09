@@ -5,6 +5,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
+/**
+ * The class represents a trigger whose condition is verified when the current
+ * time of the day corresponds to the inserted time.
+ */
 public class TimeTrigger extends Trigger {
 
     private LocalTime time;
@@ -25,6 +29,11 @@ public class TimeTrigger extends Trigger {
         this.time = time;
     }
 
+    /**
+     * The function is responsible for the validation of trigger condition.
+     *
+     * @return True if the condition is verified, False otherwise.
+     */
     @Override
     public boolean check() {
 

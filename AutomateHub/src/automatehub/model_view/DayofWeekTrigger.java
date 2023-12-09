@@ -10,8 +10,8 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 /**
- *
- * @author Luca
+ * The class represents a trigger whose condition is verified when the day week
+ * inserted is the current day of the week.
  */
 public class DayOfWeekTrigger extends Trigger {
 
@@ -24,6 +24,11 @@ public class DayOfWeekTrigger extends Trigger {
 
     }
 
+    /**
+     * The function is responsible for the validation of trigger condition.
+     *
+     * @return True if the condition is verified, False otherwise.
+     */
     @Override
     public boolean check() {
 
