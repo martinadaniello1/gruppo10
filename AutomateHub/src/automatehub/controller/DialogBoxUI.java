@@ -23,7 +23,7 @@ public class DialogBoxUI extends ActionState {
 
     @Override
     public void setupUI(ActionContext context) {
-        this.actionLabel.setText("Insert the text to display:");
+        this.actionLabel.setText("Insert the text to display: ");
     }
 
     @Override

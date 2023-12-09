@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -36,7 +37,8 @@ public class AudioActionUI extends ActionState {
 
     @Override
     public void setupUI(ActionContext context) {
-        actionLabel.setText("Insert the file audio's path:");
+        actionLabel.setText("Insert the file audio's path: ");
+        hBox.setMargin(actionLabel, new Insets(0,10,0,0));
         actionTextField.setEditable(false);
         actionTextField.focusTraversableProperty().set(false);
         addFileChooser(hBox, FileExtensionFilter.WAV);

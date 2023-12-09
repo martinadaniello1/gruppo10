@@ -2,6 +2,7 @@ package automatehub.controller;
 
 import automatehub.model_view.*;
 import java.io.File;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -37,7 +38,8 @@ public class MoveFileActionUI extends ActionState {
 
     @Override
     public void setupUI(ActionContext context) {
-        this.actionLabel.setText("Choose the file you want to move:");
+        this.actionLabel.setText("Choose the file to move: ");
+        hBox.setMargin(actionLabel, new Insets(0,53,0,0));
         addFileChooser(hBox, FileExtensionFilter.ALL);
         actionTextField.setEditable(false);
         actionTextField.focusTraversableProperty().set(false);

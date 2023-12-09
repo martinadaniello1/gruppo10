@@ -2,6 +2,7 @@ package automatehub.controller;
 
 import automatehub.model_view.FileExtensionFilter;
 import java.util.function.UnaryOperator;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -37,7 +38,8 @@ public class ExitStatusTriggerUI extends TriggerState {
 
     @Override
     public void setupUI(TriggerContext context) {
-        triggerLabel1.setText("Choose the program you want to monitor: ");
+        triggerLabel1.setText("Choose the program to monitor:");
+        box1.setMargin(triggerLabel1, new Insets(0,0,0,0));
         addFileChooser(box1, FileExtensionFilter.PYTHON);
         triggerTextField1.setEditable(false);
         triggerTextField1.focusTraversableProperty().set(false);
@@ -46,7 +48,9 @@ public class ExitStatusTriggerUI extends TriggerState {
         setUpValueValidation();
         //Set up the new box
         triggerLabel2.setText("Insert params: ");
+        box2.setMargin(triggerLabel2, new Insets(0,65,0,0));
         triggerLabel3.setText("Insert an integer value: ");
+        box3.setMargin(triggerLabel3, new Insets(0,10,0,0));
         triggerTextField2.setPromptText("arg1;arg2; ...; argn; ");
     }
     //Check if the value is an integer 

@@ -28,7 +28,7 @@ public class RemoveFileActionUI extends ActionState {
 
     @Override
     public void setupUI(ActionContext context) {
-        actionLabel.setText("Select the file to remove:");
+        actionLabel.setText("Select the file to remove: ");
         actionTextField.setEditable(false);
         actionTextField.focusTraversableProperty().set(false);
         addFileChooser(hBox, FileExtensionFilter.ALL);

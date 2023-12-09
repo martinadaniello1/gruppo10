@@ -2,6 +2,7 @@ package automatehub.controller;
 
 import automatehub.model_view.*;
 import java.io.File;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.DirectoryChooser;
@@ -36,7 +37,8 @@ public class CopyFileActionUI extends ActionState {
 
     @Override
     public void setupUI(ActionContext context) {
-        this.actionLabel.setText("Choose the file you want to copy:");
+        this.actionLabel.setText("Choose the file to copy:");
+        hBox.setMargin(actionLabel, new Insets(0,63,0,0));
         addFileChooser(hBox, FileExtensionFilter.ALL);
         actionTextField.setEditable(false);
         actionTextField.focusTraversableProperty().set(false);

@@ -18,7 +18,7 @@ public class DayOfMonthTriggerUI extends TriggerState {
     
     @Override
     public void setupUI(TriggerContext context) {
-        triggerLabel.setText("Select the day of the month");
+        triggerLabel.setText("Select the day of the month: ");
         triggerTextField.setPromptText("e.g. 4 (every month on the 4th)");
         setupDayValidation();
     }

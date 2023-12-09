@@ -19,7 +19,7 @@ public class DayOfWeekTriggerUI extends TriggerState {
 
     @Override
     public void setupUI(TriggerContext context) {
-        triggerLabel.setText("Insert the day");
+        triggerLabel.setText("Insert the day: ");
         triggerTextField.setPromptText("e.g. Saturday");
         setupDayValidation();
     }

@@ -1,6 +1,7 @@
 package automatehub.controller;
 
 import automatehub.model_view.FileExtensionFilter;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
@@ -31,10 +32,15 @@ public class FileSizeTriggerUI extends TriggerState {
         vBox.getChildren().add(2 , hBox2);
         setUpValueValidation();
         //Set up the new box
+        hBox2.setMargin(triggerLabel2, new Insets(0,10,0,0));
         triggerLabel2.setText("Insert the size in bytes to compare: ");
     }
     
     private void setUpValueValidation(){
-        
+        triggerTextField2.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                triggerTextField2.setText(oldValue);
+            }
+        });
     }
  }

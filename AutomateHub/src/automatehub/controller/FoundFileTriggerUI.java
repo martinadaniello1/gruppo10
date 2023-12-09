@@ -1,6 +1,7 @@
 package automatehub.controller;
 
 import automatehub.model_view.FileExtensionFilter;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -29,10 +30,12 @@ public class FoundFileTriggerUI extends TriggerState {
     @Override
     public void setupUI(TriggerContext context) {
         triggerLabel.setText("Insert the filename to find: ");
+        triggerBox.setMargin(triggerLabel, new Insets(0,35,0,0));
         triggerTextField.setPromptText("e.g. file.txt");
         setupFileValidation();
         vBox.getChildren().add(2, secondTriggerBox);
         secondTriggerLabel.setText("Choose where to search the file: ");
+        secondTriggerBox.setMargin(secondTriggerLabel, new Insets(0,10,0,0));
         addFileChooser(secondTriggerBox, FileExtensionFilter.DIRECTORY);
     }
 
