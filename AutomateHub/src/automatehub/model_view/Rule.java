@@ -138,6 +138,13 @@ public class Rule implements Comparable, Serializable {
         return true;
     }
 
+    /**
+     * Compares Rule object by the attribute nameRule.
+     *
+     * @param o the object to be compared
+     * @return a negative integer, zero, or a positive integer as this object is
+     * less than, equal to, or greater than the specified object.
+     */
     @Override
     public int compareTo(Object o) {
         Rule otherRule = (Rule) o;

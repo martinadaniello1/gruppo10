@@ -1,5 +1,9 @@
 package automatehub.model_view;
 
+/**
+ * Enumeration representing different types of triggers with corresponding menu
+ * text. Each enum value has an associated menu text describing the trigger.
+ */
 public enum TriggerMenuText {
 
     TIME("When the clock hits..."),
@@ -16,10 +20,23 @@ public enum TriggerMenuText {
         this.menuText = menuText;
     }
 
+    /**
+     * Gets the menu text associated with the enum value.
+     *
+     * @return a string representing the menu text.
+     */
     public String getMenuText() {
         return menuText;
     }
 
+    /**
+     * Gets the enum constant based on the provided menu text.
+     *
+     * @param menuText the menu text to search for.
+     * @return the corresponding enum constant.
+     * @throws IllegalArgumentException if no enum constant is found with the
+     * given menu text.
+     */
     public static TriggerMenuText getByMenuText(String menuText) {
         for (TriggerMenuText enumType : values()) {
             if (enumType.getMenuText().equalsIgnoreCase(menuText)) {
