@@ -93,13 +93,13 @@ public class FXMLDialogInputBoxController implements Initializable {
         intervalHbox.disableProperty().bind(repetitionBox.selectedProperty().not());
         repetitionLabel.disableProperty().bind(repetitionBox.selectedProperty().not());
 
-        SpinnerValueFactory<Integer> dayValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 366);
+        SpinnerValueFactory<Integer> dayValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 365);
         daySpinner.setValueFactory(dayValueFactory);
 
-        SpinnerValueFactory<Integer> hourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 24);
+        SpinnerValueFactory<Integer> hourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23);
         hourSpinner.setValueFactory(hourValueFactory);
 
-        SpinnerValueFactory<Integer> minuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 60);
+        SpinnerValueFactory<Integer> minuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59);
         minuteSpinner.setValueFactory(minuteValueFactory);
 
         secondBoxAction.getChildren().addAll(secondLabelAction, secondTextFieldAction);

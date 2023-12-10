@@ -45,7 +45,7 @@ public class ExitStatusTriggerUI extends TriggerState {
     public void setupUI(TriggerContext context) {
         label.setText("The rule will be verified when the exit status of the external program is equal to a specified value. Arguments to be passed to the programme must be divided by a \";\" (eg. \"15 ; 18\").");
         triggerLabel1.setText("Choose the program to monitor:");
-        box1.setMargin(triggerLabel1, new Insets(0,0,0,0));
+        box1.setMargin(box1, new Insets(0,0,10,0));
         addFileChooser(box1, FileExtensionFilter.PYTHON);
         triggerTextField1.setEditable(false);
         triggerTextField1.focusTraversableProperty().set(false);

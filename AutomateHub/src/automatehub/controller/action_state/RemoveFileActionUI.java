@@ -33,7 +33,7 @@ public class RemoveFileActionUI extends ActionState {
      */
     @Override
     public void setupUI(ActionContext context) {
-        label.setText(label.getText() + "\n" + "When the rule is verified, the action will be removing a specified file from a specified directory.");
+        label.setText(label.getText() + "\n" + "The action will be removing a specified file from a specified directory.");
         actionLabel.setText("Select the file to remove: ");
         actionTextField.setEditable(false);
         actionTextField.focusTraversableProperty().set(false);

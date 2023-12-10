@@ -33,7 +33,7 @@ public class DialogBoxUI extends ActionState {
     @Override
     public void setupUI(ActionContext context) {
         this.actionLabel.setText("Insert the text to display: ");
-        label.setText(label.getText() + "\n" + "When the rule is verified, the action will be showing a specified message in a dialog box, that must be explicitly closed by the user.");
+        label.setText(label.getText() + "\n" + "The action will be showing a specified message in a dialog box, that must be explicitly closed by the user.");
         System.out.println(label.getText());
     }
 

@@ -46,12 +46,12 @@ public class ExecutorFileActionUI extends ActionState {
      */
     @Override
     public void setupUI(ActionContext context) {
-        label.setText(label.getText() + "\n" + "When the rule is verified, the action will be executing a specified external program, with specified command-line arguments. Arguments to be passed to the programme must be divided by a \";\" (eg. \"15 ; 18\").");
+        label.setText(label.getText() + "\n" + "The action will be executing a specified external program, with specified command-line arguments. Arguments to be passed to the programme must be divided by a \";\" (eg. \"15 ; 18\").");
         this.actionLabel.setText("Choose a programm to run: ");
         addFileChooser(hBox, FileExtensionFilter.PYTHON);
         actionTextField.setEditable(false);
         actionTextField.focusTraversableProperty().set(false);
-        vBox.getChildren().add(6, hBox2);
+        vBox.getChildren().add(4, hBox2);
         hBox2.setMargin(secondLabel, new Insets(0, 110, 0, 0));
         this.secondLabel.setText("Insert arguments: ");
         secondTextField.setPromptText("Arg1 ; Arg2 ; ... ; ArgN");

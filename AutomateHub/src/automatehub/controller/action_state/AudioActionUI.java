@@ -40,7 +40,7 @@ public class AudioActionUI extends ActionState {
      */
     @Override
     public void setupUI(ActionContext context) {
-        label.setText(label.getText() + "\n" + "When the rule is verified, the action will be playing of a specified audio file.");
+        label.setText(label.getText() + "\n" + "The action will be playing of a specified audio file.");
         actionLabel.setText("Insert the file audio's path: ");
         hBox.setMargin(actionLabel, new Insets(0, 10, 0, 0));
         actionTextField.setEditable(false);

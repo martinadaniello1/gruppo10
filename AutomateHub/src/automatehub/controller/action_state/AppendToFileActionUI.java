@@ -41,9 +41,9 @@ public class AppendToFileActionUI extends ActionState {
     @Override
     public void setupUI(ActionContext context) {
         this.actionLabel.setText("Write the text to append:");
-        label.setText(label.getText()+"\n"+"When the rule is verified, the action will be writing a specified string at the end of a specified text file.");
+        label.setText(label.getText()+"\n"+"The action will be writing a specified string at the end of a specified text file.");
         //Set up the new hbox
-        vBox.getChildren().add(5, hBox2);
+        vBox.getChildren().add(4, hBox2);
         secondLabel.setText("Choose the text file:");
         addFileChooser(hBox2, FileExtensionFilter.TEXT);
         secondTextField.setEditable(false);

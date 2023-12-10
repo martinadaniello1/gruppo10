@@ -45,14 +45,14 @@ public class CopyFileActionUI extends ActionState {
      */
     @Override
     public void setupUI(ActionContext context) {
-        label.setText(label.getText() + "\n" + "When the rule is verified, the action will be copying a specified file from a specified source directory to a specified destination directory.");
+        label.setText(label.getText() + "\n" + "The action will be copying a specified file from a specified source directory to a specified destination directory.");
         this.actionLabel.setText("Choose the file to copy:");
         hBox.setMargin(actionLabel, new Insets(0, 63, 0, 0));
         addFileChooser(hBox, FileExtensionFilter.ALL);
         actionTextField.setEditable(false);
         actionTextField.focusTraversableProperty().set(false);
         //Set up the new hbox
-        vBox.getChildren().add(6, hBox2);
+        vBox.getChildren().add(4, hBox2);
         secondLabel.setText("Choose the destination directory:");
         addFileChooser(hBox2, FileExtensionFilter.DIRECTORY);
         secondTextField.setEditable(false);
