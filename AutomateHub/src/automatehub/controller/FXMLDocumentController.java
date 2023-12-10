@@ -1,12 +1,6 @@
 package automatehub.controller;
 
-import automatehub.controller.action_state.CopyFileActionUI;
-import automatehub.controller.action_state.AudioActionUI;
-import automatehub.controller.action_state.AppendToFileActionUI;
-import automatehub.controller.action_state.DialogBoxUI;
-import automatehub.controller.action_state.ExecutorFileActionUI;
-import automatehub.controller.action_state.MoveFileActionUI;
-import automatehub.controller.action_state.RemoveFileActionUI;
+import automatehub.controller.action_state.*;
 import automatehub.model_view.trigger.Trigger;
 import automatehub.model_view.action.ActionMenuText;
 import automatehub.model_view.action.Action;
@@ -347,7 +341,6 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
             case MEX:
                 context.changeState(new DialogBoxUI());
                 break;
-
             case PLAY:
                 context.changeState(new AudioActionUI());
                 break;
