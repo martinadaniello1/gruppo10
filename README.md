@@ -10,6 +10,8 @@ The development of the application involves a team of 4 people (Apicella Mario, 
 
 <a href="https://docs.google.com/document/d/1ppnzmhzn-LKjChL3co7vIucUBmSo17xuHSroB_49dUw/edit?usp=sharing">Link to the Design Architecture.</a>
 
+## Used Technologies
+The program aims to provide users with the ability to create "rules" to automate specific actions triggered by certain events. The application is developed using Java and JavaFX version 8. JUnit 4 is employed for unit testing. Additionally, Apache Commons IO version 2.15 is utilized for the implementation of certain file manipulation actions and triggers.
 
 ## Scrum Artifacts
 <ul>
