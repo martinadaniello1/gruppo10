@@ -1,4 +1,4 @@
-package automatehub.model_view;
+package automatehub.main;
 
 import automatehub.controller.FXMLDocumentController;
 import java.util.logging.Level;
@@ -16,7 +16,7 @@ public class AutomateHub extends Application {
     @Override
     public void start(Stage stage) throws Exception {  
         
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/automatehub/model_view/FXMLDocument.fxml"));
         FXMLDocumentController controller = new FXMLDocumentController();
         Scene scene = new Scene(root);
         
