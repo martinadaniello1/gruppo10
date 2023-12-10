@@ -30,8 +30,8 @@ public class RuleManagerService implements Serializable {
 
     //Private constructor
     private RuleManagerService() {
-        this.observers = new ArrayList<RuleObserver>();
-        this.ruleList = new ArrayList<Rule>();
+        this.observers = new ArrayList<>();
+        this.ruleList = new ArrayList<>();
         this.repeatableThreads = new ArrayList<>();
     }
 
@@ -325,40 +325,40 @@ public class RuleManagerService implements Serializable {
         observers.add(observer);
     }
 
-    // Rimuovi un osservatore
+    // Remove an observer.
     public void removeObserver(RuleObserver observer) {
         observers.remove(observer);
     }
 
-    // Notifica gli osservatori quando una regola viene aggiunta
+    //Notifies observers when a rule is added.
     private void notifyRuleAdded(Rule rule) {
         observers.forEach(observer -> {
             observer.onRuleAdded(rule);
         });
     }
 
-    // Notifica gli osservatori quando una regola viene rimossa
+    //Notifies observers when a rule is removed.
     private void notifyRuleRemoved(Rule rule) {
         observers.forEach(observer -> {
             observer.onRuleRemoved(rule);
         });
     }
 
-    // Notifica gli osservatori quando una regola viene modificata
+    //Notifies observers when a rule is modified.
     private void notifyRuleEdited(Rule oldRule, Rule newRule) {
         observers.forEach(observer -> {
             observer.onRuleEdited(oldRule, newRule);
         });
     }
 
-    //Notifica gli osservatori quando la condizione di una regola è verificata
+    //Notifies observers when a rule condition is verified.
     private void notifyRuleVerified(Rule rule) {
         observers.forEach(observer -> {
             observer.onRuleVerified(rule);
         });
     }
 
-    //Notifica gli osservatori quando una regola non viene eseguita dato che il programma era chiuso
+    //Notifies observers when a rule condition is not verified.
     private void notifyRuleNotExecuted(Rule rule) {
         observers.forEach(observer -> {
             observer.onRuleNotExecuted(rule);

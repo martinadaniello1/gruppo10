@@ -1,7 +1,7 @@
 package automatehub.model_view;
 
 /**
- * Utility enum for the file extensions. 
+ * Utility enum for the file extensions.
  */
 public enum FileExtensionFilter {
     WAV("*.wav", "Audio Files (*.wav)"),

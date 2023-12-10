@@ -14,8 +14,8 @@ public class ActionContext {
     /**
      * This method changes the current state.
      *
-     * @param actionState The new state to set for the action. This 
-     * should be an implementation of the ActionState abstract class.
+     * @param actionState The new state to set for the action. This should be an
+     * implementation of the ActionState abstract class.
      */
     public void changeState(ActionState actionState) {
         this.currentState = actionState;

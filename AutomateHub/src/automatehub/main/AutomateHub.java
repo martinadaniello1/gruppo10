@@ -11,15 +11,20 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+/**
+ * The class represents the main class and let the application start, recalling
+ * the appropriate controller class.
+ *
+ */
 public class AutomateHub extends Application {
-    
+
     @Override
-    public void start(Stage stage) throws Exception {  
-        
+    public void start(Stage stage) throws Exception {
+
         Parent root = FXMLLoader.load(getClass().getResource("/automatehub/model_view/FXMLDocument.fxml"));
         FXMLDocumentController controller = new FXMLDocumentController();
         Scene scene = new Scene(root);
-        
+
         stage.setScene(scene);
         Image icon = new Image(getClass().getResourceAsStream("logo_unisa.png"));
         stage.getIcons().add(icon);
@@ -31,19 +36,19 @@ public class AutomateHub extends Application {
                 Logger.getLogger(AutomateHub.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        stage.show(); 
+        stage.show();
 
         controller.startAction();
-        
+
         stage.setOnCloseRequest(event -> controller.handleCloseRequest(event));
-             
+
     }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        launch(args);        
+        launch(args);
     }
-    
+
 }

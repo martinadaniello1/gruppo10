@@ -12,25 +12,19 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 /**
- * This class contains all the methods that the ActionState objects will
- * override, if necessary.
+ * Sets up the user interface (UI). This method is meant to be implemented by
+ * subclasses to configure the UI elements according to the specific
+ * requirements of the given Action State.
+ *
+ * @param context The ActionContext containing information about the current
+     * action.
  */
 public abstract class ActionState {
-<<<<<<< HEAD
 
     /**
-     * Sets up the user interface (UI). This method is meant to be implemented
-     * by subclasses to configure the UI elements according to the specific
-     * requirements of the given Action State.
-     *
-     * @param context The ActionContext containing information about the current
-     * action.
-=======
-    
-    /**
      * The method setups the UI based on the action choosen.
-     * @param context 
->>>>>>> b4465dab6959225e163daaaab9facb0fd3fb1da9
+     *
+     * @param context
      */
     public abstract void setupUI(ActionContext context);
 
@@ -93,19 +87,12 @@ public abstract class ActionState {
             });
         }
     }
-<<<<<<< HEAD
 
     /**
      * This method is meant to be overridden by subclasses to provide custom
      * logic for executing the actions associated with the given Rule.
      *
      * @param rule The Rule to be executed.
-=======
-    
-    /**
-     * The method describes the behavior of the action based on the occurrence of the rule.
-     * @param rule 
->>>>>>> b4465dab6959225e163daaaab9facb0fd3fb1da9
      */
     public void exec(Rule rule) {
 

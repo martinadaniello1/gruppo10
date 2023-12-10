@@ -317,19 +317,16 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
      */
     @Override
     public void onRuleAdded(Rule rule) {
-        // Aggiorna la TableView quando una nuova regola viene aggiunta
         rulesList.add(rule);
     }
 
     @Override
     public void onRuleRemoved(Rule rule) {
-        // Aggiorna la TableView quando una regola viene rimossa
         rulesList.remove(rule);
     }
 
     @Override
     public void onRuleEdited(Rule oldRule, Rule newRule) {
-        // Aggiorna la TableView quando una regola viene modificata
         rulesList.remove(oldRule);
         rulesList.add(newRule);
     }
@@ -368,7 +365,6 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
 
     @Override
     public void onActionExecuted(Rule rule) {
-        //ActionMenuText actionEnum = ActionMenuText.valueOf(rule.getAction().getType());
         ActionMenuText actionEnum = ActionMenuText.getByMenuText(rule.getAction().getType());
         switch (actionEnum) {
             case MEX:

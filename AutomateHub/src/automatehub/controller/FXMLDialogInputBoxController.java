@@ -45,8 +45,6 @@ public class FXMLDialogInputBoxController implements Initializable {
     @FXML
     private TextField ruleTextField;
     @FXML
-    private Label ruleNameLabel;
-    @FXML
     private HBox triggerBox;
     @FXML
     private Label repetitionLabel;
@@ -227,7 +225,7 @@ public class FXMLDialogInputBoxController implements Initializable {
         Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
         b.setDefaultButton(true);
         b.disableProperty().bind(ruleTextField.textProperty().isEmpty().or(actionTextField.textProperty().isEmpty().or(triggerTextField.textProperty().isEmpty())));
-        b.setOnAction(event -> editRule(oldRule, triggerTextField.getText(), actionTextField.getText(), ruleTextField.getText(), actionType, triggerType));
+        b.setOnAction(event -> editRule(oldRule, ruleTextField.getText(), actionType, triggerType));
         if (!oldRule.getPeriod().isZero()) {
             updateRepetionBox(oldRule);
         }
@@ -331,7 +329,7 @@ public class FXMLDialogInputBoxController implements Initializable {
         processRule(ruleName, actionType, triggerType, null);
     }
 
-    private void editRule(Rule oldRule, String triggerString, String actionString, String ruleName, String actionType, String triggerType) {
+    private void editRule(Rule oldRule, String ruleName, String actionType, String triggerType) {
         processRule(ruleName, actionType, triggerType, oldRule);
     }
 
@@ -349,7 +347,6 @@ public class FXMLDialogInputBoxController implements Initializable {
         if (matcher.matches()) {
             int hours = Integer.parseInt(matcher.group(2) != null ? matcher.group(2) : "0");
             int minutes = Integer.parseInt(matcher.group(4) != null ? matcher.group(4) : "0");
-            int seconds = (int) Math.round(Double.parseDouble(matcher.group(6) != null ? matcher.group(6) : "0"));
 
             int totalMinutes = hours * 60 + minutes;
             int days = totalMinutes / (24 * 60);
