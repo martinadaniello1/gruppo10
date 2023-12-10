@@ -9,8 +9,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
- * This class represents the ActionState (UI) for the Action of moving a file to another
- * directory.
+ * This class represents the ActionState (UI) for the Action of moving a file to
+ * another directory.
  */
 public class MoveFileActionUI extends ActionState {
 
@@ -21,11 +21,12 @@ public class MoveFileActionUI extends ActionState {
     private HBox hBox;
     private HBox hBox2;
     private VBox vBox;
+    private Label label;
 
     public MoveFileActionUI() {
     }
 
-    public MoveFileActionUI(TextField actionTextField, TextField secondTextField, Label actionLabel, Label secondLabel, HBox hBox, HBox hBox2, VBox vBox) {
+    public MoveFileActionUI(TextField actionTextField, TextField secondTextField, Label actionLabel, Label secondLabel, HBox hBox, HBox hBox2, VBox vBox, Label label) {
         this.actionTextField = actionTextField;
         this.secondTextField = secondTextField;
         this.actionLabel = actionLabel;
@@ -33,6 +34,7 @@ public class MoveFileActionUI extends ActionState {
         this.hBox = hBox;
         this.hBox2 = hBox2;
         this.vBox = vBox;
+        this.label=label;
     }
 
     /**
@@ -44,13 +46,15 @@ public class MoveFileActionUI extends ActionState {
      */
     @Override
     public void setupUI(ActionContext context) {
+        label.setText(label.getText() + "\n" + "When the rule is verified, the action will be moving a specified file from a specified source directory to a specified destination directory.");
+
         this.actionLabel.setText("Choose the file to move: ");
-        hBox.setMargin(actionLabel, new Insets(0,53,0,0));
+        hBox.setMargin(actionLabel, new Insets(0, 53, 0, 0));
         addFileChooser(hBox, FileExtensionFilter.ALL);
         actionTextField.setEditable(false);
         actionTextField.focusTraversableProperty().set(false);
         //Set up the new hbox
-        vBox.getChildren().add(3, hBox2);
+        vBox.getChildren().add(6, hBox2);
         secondLabel.setText("Choose the destination directory:");
         addFileChooser(hBox2, FileExtensionFilter.DIRECTORY);
         secondTextField.setEditable(false);

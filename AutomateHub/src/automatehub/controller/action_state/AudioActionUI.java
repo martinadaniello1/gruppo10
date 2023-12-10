@@ -11,24 +11,27 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 /**
- * This class represents the ActionState (UI) for the Action of playing an audio file.
+ * This class represents the ActionState (UI) for the Action of playing an audio
+ * file.
  */
 public class AudioActionUI extends ActionState {
 
     private TextField actionTextField;
     private Label actionLabel;
     private HBox hBox;
+    private Label label;
 
     public AudioActionUI() {
     }
 
-    public AudioActionUI(TextField actionTextField, Label actionLabel, HBox hBox) {
+    public AudioActionUI(TextField actionTextField, Label actionLabel, HBox hBox, Label label) {
         this.actionTextField = actionTextField;
         this.actionLabel = actionLabel;
         this.hBox = hBox;
+        this.label = label;
     }
 
-     /**
+    /**
      * Sets up the UI elements for the AudioAction based on the provided
      * ActionContext.
      *
@@ -37,8 +40,10 @@ public class AudioActionUI extends ActionState {
      */
     @Override
     public void setupUI(ActionContext context) {
+        label.setText(label.getText() + "\n" + "When the rule is verified, the action will be playing of a specified audio file.");
+
         actionLabel.setText("Insert the file audio's path: ");
-        hBox.setMargin(actionLabel, new Insets(0,10,0,0));
+        hBox.setMargin(actionLabel, new Insets(0, 10, 0, 0));
         actionTextField.setEditable(false);
         actionTextField.focusTraversableProperty().set(false);
         addFileChooser(hBox, FileExtensionFilter.WAV);
@@ -46,6 +51,7 @@ public class AudioActionUI extends ActionState {
 
     /**
      * Displays a new stage to stop the audio file.
+     *
      * @param rule The rule that was executed
      */
     @Override
@@ -62,8 +68,8 @@ public class AudioActionUI extends ActionState {
                 audioAction.stopPlaying();
             }
         });
-        root.setAlignment(Pos.CENTER); 
-        root.setSpacing(10); 
+        root.setAlignment(Pos.CENTER);
+        root.setSpacing(10);
         root.getChildren().add(btn);
         Stage s = new Stage();
         s.setScene(scene);
@@ -73,7 +79,5 @@ public class AudioActionUI extends ActionState {
         });
         s.show();
     }
-
-
 
 }

@@ -12,14 +12,16 @@ public class RemoveFileActionUI extends ActionState {
     private Label actionLabel;
     private TextField actionTextField;
     private HBox hBox;
+    private Label label;
 
     public RemoveFileActionUI() {
     }
 
-    public RemoveFileActionUI(Label actionLabel, TextField actionTextField, HBox hBox) {
+    public RemoveFileActionUI(Label actionLabel, TextField actionTextField, HBox hBox, Label label) {
         this.actionLabel = actionLabel;
         this.actionTextField = actionTextField;
         this.hBox = hBox;
+        this.label = label;
     }
 
     /**
@@ -31,6 +33,8 @@ public class RemoveFileActionUI extends ActionState {
      */
     @Override
     public void setupUI(ActionContext context) {
+        label.setText(label.getText() + "\n" + "When the rule is verified, the action will be removing a specified file from a specified directory.");
+
         actionLabel.setText("Select the file to remove: ");
         actionTextField.setEditable(false);
         actionTextField.focusTraversableProperty().set(false);

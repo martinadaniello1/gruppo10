@@ -8,18 +8,19 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 
 /**
- * This class is the ActionState for the Action of showing
- * a message.
+ * This class is the ActionState for the Action of showing a message.
  */
 public class DialogBoxUI extends ActionState {
 
     private Label actionLabel;
+    private Label label;
 
     public DialogBoxUI() {
     }
 
-    public DialogBoxUI(Label actionLabel) {
+    public DialogBoxUI(Label actionLabel, Label label) {
         this.actionLabel = actionLabel;
+        this.label = label;
     }
 
     /**
@@ -32,10 +33,13 @@ public class DialogBoxUI extends ActionState {
     @Override
     public void setupUI(ActionContext context) {
         this.actionLabel.setText("Insert the text to display: ");
+        label.setText(label.getText() + "\n" + "When the rule is verified, the action will be showing a specified message in a dialog box, that must be explicitly closed by the user.");
+        System.out.println(label.getText());
     }
 
     /**
-     * Displays the message of the DialogBoxAction. 
+     * Displays the message of the DialogBoxAction.
+     *
      * @param rule the rule to be executed
      */
     @Override

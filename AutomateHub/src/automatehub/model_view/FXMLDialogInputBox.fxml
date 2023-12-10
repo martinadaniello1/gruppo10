@@ -19,7 +19,19 @@
 
         <VBox fx:id="vBox" alignment="CENTER" prefHeight="330.0" prefWidth="480.0">
             <children>
-                <HBox layoutX="30.0" layoutY="30.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+            <HBox prefHeight="91.0" prefWidth="464.0" spacing="10.0">
+               <children>
+                  <Label fx:id="ruleDescription" alignment="CENTER" prefHeight="75.0" prefWidth="437.0" text="Rule description" textFill="#777777" wrapText="true">
+                     <HBox.margin>
+                        <Insets right="28.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </HBox>
+                <HBox layoutX="30.0" layoutY="30.0" prefHeight="42.0" prefWidth="464.0" spacing="10.0">
                     <children>
                         <Label fx:id="ruleNameLabel" alignment="CENTER" text="Set the rule name:">
                             <HBox.margin>
@@ -36,7 +48,7 @@
                         <Insets top="10.0" />
                     </padding>
                 </HBox>
-                <HBox fx:id="triggerBox" layoutX="30.0" layoutY="224.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                <HBox fx:id="triggerBox" layoutX="30.0" layoutY="224.0" prefHeight="51.0" prefWidth="464.0" spacing="10.0">
                     <children>
                         <Label fx:id="triggerLabel" alignment="CENTER" text="Set the trigger:">
                             <HBox.margin>
@@ -53,7 +65,7 @@
                   <Insets top="10.0" />
                </padding>
                 </HBox>
-                <HBox fx:id="actionBox" layoutX="30.0" layoutY="30.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                <HBox fx:id="actionBox" layoutX="30.0" layoutY="30.0" prefHeight="54.0" prefWidth="464.0" spacing="10.0">
                     <children>
                         <Label fx:id="actionLabel" alignment="CENTER" text="Set the action:">
                             <HBox.margin>
@@ -133,7 +145,7 @@
         </VBox>
     </content>
     <header>
-        <Label alignment="CENTER" contentDisplay="CENTER" text="Set up the rule">
+        <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="479.0" text="Set up the rule">
             <font>
                 <Font size="18.0" />
             </font>

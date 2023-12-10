@@ -12,16 +12,20 @@ public class TimeTriggerUI extends TriggerState {
 
     private Label triggerLabel;
     private TextField triggerTextField;
+    private Label label;
 
-    public TimeTriggerUI(Label triggerLabel, TextField triggerTextField) {
+    public TimeTriggerUI(Label triggerLabel, TextField triggerTextField, Label label) {
         this.triggerLabel = triggerLabel;
         this.triggerTextField = triggerTextField;
+        this.label=label;
     }
 
     @Override
     public void setupUI(TriggerContext context) {
+        label.setText("The rule will be verified when the current time is a specified time (e.g. \"11.37\").");
+
         triggerLabel.setText("Select the time: ");
-        triggerTextField.setPromptText("e.g. 17:30");
+        triggerTextField.setPromptText("e.g. 11:37");
         setupTimeValidation();
     }
 

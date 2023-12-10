@@ -11,14 +11,18 @@ public class DayOfWeekTriggerUI extends TriggerState {
 
     private Label triggerLabel;
     private TextField triggerTextField;
+    private Label label;
 
-    public DayOfWeekTriggerUI(Label triggerLabel, TextField triggerTextField) {
+    public DayOfWeekTriggerUI(Label triggerLabel, TextField triggerTextField, Label label) {
         this.triggerLabel = triggerLabel;
         this.triggerTextField = triggerTextField;
+        this.label = label;
     }
 
     @Override
     public void setupUI(TriggerContext context) {
+        label.setText("The rule will be verified when the current day-of-week is a specified day (e.g. \"Monday\").");
+
         triggerLabel.setText("Insert the day: ");
         triggerTextField.setPromptText("e.g. Saturday");
         setupDayValidation();

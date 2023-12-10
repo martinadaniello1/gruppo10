@@ -21,11 +21,12 @@ public class ExecutorFileActionUI extends ActionState {
     private HBox hBox;
     private HBox hBox2;
     private VBox vBox;
+    private Label label;
 
     public ExecutorFileActionUI() {
     }
 
-    public ExecutorFileActionUI(TextField actionTextField, TextField secondTextField, Label actionLabel, Label secondLabel, HBox hBox, HBox hBox2, VBox vBox) {
+    public ExecutorFileActionUI(TextField actionTextField, TextField secondTextField, Label actionLabel, Label secondLabel, HBox hBox, HBox hBox2, VBox vBox, Label label) {
         this.actionTextField = actionTextField;
         this.secondTextField = secondTextField;
         this.actionLabel = actionLabel;
@@ -33,6 +34,7 @@ public class ExecutorFileActionUI extends ActionState {
         this.hBox = hBox;
         this.hBox2 = hBox2;
         this.vBox = vBox;
+        this.label = label;
     }
 
     /**
@@ -44,11 +46,13 @@ public class ExecutorFileActionUI extends ActionState {
      */
     @Override
     public void setupUI(ActionContext context) {
+        label.setText(label.getText() + "\n" + "When the rule is verified, the action will be executing a specified external program, with specified command-line arguments.");
+
         this.actionLabel.setText("Choose a programm to run: ");
         addFileChooser(hBox, FileExtensionFilter.PYTHON);
         actionTextField.setEditable(false);
         actionTextField.focusTraversableProperty().set(false);
-        vBox.getChildren().add(3, hBox2);
+        vBox.getChildren().add(6, hBox2);
         hBox2.setMargin(secondLabel, new Insets(0, 110, 0, 0));
         this.secondLabel.setText("Insert arguments: ");
         secondTextField.setPromptText("Arg1 ; Arg2 ; ... ; ArgN");

@@ -7,6 +7,7 @@ import automatehub.model_view.trigger.creator.*;
 import automatehub.model_view.action.creator.*;
 import automatehub.model_view.action.*;
 import automatehub.model_view.*;
+import automatehub.model_view.trigger.creator.*;
 import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 import java.net.URL;
@@ -63,6 +64,8 @@ public class FXMLDialogInputBoxController implements Initializable {
     private Spinner<Integer> minuteSpinner;
     @FXML
     private VBox vBox;
+    @FXML
+    private Label ruleDescription;
     //Custom items
     private HBox secondBoxAction = new HBox();
     private Label secondLabelAction = new Label("");
@@ -125,25 +128,25 @@ public class FXMLDialogInputBoxController implements Initializable {
         ActionState state = null;
         switch (enumType) {
             case PLAY:
-                state = new AudioActionUI(actionTextField, actionLabel, actionBox);
+                state = new AudioActionUI(actionTextField, actionLabel, actionBox,ruleDescription);
                 break;
             case MEX:
-                state = new DialogBoxUI(actionLabel);
+                state = new DialogBoxUI(actionLabel,ruleDescription);
                 break;
             case COPY:
-                state = new CopyFileActionUI(actionTextField, secondTextFieldAction, actionLabel, secondLabelAction, actionBox, secondBoxAction, vBox);
+                state = new CopyFileActionUI(actionTextField, secondTextFieldAction, actionLabel, secondLabelAction, actionBox, secondBoxAction, vBox,ruleDescription);
                 break;
             case MOVE:
-                state = new MoveFileActionUI(actionTextField, secondTextFieldAction, actionLabel, secondLabelAction, actionBox, secondBoxAction, vBox);
+                state = new MoveFileActionUI(actionTextField, secondTextFieldAction, actionLabel, secondLabelAction, actionBox, secondBoxAction, vBox,ruleDescription);
                 break;
             case APPEND:
-                state = new AppendToFileActionUI(secondTextFieldAction, actionLabel, secondLabelAction, secondBoxAction, vBox);
+                state = new AppendToFileActionUI(secondTextFieldAction, actionLabel, secondLabelAction, secondBoxAction, vBox,ruleDescription);
                 break;
             case EXECUTE:
-                state = new ExecutorFileActionUI(actionTextField, secondTextFieldAction, actionLabel, secondLabelAction, actionBox, secondBoxAction, vBox);
+                state = new ExecutorFileActionUI(actionTextField, secondTextFieldAction, actionLabel, secondLabelAction, actionBox, secondBoxAction, vBox, ruleDescription);
                 break;
             case REMOVE:
-                state = new RemoveFileActionUI(actionLabel, actionTextField, actionBox);
+                state = new RemoveFileActionUI(actionLabel, actionTextField, actionBox, ruleDescription);
         }
         actionContext.changeState(state);
         actionContext.setupUI();
@@ -161,25 +164,25 @@ public class FXMLDialogInputBoxController implements Initializable {
 
         switch (enumType) {
             case TIME:
-                state = new TimeTriggerUI(triggerLabel, triggerTextField);
+                state = new TimeTriggerUI(triggerLabel, triggerTextField,ruleDescription);
                 break;
             case DAYMONTH:
-                state = new DayOfMonthTriggerUI(triggerLabel, triggerTextField);
+                state = new DayOfMonthTriggerUI(triggerLabel, triggerTextField,ruleDescription);
                 break;
             case FILESIZE:
-                state = new FileSizeTriggerUI(triggerLabel, secondLabelTrigger, triggerTextField, secondTextFieldTrigger, vBox, triggerBox, secondBoxTrigger);
+                state = new FileSizeTriggerUI(triggerLabel, secondLabelTrigger, triggerTextField, secondTextFieldTrigger, vBox, triggerBox, secondBoxTrigger,ruleDescription);
                 break;
             case CURRENTDAY:
-                state = new CurrentDayTriggerUI(triggerLabel, triggerTextField);
+                state = new CurrentDayTriggerUI(triggerLabel, triggerTextField, ruleDescription);
                 break;
             case EXIT:
-                state = new ExitStatusTriggerUI(triggerLabel, secondLabelTrigger, thirdLabelTrigger, triggerTextField, secondTextFieldTrigger, thirdTextFieldTrigger, triggerBox, secondBoxTrigger, thirdBoxTrigger, vBox);
+                state = new ExitStatusTriggerUI(triggerLabel, secondLabelTrigger, thirdLabelTrigger, triggerTextField, secondTextFieldTrigger, thirdTextFieldTrigger, triggerBox, secondBoxTrigger, thirdBoxTrigger, vBox,ruleDescription);
                 break;
             case DAYWEEK:
-                state = new DayOfWeekTriggerUI(triggerLabel, triggerTextField);
+                state = new DayOfWeekTriggerUI(triggerLabel, triggerTextField,ruleDescription);
                 break;
             case FINDFILE:
-                state = new FoundFileTriggerUI(triggerLabel, secondLabelTrigger, triggerTextField, secondTextFieldTrigger, triggerBox, secondBoxTrigger, vBox);
+                state = new FoundFileTriggerUI(triggerLabel, secondLabelTrigger, triggerTextField, secondTextFieldTrigger, triggerBox, secondBoxTrigger, vBox,ruleDescription);
                 break;
         }
         triggerContext.changeState(state);
@@ -194,8 +197,8 @@ public class FXMLDialogInputBoxController implements Initializable {
      * @param triggerType The choosen type of trigger componing the rule.
      */
     public void initData(String actionType, String triggerType) {
-        setupActionUI(actionType);
         setupTriggerUI(triggerType);
+        setupActionUI(actionType);
 
         Button b = (Button) rulesDialogPane.lookupButton(ButtonType.APPLY);
         b.setDefaultButton(true);

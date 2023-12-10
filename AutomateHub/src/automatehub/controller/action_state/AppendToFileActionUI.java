@@ -17,16 +17,18 @@ public class AppendToFileActionUI extends ActionState {
     private Label secondLabel;
     private HBox hBox2;
     private VBox vBox;
+    private Label label;
 
     public AppendToFileActionUI() {
     }
 
-    public AppendToFileActionUI(TextField secondTextField, Label actionLabel, Label secondLabel, HBox hBox2, VBox vBox) {
+    public AppendToFileActionUI(TextField secondTextField, Label actionLabel, Label secondLabel, HBox hBox2, VBox vBox, Label label) {
         this.secondTextField = secondTextField;
         this.actionLabel = actionLabel;
         this.secondLabel = secondLabel;
         this.hBox2 = hBox2;
         this.vBox = vBox;
+        this.label=label;
     }
 
     /**
@@ -39,8 +41,9 @@ public class AppendToFileActionUI extends ActionState {
     @Override
     public void setupUI(ActionContext context) {
         this.actionLabel.setText("Write the text to append:");
+        label.setText(label.getText()+"\n"+"When the rule is verified, the action will be writing a specified string at the end of a specified text file.");
         //Set up the new hbox
-        vBox.getChildren().add(3, hBox2);
+        vBox.getChildren().add(5, hBox2);
         secondLabel.setText("Choose the text file:");
         addFileChooser(hBox2, FileExtensionFilter.TEXT);
         secondTextField.setEditable(false);

@@ -1,7 +1,8 @@
 package automatehub.model_view.trigger.creator;
 
 import automatehub.model_view.trigger.*;
-
+import automatehub.model_view.trigger.DayOfWeekTrigger;
+import automatehub.model_view.trigger.Trigger;
 import java.time.DayOfWeek;
 
 /**

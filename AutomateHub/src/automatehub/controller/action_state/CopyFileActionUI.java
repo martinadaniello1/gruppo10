@@ -20,11 +20,12 @@ public class CopyFileActionUI extends ActionState {
     private HBox hBox;
     private HBox hBox2;
     private VBox vBox;
+    private Label label;
 
     public CopyFileActionUI() {
     }
 
-    public CopyFileActionUI(TextField actionTextField, TextField secondTextField, Label actionLabel, Label secondLabel, HBox hBox, HBox hBox2, VBox vBox) {
+    public CopyFileActionUI(TextField actionTextField, TextField secondTextField, Label actionLabel, Label secondLabel, HBox hBox, HBox hBox2, VBox vBox, Label label) {
         this.actionTextField = actionTextField;
         this.secondTextField = secondTextField;
         this.actionLabel = actionLabel;
@@ -32,6 +33,7 @@ public class CopyFileActionUI extends ActionState {
         this.hBox = hBox;
         this.hBox2 = hBox2;
         this.vBox = vBox;
+        this.label = label;
     }
 
     /**
@@ -43,13 +45,15 @@ public class CopyFileActionUI extends ActionState {
      */
     @Override
     public void setupUI(ActionContext context) {
+        label.setText(label.getText() + "\n" + "When the rule is verified, the action will be copying a specified file from a specified source directory to a specified destination directory.");
+
         this.actionLabel.setText("Choose the file to copy:");
         hBox.setMargin(actionLabel, new Insets(0, 63, 0, 0));
         addFileChooser(hBox, FileExtensionFilter.ALL);
         actionTextField.setEditable(false);
         actionTextField.focusTraversableProperty().set(false);
         //Set up the new hbox
-        vBox.getChildren().add(3, hBox2);
+        vBox.getChildren().add(6, hBox2);
         secondLabel.setText("Choose the destination directory:");
         addFileChooser(hBox2, FileExtensionFilter.DIRECTORY);
         secondTextField.setEditable(false);

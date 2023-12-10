@@ -15,11 +15,12 @@ public class FoundFileTriggerUI extends TriggerState {
     private TextField triggerTextField, secondTextFieldTrigger;
     private HBox triggerBox, secondTriggerBox;
     private VBox vBox;
+    private Label label;
 
     public FoundFileTriggerUI() {
     }
 
-    public FoundFileTriggerUI(Label triggerLabel, Label secondTriggerLabel, TextField triggerTextField, TextField secondTextFieldTrigger, HBox triggerBox, HBox secondTriggerBox, VBox vBox) {
+    public FoundFileTriggerUI(Label triggerLabel, Label secondTriggerLabel, TextField triggerTextField, TextField secondTextFieldTrigger, HBox triggerBox, HBox secondTriggerBox, VBox vBox, Label label) {
         this.triggerLabel = triggerLabel;
         this.secondTriggerLabel = secondTriggerLabel;
         this.triggerTextField = triggerTextField;
@@ -27,17 +28,19 @@ public class FoundFileTriggerUI extends TriggerState {
         this.triggerBox = triggerBox;
         this.secondTriggerBox = secondTriggerBox;
         this.vBox = vBox;
+        this.label = label;
     }
 
     @Override
     public void setupUI(TriggerContext context) {
+        label.setText("The rule will be verified when  file with a specified name exists in a specified directory.");
         triggerLabel.setText("Insert the filename to find: ");
-        triggerBox.setMargin(triggerLabel, new Insets(0,35,0,0));
+        triggerBox.setMargin(triggerLabel, new Insets(0, 35, 0, 0));
         triggerTextField.setPromptText("e.g. file.txt");
         setupFileValidation();
-        vBox.getChildren().add(2, secondTriggerBox);
+        vBox.getChildren().add(3, secondTriggerBox);
         secondTriggerLabel.setText("Choose where to search the file: ");
-        secondTriggerBox.setMargin(secondTriggerLabel, new Insets(0,10,0,0));
+        secondTriggerBox.setMargin(secondTriggerLabel, new Insets(0, 10, 0, 0));
         addFileChooser(secondTriggerBox, FileExtensionFilter.DIRECTORY);
     }
 

@@ -21,11 +21,12 @@ public class ExitStatusTriggerUI extends TriggerState {
     private TextField triggerTextField1, triggerTextField2, triggerTextField3;
     private HBox box1, box2, box3;
     private VBox vbox;
+    private Label label;
 
     public ExitStatusTriggerUI() {
     }
 
-    public ExitStatusTriggerUI(Label triggerLabel1, Label triggerLabel2, Label triggerLabel3, TextField triggerTextField1, TextField triggerTextField2, TextField triggerTextField3, HBox box1, HBox box2, HBox box3, VBox vbox) {
+    public ExitStatusTriggerUI(Label triggerLabel1, Label triggerLabel2, Label triggerLabel3, TextField triggerTextField1, TextField triggerTextField2, TextField triggerTextField3, HBox box1, HBox box2, HBox box3, VBox vbox, Label label) {
         this.triggerLabel1 = triggerLabel1;
         this.triggerLabel2 = triggerLabel2;
         this.triggerLabel3 = triggerLabel3;
@@ -36,17 +37,20 @@ public class ExitStatusTriggerUI extends TriggerState {
         this.box2 = box2;
         this.box3 = box3;
         this.vbox = vbox;
+        this.label=label;
     }
 
     @Override
     public void setupUI(TriggerContext context) {
+        label.setText("The rule will be verified when the exit status of the external program is equal to a specified value.");
+
         triggerLabel1.setText("Choose the program to monitor:");
         box1.setMargin(triggerLabel1, new Insets(0,0,0,0));
         addFileChooser(box1, FileExtensionFilter.PYTHON);
         triggerTextField1.setEditable(false);
         triggerTextField1.focusTraversableProperty().set(false);
-        vbox.getChildren().add(2, box2);
-        vbox.getChildren().add(3, box3);
+        vbox.getChildren().add(3, box2);
+        vbox.getChildren().add(4, box3);
         setUpValueValidation();
         //Set up the new box
         triggerLabel2.setText("Insert params: ");

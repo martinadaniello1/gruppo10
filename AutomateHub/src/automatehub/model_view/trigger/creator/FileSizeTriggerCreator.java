@@ -1,7 +1,6 @@
 package automatehub.model_view.trigger.creator;
 
 import automatehub.model_view.trigger.*;
-
 /**
  * Represents a ConcreteCreator of the Factory Method pattern for creating
  * instances of the {@link FileSizeTrigger} class.

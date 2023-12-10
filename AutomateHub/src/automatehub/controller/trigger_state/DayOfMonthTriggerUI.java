@@ -1,7 +1,6 @@
 package automatehub.controller.trigger_state;
 
 import automatehub.controller.TriggerContext;
-import automatehub.controller.trigger_state.TriggerState;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -12,14 +11,17 @@ public class DayOfMonthTriggerUI extends TriggerState {
     
     private Label triggerLabel;
     private TextField triggerTextField;
+    private Label label;
 
-    public DayOfMonthTriggerUI(Label triggerLabel, TextField triggerTextField) {
+    public DayOfMonthTriggerUI(Label triggerLabel, TextField triggerTextField, Label label) {
         this.triggerLabel = triggerLabel;
         this.triggerTextField = triggerTextField;
+        this.label=label;
     }
     
     @Override
     public void setupUI(TriggerContext context) {
+        label.setText("The rule will be verified when the current day-of-month is a specified day (e.g. 22).");
         triggerLabel.setText("Select the day of the month: ");
         triggerTextField.setPromptText("e.g. 4 (every month on the 4th)");
         setupDayValidation();

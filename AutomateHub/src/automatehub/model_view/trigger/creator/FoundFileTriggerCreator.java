@@ -1,7 +1,6 @@
 package automatehub.model_view.trigger.creator;
 
 import automatehub.model_view.trigger.*;
-
 /**
  * The class represents a ConcreteCreator of the factory method pattern. It
  * inherits the factory method from the Creator and is responsible for the
