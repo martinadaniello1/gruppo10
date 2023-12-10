@@ -1,7 +1,7 @@
 package test;
 
 import automatehub.model_view.trigger.TimeTrigger;
-import automatehub.model_view.trigger.TimeTriggerCreator;
+import automatehub.model_view.trigger.creator.TimeTriggerCreator;
 import automatehub.model_view.trigger.Trigger;
 import java.time.LocalTime;
 import static org.junit.Assert.assertTrue;

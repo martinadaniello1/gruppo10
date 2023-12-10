@@ -1,7 +1,7 @@
 package test;
 
 import automatehub.model_view.trigger.DayOfWeekTrigger;
-import automatehub.model_view.trigger.DayOfWeekTriggerCreator;
+import automatehub.model_view.trigger.creator.DayOfWeekTriggerCreator;
 import automatehub.model_view.trigger.Trigger;
 import java.time.DayOfWeek;
 import org.junit.BeforeClass;

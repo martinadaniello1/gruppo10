@@ -2,7 +2,7 @@ package test;
 
 import automatehub.model_view.trigger.Trigger;
 import automatehub.model_view.trigger.DayOfMonthTrigger;
-import automatehub.model_view.trigger.DayOfMonthTriggerCreator;
+import automatehub.model_view.trigger.creator.DayOfMonthTriggerCreator;
 import automatehub.model_view.*;
 import org.junit.Before;
 import org.junit.*;
