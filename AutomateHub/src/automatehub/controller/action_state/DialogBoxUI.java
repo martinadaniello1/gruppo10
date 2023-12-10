@@ -22,11 +22,22 @@ public class DialogBoxUI extends ActionState {
         this.actionLabel = actionLabel;
     }
 
+    /**
+     * Sets up the UI elements for the DialogBoxAction based on the provided
+     * ActionContext.
+     *
+     * @param context The ActionContext containing information about the current
+     * action.
+     */
     @Override
     public void setupUI(ActionContext context) {
         this.actionLabel.setText("Insert the text to display: ");
     }
 
+    /**
+     * Displays the message of the DialogBoxAction. 
+     * @param rule the rule to be executed
+     */
     @Override
     public void exec(Rule rule) {
         DialogBoxAction action = (DialogBoxAction) rule.getAction();

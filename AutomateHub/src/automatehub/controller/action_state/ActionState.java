@@ -12,12 +12,28 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 /**
- * This class contains all the methods that the ActionState objects will override, if necessary.
+ * This class contains all the methods that the ActionState objects will
+ * override, if necessary.
  */
 public abstract class ActionState {
 
+    /**
+     * Sets up the user interface (UI). This method is meant to be implemented
+     * by subclasses to configure the UI elements according to the specific
+     * requirements of the given Action State.
+     *
+     * @param context The ActionContext containing information about the current
+     * action.
+     */
     public abstract void setupUI(ActionContext context);
 
+    /**
+     * Finds and returns the first TextField within the given HBox container.
+     * Utility method.
+     *
+     * @param hbox The HBox container in which to search for a TextField.
+     * @return The first TextField found in the HBox, or null if none is found.
+     */
     public TextField findTextFieldInHBox(HBox hbox) {
         for (Node node : hbox.getChildren()) {
             if (node instanceof TextField) {
@@ -27,6 +43,15 @@ public abstract class ActionState {
         return null;
     }
 
+    /**
+     * Adds a FileChooser or DirectoryChooser to the specified HBox, allowing
+     * the user to choose a file or directory.
+     *
+     * @param box The HBox container to which the FileChooser or
+     * DirectoryChooser button will be added.
+     * @param fileFilter The file extension filter to apply, or
+     * FileExtensionFilter.DIRECTORY for directories.
+     */
     public void addFileChooser(HBox box, FileExtensionFilter fileFilter) {
         Button fileChooserButton = new Button("...");
         box.getChildren().add(fileChooserButton);
@@ -62,6 +87,12 @@ public abstract class ActionState {
         }
     }
 
+    /**
+     * This method is meant to be overridden by subclasses to provide custom
+     * logic for executing the actions associated with the given Rule.
+     *
+     * @param rule The Rule to be executed.
+     */
     public void exec(Rule rule) {
 
     }

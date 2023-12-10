@@ -4,13 +4,8 @@ import automatehub.controller.ActionContext;
 import automatehub.model_view.FileExtensionFilter;
 import automatehub.model_view.action.RemoveFileAction;
 import automatehub.model_view.Rule;
-import java.io.File;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
-
-
 
 public class RemoveFileActionUI extends ActionState {
 
@@ -27,6 +22,13 @@ public class RemoveFileActionUI extends ActionState {
         this.hBox = hBox;
     }
 
+    /**
+     * Sets up the UI elements for the RemoveFileAction based on the provided
+     * ActionContext.
+     *
+     * @param context The ActionContext containing information about the current
+     * action.
+     */
     @Override
     public void setupUI(ActionContext context) {
         actionLabel.setText("Select the file to remove: ");
@@ -35,42 +37,12 @@ public class RemoveFileActionUI extends ActionState {
         addFileChooser(hBox, FileExtensionFilter.ALL);
     }
 
-    @Override
-    public void addFileChooser(HBox box, FileExtensionFilter fileFilter) {
-        Button fileChooserButton = new Button("...");
-        box.getChildren().add(fileChooserButton);
-        TextField tf = findTextFieldInHBox(box);
-
-        if (fileFilter != FileExtensionFilter.DIRECTORY) {
-            fileChooserButton.setOnAction(event -> {
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.setTitle("Choose the file");
-
-                if (fileFilter != FileExtensionFilter.ALL) {
-                    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-                            fileFilter.getDescription(),
-                            fileFilter.getExtension()
-                    );
-                    fileChooser.getExtensionFilters().add(extFilter);
-                }
-                File selectedFile = fileChooser.showOpenDialog(box.getScene().getWindow());
-                if (selectedFile != null) {
-                    tf.setText(selectedFile.getAbsolutePath());
-                }
-            });
-        } else {
-            fileChooserButton.setOnAction(event -> {
-                DirectoryChooser directoryChooser = new DirectoryChooser();
-                directoryChooser.setTitle("Choose the directory");
-
-                File selectedFile = directoryChooser.showDialog(box.getScene().getWindow());
-                if (selectedFile != null) {
-                    tf.setText(selectedFile.getAbsolutePath());
-                }
-            });
-        }
-    }
-
+    /**
+     * Displays an information alert about the successful execution of the
+     * RemoveFileAction associated with the rule.
+     *
+     * @param rule The Rule that was executed.
+     */
     @Override
     public void exec(Rule rule) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

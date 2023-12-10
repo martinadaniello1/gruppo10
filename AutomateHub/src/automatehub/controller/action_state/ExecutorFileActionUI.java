@@ -2,15 +2,16 @@ package automatehub.controller.action_state;
 
 import automatehub.controller.ActionContext;
 import automatehub.model_view.action.ExecutorFileAction;
-import automatehub.model_view.FileExtensionFilter;
-import automatehub.model_view.Rule;
+import automatehub.model_view.*;
 import javafx.geometry.Insets;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 
+/**
+ * This class represents the ActionState (UI) for the Action of executing an
+ * external program.
+ *
+ */
 public class ExecutorFileActionUI extends ActionState {
 
     private TextField actionTextField;
@@ -34,6 +35,13 @@ public class ExecutorFileActionUI extends ActionState {
         this.vBox = vBox;
     }
 
+    /**
+     * Sets up the UI elements for the ExecutorFileAction based on the provided
+     * ActionContext.
+     *
+     * @param context The ActionContext containing information about the current
+     * action.
+     */
     @Override
     public void setupUI(ActionContext context) {
         this.actionLabel.setText("Choose a programm to run: ");
@@ -41,14 +49,20 @@ public class ExecutorFileActionUI extends ActionState {
         actionTextField.setEditable(false);
         actionTextField.focusTraversableProperty().set(false);
         vBox.getChildren().add(3, hBox2);
-        hBox2.setMargin(secondLabel, new Insets(0,110,0,0));
+        hBox2.setMargin(secondLabel, new Insets(0, 110, 0, 0));
         this.secondLabel.setText("Insert arguments: ");
         secondTextField.setPromptText("Arg1 ; Arg2 ; ... ; ArgN");
         secondTextField.focusTraversableProperty().set(false);
     }
 
+    /**
+     * Displays an information alert about the successful execution of the
+     * ExecutorFileAction associated with the rule.
+     *
+     * @param rule The Rule that was executed.
+     */
     @Override
-    public void exec(Rule rule) {        
+    public void exec(Rule rule) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         ExecutorFileAction executedAction = (ExecutorFileAction) rule.getAction();
         alert.setTitle(rule.getNameRule() + " rule executed");

@@ -43,7 +43,7 @@ public interface RuleObserver {
     void onActionExecuted(Rule rule);
 
     /**
-     * Called when a rule is verified.
+     * Called when a rule is not executed during program shutdown.
      *
      * @param rule The verified rule.
      */

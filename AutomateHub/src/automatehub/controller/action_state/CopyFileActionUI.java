@@ -1,15 +1,11 @@
 package automatehub.controller.action_state;
 
 import automatehub.controller.ActionContext;
-import automatehub.controller.action_state.ActionState;
 import automatehub.model_view.action.CopyFileAction;
 import automatehub.model_view.*;
-import java.io.File;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 
 /**
  * This class is the ActionState for the Action of copying a file to a
@@ -38,10 +34,17 @@ public class CopyFileActionUI extends ActionState {
         this.vBox = vBox;
     }
 
+    /**
+     * Sets up the UI elements for the CopyFileAction based on the provided
+     * ActionContext.
+     *
+     * @param context The ActionContext containing information about the current
+     * action.
+     */
     @Override
     public void setupUI(ActionContext context) {
         this.actionLabel.setText("Choose the file to copy:");
-        hBox.setMargin(actionLabel, new Insets(0,63,0,0));
+        hBox.setMargin(actionLabel, new Insets(0, 63, 0, 0));
         addFileChooser(hBox, FileExtensionFilter.ALL);
         actionTextField.setEditable(false);
         actionTextField.focusTraversableProperty().set(false);
@@ -53,6 +56,12 @@ public class CopyFileActionUI extends ActionState {
         secondTextField.focusTraversableProperty().set(false);
     }
 
+    /**
+     * Displays an information alert about the successful execution of the
+     * CopyFileAction associated with the rule.
+     *
+     * @param rule The Rule that was executed.
+     */
     @Override
     public void exec(Rule rule) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -61,9 +70,8 @@ public class CopyFileActionUI extends ActionState {
         alert.setTitle(rule.getNameRule() + " rule executed");
         alert.setHeaderText(null);
         alert.setContentText("Successful copying of the " + copyAction.getStartingPath() + " file");
-        //alert.getButtonTypes().setAll(ButtonType.OK);
         // Show the dialog box 
-        alert.show(); //To change body of generated methods, choose Tools | Templates.
+        alert.show();
     }
 
 }

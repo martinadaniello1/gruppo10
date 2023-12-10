@@ -1,27 +1,17 @@
 package automatehub.controller.action_state;
 
 import automatehub.controller.ActionContext;
-import automatehub.controller.action_state.ActionState;
 import automatehub.model_view.action.AudioAction;
 import automatehub.model_view.*;
-import java.io.File;
-import java.util.Optional;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.event.*;
+import javafx.geometry.*;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 /**
- * This class is the ActionState for the Action of playing an audio file.
+ * This class represents the ActionState (UI) for the Action of playing an audio file.
  */
 public class AudioActionUI extends ActionState {
 
@@ -38,6 +28,13 @@ public class AudioActionUI extends ActionState {
         this.hBox = hBox;
     }
 
+     /**
+     * Sets up the UI elements for the AudioAction based on the provided
+     * ActionContext.
+     *
+     * @param context The ActionContext containing information about the current
+     * action.
+     */
     @Override
     public void setupUI(ActionContext context) {
         actionLabel.setText("Insert the file audio's path: ");
@@ -47,6 +44,10 @@ public class AudioActionUI extends ActionState {
         addFileChooser(hBox, FileExtensionFilter.WAV);
     }
 
+    /**
+     * Displays a new stage to stop the audio file.
+     * @param rule The rule that was executed
+     */
     @Override
     public void exec(Rule rule) {
         AudioAction audioAction = (AudioAction) rule.getAction();
@@ -61,8 +62,8 @@ public class AudioActionUI extends ActionState {
                 audioAction.stopPlaying();
             }
         });
-        root.setAlignment(Pos.CENTER); // Center aligns its children
-        root.setSpacing(10); // You can adjust the spacing as needed
+        root.setAlignment(Pos.CENTER); 
+        root.setSpacing(10); 
         root.getChildren().add(btn);
         Stage s = new Stage();
         s.setScene(scene);

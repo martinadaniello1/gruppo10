@@ -3,16 +3,13 @@ package automatehub.controller.action_state;
 import automatehub.controller.ActionContext;
 import automatehub.model_view.action.MoveFileAction;
 import automatehub.model_view.*;
-import java.io.File;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 
 /**
- * This class is the ActionState for the Action of moving a file to another
+ * This class represents the ActionState (UI) for the Action of moving a file to another
  * directory.
  */
 public class MoveFileActionUI extends ActionState {
@@ -38,6 +35,13 @@ public class MoveFileActionUI extends ActionState {
         this.vBox = vBox;
     }
 
+    /**
+     * Sets up the UI elements for the MoveFileAction based on the provided
+     * ActionContext.
+     *
+     * @param context The ActionContext containing information about the current
+     * action.
+     */
     @Override
     public void setupUI(ActionContext context) {
         this.actionLabel.setText("Choose the file to move: ");
@@ -53,6 +57,12 @@ public class MoveFileActionUI extends ActionState {
         secondTextField.focusTraversableProperty().set(false);
     }
 
+    /**
+     * Displays an information alert about the successful execution of the
+     * MoveFileAction associated with the rule.
+     *
+     * @param rule The Rule that was executed.
+     */
     @Override
     public void exec(Rule rule) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -60,7 +70,6 @@ public class MoveFileActionUI extends ActionState {
         alert.setTitle(rule.getNameRule() + " rule executed");
         alert.setHeaderText(null);
         alert.setContentText("Successful moving of the " + moveAction.getStartingPath() + " file");
-        //alert.getButtonTypes().setAll(ButtonType.OK);
         // Show the dialog box 
         alert.show();
     }

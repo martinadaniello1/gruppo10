@@ -3,20 +3,15 @@ package automatehub.controller.action_state;
 import automatehub.controller.ActionContext;
 import automatehub.model_view.action.AppendToFileAction;
 import automatehub.model_view.*;
-import java.io.File;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 
 /**
- * This class is the ActionState for the Action of appending a string to a file.
+ * This class represents the ActionState (UI) for the Action of appending a
+ * string to a file.
  */
 public class AppendToFileActionUI extends ActionState {
+
     private TextField secondTextField;
     private Label actionLabel;
     private Label secondLabel;
@@ -25,15 +20,22 @@ public class AppendToFileActionUI extends ActionState {
 
     public AppendToFileActionUI() {
     }
-    
+
     public AppendToFileActionUI(TextField secondTextField, Label actionLabel, Label secondLabel, HBox hBox2, VBox vBox) {
         this.secondTextField = secondTextField;
         this.actionLabel = actionLabel;
         this.secondLabel = secondLabel;
         this.hBox2 = hBox2;
         this.vBox = vBox;
-    }    
-    
+    }
+
+    /**
+     * Sets up the UI elements for the AppendToFileAction based on the provided
+     * ActionContext.
+     *
+     * @param context The ActionContext containing information about the current
+     * action.
+     */
     @Override
     public void setupUI(ActionContext context) {
         this.actionLabel.setText("Write the text to append:");
@@ -42,20 +44,24 @@ public class AppendToFileActionUI extends ActionState {
         secondLabel.setText("Choose the text file:");
         addFileChooser(hBox2, FileExtensionFilter.TEXT);
         secondTextField.setEditable(false);
-        secondTextField.focusTraversableProperty().set(false);  
+        secondTextField.focusTraversableProperty().set(false);
     }
 
+    /**
+     * Displays an information alert about the successful execution of the
+     * AppendToFileAction associated with the rule.
+     *
+     * @param rule The Rule that was executed.
+     */
     @Override
     public void exec(Rule rule) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         AppendToFileAction appendAction = (AppendToFileAction) rule.getAction();
-        alert.setTitle( rule.getNameRule() + " rule executed");
+        alert.setTitle(rule.getNameRule() + " rule executed");
         alert.setHeaderText(null);
-        alert.setContentText("String " + appendAction.getStringToAppend() + " successfully added to "+ appendAction.getFilePath() + " file");
-        //alert.getButtonTypes().setAll(ButtonType.OK);
+        alert.setContentText("String " + appendAction.getStringToAppend() + " successfully added to " + appendAction.getFilePath() + " file");
         // Show the dialog box 
         alert.show();
     }
-    
-    
+
 }
