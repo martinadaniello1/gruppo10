@@ -16,8 +16,25 @@ import javafx.stage.FileChooser;
  */
 public abstract class TriggerState {
 
+    /**
+     * The method setups the UI based on the chosen trigger.
+     *
+     * Sets up the user interface (UI). This method is meant to be implemented
+     * by subclasses to configure the UI elements according to the specific
+     * requirements of the given Trigger State.
+     *
+     * @param context The TriggerContext containing information about the
+     * current trigger.
+     */
     public abstract void setupUI(TriggerContext context);
 
+    /**
+     * Finds and returns the first TextField within the given HBox container.
+     * Utility method.
+     *
+     * @param hbox The HBox container in which to search for a TextField.
+     * @return The first TextField found in the HBox, or null if none is found.
+     */
     public TextField findTextFieldInHBox(HBox hbox) {
         for (Node node : hbox.getChildren()) {
             if (node instanceof TextField) {
@@ -27,6 +44,15 @@ public abstract class TriggerState {
         return null;
     }
 
+    /**
+     * Adds a FileChooser or DirectoryChooser to the specified HBox, allowing
+     * the user to choose a file or directory.
+     *
+     * @param box The HBox container to which the FileChooser or
+     * DirectoryChooser button will be added.
+     * @param fileFilter The file extension filter to apply, or
+     * FileExtensionFilter.DIRECTORY for directories.
+     */
     public void addFileChooser(HBox box, FileExtensionFilter fileFilter) {
         Button fileChooserButton = new Button("...");
         box.getChildren().add(fileChooserButton);

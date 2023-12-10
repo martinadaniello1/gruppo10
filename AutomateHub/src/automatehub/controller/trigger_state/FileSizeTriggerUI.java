@@ -6,6 +6,9 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
+/**
+ * This class is the TriggerState for the Trigger FileSizeTrigger.
+ */
 public class FileSizeTriggerUI extends TriggerState {
 
     private Label triggerLabel1;
@@ -27,6 +30,13 @@ public class FileSizeTriggerUI extends TriggerState {
         this.label = label;
     }
 
+    /**
+     * Sets up the UI elements for the FileSizeTrigger based on the provided
+     * TriggerContext.
+     *
+     * @param context The TriggerContext containing information about the current
+     * trigger.
+     */
     @Override
     public void setupUI(TriggerContext context) {
         label.setText("The rule will be verified when the size of a specified file is larger than a specified value.");
@@ -42,6 +52,9 @@ public class FileSizeTriggerUI extends TriggerState {
         triggerLabel2.setText("Insert the size in bytes to compare: ");
     }
 
+     /**
+     * Checks if the user's input is valid.
+     */
     private void setUpValueValidation() {
         triggerTextField2.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {

@@ -19,6 +19,13 @@ public class DayOfMonthTriggerUI extends TriggerState {
         this.label=label;
     }
     
+    /**
+     * Sets up the UI elements for the DayOfMonthTrigger based on the provided
+     * TriggerContext.
+     *
+     * @param context The TriggerContext containing information about the current
+     * trigger.
+     */
     @Override
     public void setupUI(TriggerContext context) {
         label.setText("The rule will be verified when the current day-of-month is a specified day (e.g. 22).");
@@ -27,6 +34,9 @@ public class DayOfMonthTriggerUI extends TriggerState {
         setupDayValidation();
     }
     
+    /**
+     * Checks if the user's input is valid.
+     */
     private void setupDayValidation() {
         triggerTextField.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) {

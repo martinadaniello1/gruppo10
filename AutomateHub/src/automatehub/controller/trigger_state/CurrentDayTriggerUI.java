@@ -1,7 +1,6 @@
 package automatehub.controller.trigger_state;
 
 import automatehub.controller.TriggerContext;
-import automatehub.controller.trigger_state.TriggerState;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -23,6 +22,13 @@ public class CurrentDayTriggerUI extends TriggerState {
     public CurrentDayTriggerUI() {
     }
 
+    /**
+     * Sets up the UI elements for the CurrentDayTrigger based on the provided
+     * TriggerContext.
+     *
+     * @param context The TriggerContext containing information about the current
+     * trigger.
+     */
     @Override
     public void setupUI(TriggerContext context) {
         triggerLabel.setText("Select the day: ");
@@ -31,6 +37,9 @@ public class CurrentDayTriggerUI extends TriggerState {
         setUpTimeValidation();
     }
 
+    /**
+     * Checks if the user's input is valid.
+     */
     private void setUpTimeValidation() {
         triggerTextField.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) {

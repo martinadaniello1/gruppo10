@@ -7,7 +7,6 @@ import automatehub.model_view.trigger.creator.*;
 import automatehub.model_view.action.creator.*;
 import automatehub.model_view.action.*;
 import automatehub.model_view.*;
-import automatehub.model_view.trigger.creator.*;
 import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 import java.net.URL;
@@ -87,8 +86,6 @@ public class FXMLDialogInputBoxController implements Initializable {
     /**
      * As the name suggests, the method is used to initialize the interface's
      * elements and their properties.
-     *
-     *
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -128,19 +125,19 @@ public class FXMLDialogInputBoxController implements Initializable {
         ActionState state = null;
         switch (enumType) {
             case PLAY:
-                state = new AudioActionUI(actionTextField, actionLabel, actionBox,ruleDescription);
+                state = new AudioActionUI(actionTextField, actionLabel, actionBox, ruleDescription);
                 break;
             case MEX:
-                state = new DialogBoxUI(actionLabel,ruleDescription);
+                state = new DialogBoxUI(actionLabel, ruleDescription);
                 break;
             case COPY:
-                state = new CopyFileActionUI(actionTextField, secondTextFieldAction, actionLabel, secondLabelAction, actionBox, secondBoxAction, vBox,ruleDescription);
+                state = new CopyFileActionUI(actionTextField, secondTextFieldAction, actionLabel, secondLabelAction, actionBox, secondBoxAction, vBox, ruleDescription);
                 break;
             case MOVE:
-                state = new MoveFileActionUI(actionTextField, secondTextFieldAction, actionLabel, secondLabelAction, actionBox, secondBoxAction, vBox,ruleDescription);
+                state = new MoveFileActionUI(actionTextField, secondTextFieldAction, actionLabel, secondLabelAction, actionBox, secondBoxAction, vBox, ruleDescription);
                 break;
             case APPEND:
-                state = new AppendToFileActionUI(secondTextFieldAction, actionLabel, secondLabelAction, secondBoxAction, vBox,ruleDescription);
+                state = new AppendToFileActionUI(secondTextFieldAction, actionLabel, secondLabelAction, secondBoxAction, vBox, ruleDescription);
                 break;
             case EXECUTE:
                 state = new ExecutorFileActionUI(actionTextField, secondTextFieldAction, actionLabel, secondLabelAction, actionBox, secondBoxAction, vBox, ruleDescription);
@@ -164,25 +161,25 @@ public class FXMLDialogInputBoxController implements Initializable {
 
         switch (enumType) {
             case TIME:
-                state = new TimeTriggerUI(triggerLabel, triggerTextField,ruleDescription);
+                state = new TimeTriggerUI(triggerLabel, triggerTextField, ruleDescription);
                 break;
             case DAYMONTH:
-                state = new DayOfMonthTriggerUI(triggerLabel, triggerTextField,ruleDescription);
+                state = new DayOfMonthTriggerUI(triggerLabel, triggerTextField, ruleDescription);
                 break;
             case FILESIZE:
-                state = new FileSizeTriggerUI(triggerLabel, secondLabelTrigger, triggerTextField, secondTextFieldTrigger, vBox, triggerBox, secondBoxTrigger,ruleDescription);
+                state = new FileSizeTriggerUI(triggerLabel, secondLabelTrigger, triggerTextField, secondTextFieldTrigger, vBox, triggerBox, secondBoxTrigger, ruleDescription);
                 break;
             case CURRENTDAY:
                 state = new CurrentDayTriggerUI(triggerLabel, triggerTextField, ruleDescription);
                 break;
             case EXIT:
-                state = new ExitStatusTriggerUI(triggerLabel, secondLabelTrigger, thirdLabelTrigger, triggerTextField, secondTextFieldTrigger, thirdTextFieldTrigger, triggerBox, secondBoxTrigger, thirdBoxTrigger, vBox,ruleDescription);
+                state = new ExitStatusTriggerUI(triggerLabel, secondLabelTrigger, thirdLabelTrigger, triggerTextField, secondTextFieldTrigger, thirdTextFieldTrigger, triggerBox, secondBoxTrigger, thirdBoxTrigger, vBox, ruleDescription);
                 break;
             case DAYWEEK:
-                state = new DayOfWeekTriggerUI(triggerLabel, triggerTextField,ruleDescription);
+                state = new DayOfWeekTriggerUI(triggerLabel, triggerTextField, ruleDescription);
                 break;
             case FINDFILE:
-                state = new FoundFileTriggerUI(triggerLabel, secondLabelTrigger, triggerTextField, secondTextFieldTrigger, triggerBox, secondBoxTrigger, vBox,ruleDescription);
+                state = new FoundFileTriggerUI(triggerLabel, secondLabelTrigger, triggerTextField, triggerBox, secondBoxTrigger, vBox, ruleDescription);
                 break;
         }
         triggerContext.changeState(state);
@@ -190,8 +187,8 @@ public class FXMLDialogInputBoxController implements Initializable {
     }
 
     /**
-     * The method receive the actionType and the triggerType composing the rule
-     * being istantiated, and call the appropriate UI setups methods.
+     * The method receives the actionType and the triggerType composing the rule
+     * being istantiated, and calls the appropriate UI setups methods.
      *
      * @param actionType The choosen type of action componing the rule.
      * @param triggerType The choosen type of trigger componing the rule.
@@ -208,8 +205,8 @@ public class FXMLDialogInputBoxController implements Initializable {
     }
 
     /**
-     * The method is related to the edit action, and let the user confrontate
-     * with the rule being editing.
+     * The method is related to the edit action, and lets the user compare with
+     * the rule being editing.
      *
      * @param actionType The choosen type of action componing the rule.
      * @param triggerType The choosen type of action componing the rule.
@@ -338,7 +335,7 @@ public class FXMLDialogInputBoxController implements Initializable {
     }
 
     /**
-     * The method is related to the edit action, and let the user redefine when
+     * The method is related to the edit action, and lets the user redefine when
      * the rule must repeat.
      *
      * @param oldRule The rule being replaced.

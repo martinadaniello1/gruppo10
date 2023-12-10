@@ -255,8 +255,8 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
     }
 
     /**
-     * The following two methods let the user import rules from a file and save
-     * them in the file when the application is closed.
+     * This method lets the user import rules from a file when the application
+     * is opened.
      *
      * @param event
      * @throws ClassNotFoundException
@@ -271,6 +271,12 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
         }
     }
 
+    /**
+     * This methods lets the user save the rules in a file when the application
+     * is closed.
+     *
+     * @param event
+     */
     public void handleCloseRequest(WindowEvent event) {
         try {
             // Save the rules when the application is closed
@@ -309,11 +315,8 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
         nuovoStage.show();
     }
 
-    /**
-     * The following methods define the application behavior based on the rule's
+    /* The following methods define the application behavior based on the rule's
      * operations applied.
-     *
-     * @param rule
      */
     @Override
     public void onRuleAdded(Rule rule) {

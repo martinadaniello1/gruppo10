@@ -1,16 +1,10 @@
 package automatehub.controller.trigger_state;
 
 import automatehub.controller.TriggerContext;
-import automatehub.controller.trigger_state.TriggerState;
 import automatehub.model_view.FileExtensionFilter;
-import java.util.function.UnaryOperator;
 import javafx.geometry.Insets;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.util.converter.IntegerStringConverter;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 
 /**
  * This class is the TriggerState for the Trigger ExitStatusTrigger.
@@ -40,10 +34,16 @@ public class ExitStatusTriggerUI extends TriggerState {
         this.label=label;
     }
 
+    /**
+     * Sets up the UI elements for the ExitStatusTrigger based on the provided
+     * TriggerContext.
+     *
+     * @param context The TriggerContext containing information about the current
+     * trigger.
+     */
     @Override
     public void setupUI(TriggerContext context) {
         label.setText("The rule will be verified when the exit status of the external program is equal to a specified value.");
-
         triggerLabel1.setText("Choose the program to monitor:");
         box1.setMargin(triggerLabel1, new Insets(0,0,0,0));
         addFileChooser(box1, FileExtensionFilter.PYTHON);
@@ -59,7 +59,10 @@ public class ExitStatusTriggerUI extends TriggerState {
         box3.setMargin(triggerLabel3, new Insets(0,10,0,0));
         triggerTextField2.setPromptText("arg1;arg2; ...; argn; ");
     }
-    //Check if the value is an integer 
+    
+     /**
+     * Checks if the user's input is valid.
+     */
     private void setUpValueValidation() {
         triggerTextField3.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {

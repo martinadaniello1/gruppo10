@@ -47,7 +47,6 @@ public class ExecutorFileActionUI extends ActionState {
     @Override
     public void setupUI(ActionContext context) {
         label.setText(label.getText() + "\n" + "When the rule is verified, the action will be executing a specified external program, with specified command-line arguments.");
-
         this.actionLabel.setText("Choose a programm to run: ");
         addFileChooser(hBox, FileExtensionFilter.PYTHON);
         actionTextField.setEditable(false);
