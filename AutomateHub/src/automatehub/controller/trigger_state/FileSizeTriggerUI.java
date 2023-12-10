@@ -39,7 +39,7 @@ public class FileSizeTriggerUI extends TriggerState {
      */
     @Override
     public void setupUI(TriggerContext context) {
-        label.setText("The rule will be verified when the size of a specified file is larger than a specified value.");
+        label.setText("The rule will be verified when the size of a specified file is larger than a specified value in bytes.");
 
         triggerLabel1.setText("Choose the file: ");
         addFileChooser(hBox1, FileExtensionFilter.ALL);

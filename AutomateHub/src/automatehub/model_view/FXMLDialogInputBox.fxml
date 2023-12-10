@@ -21,10 +21,13 @@
             <children>
             <HBox prefHeight="91.0" prefWidth="464.0" spacing="10.0">
                <children>
-                  <Label fx:id="ruleDescription" alignment="CENTER" prefHeight="75.0" prefWidth="437.0" text="Rule description" textFill="#777777" wrapText="true">
+                  <Label fx:id="ruleDescription" alignment="CENTER" prefHeight="107.0" prefWidth="437.0" text="Rule description" textFill="#777777" wrapText="true">
                      <HBox.margin>
-                        <Insets right="28.0" />
+                        <Insets />
                      </HBox.margin>
+                     <font>
+                        <Font name="Arial" size="10.0" />
+                     </font>
                   </Label>
                </children>
                <padding>

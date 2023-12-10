@@ -32,7 +32,7 @@ public class CurrentDayTriggerUI extends TriggerState {
     @Override
     public void setupUI(TriggerContext context) {
         triggerLabel.setText("Select the day: ");
-        label.setText("The rule will be verified when the current date is a specified date (e.g. 18/12/2023).");
+        label.setText("The rule will be verified when the current date is a specified date (e.g. 2023-12-10).");
         triggerTextField.setPromptText("e.g. yyyy-mm-gg");
         setUpTimeValidation();
     }

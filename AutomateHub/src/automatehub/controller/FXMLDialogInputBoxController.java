@@ -213,8 +213,8 @@ public class FXMLDialogInputBoxController implements Initializable {
      * @param oldRule The rule being editing.
      */
     public void updateData(String actionType, String triggerType, Rule oldRule) {
-        setupActionUI(actionType);
         setupTriggerUI(triggerType);
+        setupActionUI(actionType);
 
         ruleTextField.setText(oldRule.getNameRule());
         triggerTextField.setText(oldRule.getTrigger().getParam1());

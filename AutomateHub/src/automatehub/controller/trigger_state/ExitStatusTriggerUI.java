@@ -43,7 +43,7 @@ public class ExitStatusTriggerUI extends TriggerState {
      */
     @Override
     public void setupUI(TriggerContext context) {
-        label.setText("The rule will be verified when the exit status of the external program is equal to a specified value.");
+        label.setText("The rule will be verified when the exit status of the external program is equal to a specified value. Arguments to be passed to the programme must be divided by a \";\" (eg. \"15 ; 18\").");
         triggerLabel1.setText("Choose the program to monitor:");
         box1.setMargin(triggerLabel1, new Insets(0,0,0,0));
         addFileChooser(box1, FileExtensionFilter.PYTHON);
@@ -57,7 +57,7 @@ public class ExitStatusTriggerUI extends TriggerState {
         box2.setMargin(triggerLabel2, new Insets(0,65,0,0));
         triggerLabel3.setText("Insert an integer value: ");
         box3.setMargin(triggerLabel3, new Insets(0,10,0,0));
-        triggerTextField2.setPromptText("arg1;arg2; ...; argn; ");
+        triggerTextField2.setPromptText("arg1 ; arg2 ; ... ; argn ;");
     }
     
      /**
