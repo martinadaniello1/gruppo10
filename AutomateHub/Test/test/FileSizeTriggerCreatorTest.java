@@ -2,7 +2,6 @@ package test;
 
 import automatehub.model_view.trigger.FileSizeTrigger;
 import automatehub.model_view.trigger.creator.FileSizeTriggerCreator;
-import automatehub.model_view.*;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;

@@ -3,7 +3,6 @@ package test;
 import automatehub.model_view.action.Action;
 import automatehub.model_view.action.AudioAction;
 import automatehub.model_view.action.creator.AudioActionCreator;
-import java.util.ArrayList;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;

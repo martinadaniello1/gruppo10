@@ -3,8 +3,7 @@ package test;
 import automatehub.model_view.action.MoveFileAction;
 import automatehub.model_view.action.creator.MoveFileActionCreator;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 public class MoveFileActionCreatorTest {
 

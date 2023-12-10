@@ -3,7 +3,6 @@ package test;
 import automatehub.model_view.action.CopyFileAction;
 import org.junit.Test;
 import java.io.File;
-import java.io.IOException;
 import org.junit.After;
 import static org.junit.Assert.*;
 import org.junit.Before;

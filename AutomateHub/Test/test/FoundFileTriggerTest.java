@@ -1,9 +1,7 @@
 package test;
 
 import automatehub.model_view.trigger.FoundFileTrigger;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import static org.junit.Assert.*;
 
 public class FoundFileTriggerTest {

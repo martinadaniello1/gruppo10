@@ -3,8 +3,7 @@ package test;
 import automatehub.model_view.action.Action;
 import automatehub.model_view.action.ExecutorFileAction;
 import automatehub.model_view.action.creator.ExecutorFileActionCreator;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 

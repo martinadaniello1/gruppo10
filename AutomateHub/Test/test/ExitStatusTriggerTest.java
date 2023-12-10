@@ -2,12 +2,7 @@ package test;
 
 import automatehub.model_view.trigger.ExitStatusTrigger;
 import java.io.File;
-import java.io.IOException;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

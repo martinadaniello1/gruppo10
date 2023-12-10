@@ -4,8 +4,7 @@ import automatehub.model_view.action.Action;
 import automatehub.model_view.action.RemoveFileAction;
 import automatehub.model_view.action.creator.RemoveFileActionCreator;
 import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 public class RemoveFileActionCreatorTest {
     private String filePath;
