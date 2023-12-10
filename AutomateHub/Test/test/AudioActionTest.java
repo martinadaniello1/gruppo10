@@ -1,6 +1,6 @@
 package test;
 
-import automatehub.model_view.AudioAction;
+import automatehub.model_view.action.AudioAction;
 import java.io.File;
 import static org.junit.Assert.*;
 import org.junit.*;

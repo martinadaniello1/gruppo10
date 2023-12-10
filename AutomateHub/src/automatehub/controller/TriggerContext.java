@@ -1,5 +1,7 @@
 package automatehub.controller;
 
+import automatehub.controller.trigger_state.TriggerState;
+
 /**
  * The TriggerContext class communicates with the state objects via the
  * reference to the TriggerState class.

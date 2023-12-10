@@ -1,8 +1,8 @@
 package test;
 
-import automatehub.model_view.TimeTrigger;
-import automatehub.model_view.TimeTriggerCreator;
-import automatehub.model_view.Trigger;
+import automatehub.model_view.trigger.TimeTrigger;
+import automatehub.model_view.trigger.TimeTriggerCreator;
+import automatehub.model_view.trigger.Trigger;
 import java.time.LocalTime;
 import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;

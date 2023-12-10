@@ -1,6 +1,6 @@
 package test;
 
-import automatehub.model_view.DayOfMonthTrigger;
+import automatehub.model_view.trigger.DayOfMonthTrigger;
 import java.time.LocalDate;
 import static org.junit.Assert.*;
 import org.junit.Before;

@@ -1,6 +1,6 @@
 package test;
 
-import automatehub.model_view.DayOfWeekTrigger;
+import automatehub.model_view.trigger.DayOfWeekTrigger;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import org.junit.Before;

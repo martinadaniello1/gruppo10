@@ -3,8 +3,8 @@ package test;
 import org.junit.*;
 import static org.junit.Assert.*;
 import automatehub.model_view.Rule;
-import automatehub.model_view.TimeTrigger;
-import automatehub.model_view.AudioAction;
+import automatehub.model_view.trigger.TimeTrigger;
+import automatehub.model_view.action.AudioAction;
 import java.time.Duration;
 import java.time.LocalTime;
 

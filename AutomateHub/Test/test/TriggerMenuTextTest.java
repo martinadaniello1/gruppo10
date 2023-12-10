@@ -1,6 +1,6 @@
 package test;
 
-import automatehub.model_view.TriggerMenuText;
+import automatehub.model_view.trigger.TriggerMenuText;
 import static org.junit.Assert.*;
 import org.junit.Test;
 

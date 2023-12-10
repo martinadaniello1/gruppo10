@@ -1,8 +1,8 @@
 package test;
 
-import automatehub.model_view.Action;
-import automatehub.model_view.DialogBoxAction;
-import automatehub.model_view.DialogBoxActionCreator;
+import automatehub.model_view.action.Action;
+import automatehub.model_view.action.DialogBoxAction;
+import automatehub.model_view.action.creator.DialogBoxActionCreator;
 import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;

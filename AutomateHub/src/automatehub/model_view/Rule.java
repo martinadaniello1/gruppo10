@@ -1,5 +1,7 @@
 package automatehub.model_view;
 
+import automatehub.model_view.trigger.Trigger;
+import automatehub.model_view.action.Action;
 import java.time.Duration;
 import java.io.Serializable;
 import java.util.Objects;

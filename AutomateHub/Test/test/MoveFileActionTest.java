@@ -1,6 +1,6 @@
 package test;
 
-import automatehub.model_view.MoveFileAction;
+import automatehub.model_view.action.MoveFileAction;
 import org.junit.Test;
 import java.io.File;
 import java.io.IOException;

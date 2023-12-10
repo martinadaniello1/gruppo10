@@ -41,4 +41,11 @@ public interface RuleObserver {
      * @param rule The rule for which the action is executed.
      */
     void onActionExecuted(Rule rule);
+
+    /**
+     * Called when a rule is verified.
+     *
+     * @param rule The verified rule.
+     */
+    void onRuleNotExecuted(Rule rule);
 }

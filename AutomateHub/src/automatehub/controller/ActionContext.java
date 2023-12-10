@@ -1,5 +1,6 @@
 package automatehub.controller;
 
+import automatehub.controller.action_state.ActionState;
 import automatehub.model_view.Rule;
 
 /**

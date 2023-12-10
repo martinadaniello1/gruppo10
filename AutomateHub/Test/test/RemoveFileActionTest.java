@@ -1,6 +1,6 @@
 package test;
 
-import automatehub.model_view.RemoveFileAction;
+import automatehub.model_view.action.RemoveFileAction;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;

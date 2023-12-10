@@ -1,9 +1,12 @@
 package automatehub.model_view;
 
+import automatehub.model_view.trigger.*;
+import automatehub.model_view.action.*;
 import java.time.Duration;
 import java.util.logging.*;
 import java.util.*;
 import java.io.*;
+import java.time.Instant;
 import java.util.ArrayList;
 
 /**
@@ -15,13 +18,13 @@ import java.util.ArrayList;
  * application.
  *
  */
-
 public class RuleManagerService implements Serializable {
 
     private ArrayList<RuleObserver> observers;
     private ArrayList<Rule> ruleList;
     private List<Thread> repeteableThreads;
     private boolean isCheckingRules = true;
+    private Instant programShutdownTime;
     //Single instance of the class
     private static RuleManagerService instance = null;
 
@@ -32,11 +35,10 @@ public class RuleManagerService implements Serializable {
         this.repeteableThreads = new ArrayList<>();
     }
 
-    ;
-    
-    
-     /**
-     * Returns the singleton instance of RuleManagerService. If the instance doesn't exist, it creates a new one.
+    /**
+     * Returns the singleton instance of RuleManagerService. If the instance
+     * doesn't exist, it creates a new one.
+     *
      * @return The singleton instance of RuleManagerService.
      */
     //Lazy initialization
@@ -45,7 +47,6 @@ public class RuleManagerService implements Serializable {
         if (instance == null) {
             instance = new RuleManagerService();
         }
-
         return instance;
     }
 
@@ -59,26 +60,12 @@ public class RuleManagerService implements Serializable {
                                 rule.setActive(false);
                                 notifyRuleVerified(rule);
                                 if (!rule.getPeriod().isZero()) {
-                                    Thread repeteable = new Thread(() -> {
-                                        while (!Thread.currentThread().isInterrupted()) {
-                                            try {
-                                                System.out.println("repeteable Thread:  " + rule.getNameRule());
-                                                Thread.sleep(rule.getPeriod().toMillis());
-                                                rule.setActive(true);
-                                                Thread.currentThread().interrupt();
-                                            } catch (InterruptedException ex) {
-                                                Thread.currentThread().interrupt();
-                                            }
-                                        }
-                                    });
-                                    repeteableThreads.add(repeteable);
-                                    repeteable.start();
+                                    startRepeteableThread(rule, rule.getPeriod());
                                 }
                             } else {
                                 System.out.println("Rule verification failed: " + rule.toString());
                             }
                         }
-
                     }
                 }
                 try {
@@ -86,7 +73,6 @@ public class RuleManagerService implements Serializable {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-
                 }
             }
         }).start();
@@ -95,6 +81,7 @@ public class RuleManagerService implements Serializable {
     public void stop() {
         System.out.println("Stop Thread ....");
         isCheckingRules = false;
+        programShutdownTime = Instant.now();
         for (Thread thread : repeteableThreads) {
             thread.interrupt();
             try {
@@ -103,8 +90,17 @@ public class RuleManagerService implements Serializable {
                 Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
+        saveProgramShutdownTime();
         System.out.println("Stop Thread eseguito correttamente");
+    }
+
+    private void saveProgramShutdownTime() {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ProgramShutdownTime.dat"))) {
+            out.writeObject(programShutdownTime);
+            System.out.println("Program shutdown time saved");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void addRule(Rule r) {
@@ -149,46 +145,75 @@ public class RuleManagerService implements Serializable {
         return this.observers;
     }
 
-    public void importRule() throws IOException, ClassNotFoundException {
+    private void startRepeteableThread(Rule rule, Duration sleepDuration) {
+        Thread repeteable = new Thread(() -> {
+            while (!Thread.currentThread().isInterrupted()) {
+                try {
+                    System.out.println("repeteable Thread:  " + rule.getNameRule());
+                    Thread.sleep(sleepDuration.toMillis());
+                    rule.setActive(true);
+                    Thread.currentThread().interrupt();
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        });
+        repeteableThreads.add(repeteable);
+        repeteable.start();
+    }
+
+    private Rule getRule(ObjectInputStream ois, Duration downtime) throws IOException, ClassNotFoundException {
+        String name = ois.readUTF();
+        Action action = (Action) ois.readObject();
+        Trigger trigger = (Trigger) ois.readObject();
+        boolean active = ois.readBoolean();
+        Duration duration = (Duration) ois.readObject();
+        Rule rule = new Rule(name, action, trigger, active, duration);
+        if (!active && !duration.isZero()) {
+            Duration remainingTime = duration.minus(downtime);
+
+            if (remainingTime.isNegative()) {
+                // Cosa deve fare????
+                System.out.println("Regola già attivata: " + rule.getNameRule());
+                notifyRuleNotExecuted(rule);
+            } else {
+                startRepeteableThread(rule, remainingTime);
+            }
+        }
+        return rule;
+    }
+
+    public void importRule() throws FileNotFoundException, IOException {
         System.out.println("Recupero Rule salvate ***********");
+        ObjectInputStream ois;
+        ois = new ObjectInputStream(new FileInputStream("ProgramShutdownTime.dat"));
+        try {
+            programShutdownTime = (Instant) ois.readObject();
+            System.out.println("Program shutdown time loaded: " + programShutdownTime);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // Calculate the time difference
+        Instant programRestartTime = Instant.now();
+        Duration downtime = Duration.between(programShutdownTime, programRestartTime);
 
         FileInputStream fis = new FileInputStream("SavedRule.dat");
-        ObjectInputStream ois = new ObjectInputStream(fis);
+        ois = new ObjectInputStream(fis);
         System.out.println("        File aperto");
         if (ois == null) {
             return;
         }
-
         try {
             while (true) {
-                String name = ois.readUTF();
-                Action action = (Action) ois.readObject();
-                Trigger trigger = (Trigger) ois.readObject();
-                boolean active = ois.readBoolean();
-                Duration duration = (Duration) ois.readObject();
-
-                Rule rule = new Rule(name, action, trigger, active, duration);
+                Rule rule = getRule(ois, downtime);
                 addRule(rule);
                 System.out.println("        Importazione regola " + rule.getNameRule() + " effettuata");
-                /*if (!active && !duration.isZero()) {
-                    Thread repeteable = new Thread(() -> {
-                        System.out.println("repeteable Thread " + rule.getNameRule());
-                        while (!Thread.currentThread().isInterrupted()) {
-                            try {
-                                System.out.println("repeteable Thread");
-                                Thread.sleep(rule.getPeriod().toMillis());
-                                rule.setActive(true);
-                            } catch (InterruptedException ex) {
-                                Thread.currentThread().interrupt();
-                            }
-                        }
-                    });
-                    repeteableThreads.add(repeteable);
-                    repeteable.start();
-                }*/
             }
         } catch (IOException e) {
             System.out.println("Importazione completata");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(RuleManagerService.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             ois.close();
         }
@@ -198,7 +223,6 @@ public class RuleManagerService implements Serializable {
         ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("SavedRule.dat"));
         try {
             for (Rule regola : ruleList) {
-
                 out.writeUTF(regola.getNameRule());
                 out.writeObject(regola.getAction());
                 out.writeObject(regola.getTrigger());
@@ -248,6 +272,12 @@ public class RuleManagerService implements Serializable {
     private void notifyRuleVerified(Rule rule) {
         observers.forEach(observer -> {
             observer.onRuleVerified(rule);
+        });
+    }
+
+    private void notifyRuleNotExecuted(Rule rule) {
+        observers.forEach(observer -> {
+            observer.onRuleNotExecuted(rule);
         });
     }
 

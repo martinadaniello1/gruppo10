@@ -1,7 +1,7 @@
 package test;
 
-import automatehub.model_view.MoveFileAction;
-import automatehub.model_view.MoveFileActionCreator;
+import automatehub.model_view.action.MoveFileAction;
+import automatehub.model_view.action.creator.MoveFileActionCreator;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;

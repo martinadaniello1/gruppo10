@@ -1,8 +1,8 @@
 package test;
 
-import automatehub.model_view.ExitStatusTrigger;
-import automatehub.model_view.ExitStatusTriggerCreator;
-import automatehub.model_view.Trigger;
+import automatehub.model_view.trigger.ExitStatusTrigger;
+import automatehub.model_view.trigger.ExitStatusTriggerCreator;
+import automatehub.model_view.trigger.Trigger;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;

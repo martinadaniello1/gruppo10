@@ -1,8 +1,8 @@
 package test;
 
-import automatehub.model_view.Action;
-import automatehub.model_view.RemoveFileAction;
-import automatehub.model_view.RemoveFileActionCreator;
+import automatehub.model_view.action.Action;
+import automatehub.model_view.action.RemoveFileAction;
+import automatehub.model_view.action.creator.RemoveFileActionCreator;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;

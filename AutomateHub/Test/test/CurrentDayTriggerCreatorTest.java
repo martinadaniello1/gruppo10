@@ -1,8 +1,8 @@
 package test;
 
-import automatehub.model_view.CurrentDayTrigger;
-import automatehub.model_view.CurrentDayTriggerCreator;
-import automatehub.model_view.Trigger;
+import automatehub.model_view.trigger.CurrentDayTrigger;
+import automatehub.model_view.trigger.CurrentDayTriggerCreator;
+import automatehub.model_view.trigger.Trigger;
 import java.time.LocalDate;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;

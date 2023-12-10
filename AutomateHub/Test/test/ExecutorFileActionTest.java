@@ -1,6 +1,6 @@
 package test;
 
-import automatehub.model_view.ExecutorFileAction;
+import automatehub.model_view.action.ExecutorFileAction;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

@@ -1,5 +1,15 @@
 package automatehub.controller;
 
+import automatehub.controller.action_state.CopyFileActionUI;
+import automatehub.controller.action_state.AudioActionUI;
+import automatehub.controller.action_state.AppendToFileActionUI;
+import automatehub.controller.action_state.DialogBoxUI;
+import automatehub.controller.action_state.ExecutorFileActionUI;
+import automatehub.controller.action_state.MoveFileActionUI;
+import automatehub.controller.action_state.RemoveFileActionUI;
+import automatehub.model_view.trigger.Trigger;
+import automatehub.model_view.action.ActionMenuText;
+import automatehub.model_view.action.Action;
 import automatehub.model_view.*;
 import java.io.IOException;
 import java.net.URL;
@@ -315,6 +325,18 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
                 rulesList.remove(rule);
             }
         });
+    }
+
+    @Override
+    public void onRuleNotExecuted(Rule rule) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Warning");
+            alert.setContentText(rule.getNameRule() + "\n This rule was verified while the program was closed.");
+            alert.setHeaderText(null);
+            alert.show();
+        });
+        rulesList.remove(rule);
     }
 
     @Override

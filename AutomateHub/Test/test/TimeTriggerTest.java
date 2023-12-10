@@ -1,10 +1,10 @@
 package test;
 
-import automatehub.model_view.TimeTrigger;
+import automatehub.model_view.trigger.TimeTrigger;
 import java.time.temporal.ChronoUnit;
 import org.junit.*;
 import static org.junit.Assert.*;
-import automatehub.model_view.TimeTrigger;
+import automatehub.model_view.trigger.TimeTrigger;
 import java.time.LocalTime;
 
 public class TimeTriggerTest {

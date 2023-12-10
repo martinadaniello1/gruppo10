@@ -1,7 +1,7 @@
 package test;
 
-import automatehub.model_view.CopyFileAction;
-import automatehub.model_view.CopyFileActionCreator;
+import automatehub.model_view.action.CopyFileAction;
+import automatehub.model_view.action.creator.CopyFileActionCreator;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;

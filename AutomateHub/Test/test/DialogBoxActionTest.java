@@ -3,7 +3,7 @@ package test;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import automatehub.model_view.DialogBoxAction;
+import automatehub.model_view.action.DialogBoxAction;
 
 public class DialogBoxActionTest {
 

@@ -1,8 +1,8 @@
 package test;
 
-import automatehub.model_view.FoundFileTrigger;
-import automatehub.model_view.FoundFileTriggerCreator;
-import automatehub.model_view.Trigger;
+import automatehub.model_view.trigger.FoundFileTrigger;
+import automatehub.model_view.trigger.FoundFileTriggerCreator;
+import automatehub.model_view.trigger.Trigger;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

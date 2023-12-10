@@ -1,6 +1,6 @@
 package test;
 
-import automatehub.model_view.ExitStatusTrigger;
+import automatehub.model_view.trigger.ExitStatusTrigger;
 import java.io.File;
 import java.io.IOException;
 import static org.junit.Assert.assertArrayEquals;

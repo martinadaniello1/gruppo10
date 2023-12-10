@@ -1,5 +1,8 @@
 package test;
 
+import automatehub.model_view.trigger.TimeTrigger;
+import automatehub.model_view.action.AudioAction;
+import automatehub.model_view.action.DialogBoxAction;
 import automatehub.controller.FXMLDocumentController;
 import automatehub.model_view.*;
 import java.io.FileOutputStream;

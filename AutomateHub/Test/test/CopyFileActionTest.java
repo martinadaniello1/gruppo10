@@ -1,6 +1,6 @@
 package test;
 
-import automatehub.model_view.CopyFileAction;
+import automatehub.model_view.action.CopyFileAction;
 import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
