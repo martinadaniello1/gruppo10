@@ -15,7 +15,11 @@ import javafx.stage.FileChooser;
  * This class contains all the methods that the ActionState objects will override, if necessary.
  */
 public abstract class ActionState {
-
+    
+    /**
+     * The method setups the UI based on the action choosen.
+     * @param context 
+     */
     public abstract void setupUI(ActionContext context);
 
     public TextField findTextFieldInHBox(HBox hbox) {
@@ -61,7 +65,11 @@ public abstract class ActionState {
             });
         }
     }
-
+    
+    /**
+     * The method describes the behavior of the action based on the occurrence of the rule.
+     * @param rule 
+     */
     public void exec(Rule rule) {
 
     }
