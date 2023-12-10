@@ -2,6 +2,7 @@ AutomateHub/nbproject
 AutomateHub/build.xml
 AutomateHub/manifest.mf
 AutomateHub/SavedRule.dat
+AutomateHub/ProgramShutdownTime.dat
 AutomateHub/lib
 .DS_store
 .env
