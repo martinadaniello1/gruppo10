@@ -21,6 +21,11 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.*;
 
+/**
+ * The class represents the main interface, which first appears when the
+ * application is started.
+ *
+ */
 public class FXMLDocumentController implements Initializable, RuleObserver {
 
     @FXML
@@ -196,6 +201,13 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
         });
     }
 
+    /**
+     * The method lets the user define a new rule, after which the second
+     * interface is show.
+     *
+     * @param event The event after which the method is call.
+     * @throws IOException
+     */
     @FXML
     private void addAction(ActionEvent event) throws IOException {
         //Load the new FXML
@@ -218,6 +230,9 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
 
     }
 
+    /**
+     * The method lets the user remove one or more rules.
+     */
     @FXML
     private void removeAction() {
         System.out.println(selectedRules.toString()); // Log
@@ -239,6 +254,13 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
         }
     }
 
+    /**
+     * The following two methods let the user import rules from a file and save
+     * them in the file when the application is closed.
+     *
+     * @param event
+     * @throws ClassNotFoundException
+     */
     public void handleOpenRequest(WindowEvent event) throws ClassNotFoundException {
         try {
             // Import the rules when the application is opened
@@ -262,6 +284,11 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
         Platform.exit();
     }
 
+    /**
+     * The method let the user edit an existing rule.
+     *
+     * @throws IOException
+     */
     private void editAction() throws IOException {
         //Load the new FXML
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/automatehub/model_view/FXMLDialogInputBox.fxml"));
@@ -282,6 +309,12 @@ public class FXMLDocumentController implements Initializable, RuleObserver {
         nuovoStage.show();
     }
 
+    /**
+     * The following methods define the application behavior based on the rule's
+     * operations applied.
+     *
+     * @param rule
+     */
     @Override
     public void onRuleAdded(Rule rule) {
         // Aggiorna la TableView quando una nuova regola viene aggiunta
