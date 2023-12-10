@@ -21,6 +21,11 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+/**
+ * The class represents the second interface used to define the characteristics
+ * of the rule being instantiated.
+ *
+ */
 public class FXMLDialogInputBoxController implements Initializable {
 
     private RuleManagerService ruleManager = RuleManagerService.getRuleManager();
@@ -47,7 +52,7 @@ public class FXMLDialogInputBoxController implements Initializable {
     private Label repetitionLabel;
     @FXML
     private CheckBox repetitionBox;
-    
+
     private Duration d = Duration.ZERO;
     @FXML
     private HBox intervalHbox;
@@ -67,7 +72,7 @@ public class FXMLDialogInputBoxController implements Initializable {
     private HBox secondBoxTrigger = new HBox();
     private Label secondLabelTrigger = new Label("");
     private TextField secondTextFieldTrigger = new TextField();
-    
+
     private HBox thirdBoxTrigger = new HBox();
     private Label thirdLabelTrigger = new Label("");
     private TextField thirdTextFieldTrigger = new TextField();
@@ -77,7 +82,12 @@ public class FXMLDialogInputBoxController implements Initializable {
     private CreatorTrigger trigger;
     private CreatorAction action;
 
-
+    /**
+     * As the name suggests, the method is used to initialize the interface's
+     * elements and their properties.
+     *
+     *
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -96,13 +106,13 @@ public class FXMLDialogInputBoxController implements Initializable {
         secondBoxAction.getChildren().addAll(secondLabelAction, secondTextFieldAction);
         secondBoxAction.setMargin(secondLabelAction, new Insets(0, 10, 10, 0));
         secondBoxAction.setMargin(secondTextFieldAction, new Insets(0, 10, 10, 0));
-    
+
         secondBoxTrigger.getChildren().addAll(secondLabelTrigger, secondTextFieldTrigger);
-        secondBoxTrigger.setMargin(secondLabelTrigger, new Insets(0,10,10,0));
+        secondBoxTrigger.setMargin(secondLabelTrigger, new Insets(0, 10, 10, 0));
         secondBoxTrigger.setMargin(secondTextFieldTrigger, new Insets(0, 10, 10, 0));
-        
+
         thirdBoxTrigger.getChildren().addAll(thirdLabelTrigger, thirdTextFieldTrigger);
-        thirdBoxTrigger.setMargin(thirdBoxTrigger, new Insets(0,10,10,0));
+        thirdBoxTrigger.setMargin(thirdBoxTrigger, new Insets(0, 10, 10, 0));
         thirdBoxTrigger.setMargin(thirdBoxTrigger, new Insets(0, 10, 10, 0));
     }
 
@@ -177,6 +187,13 @@ public class FXMLDialogInputBoxController implements Initializable {
         triggerContext.setupUI();
     }
 
+    /**
+     * The method receive the actionType and the triggerType composing the rule
+     * being istantiated, and call the appropriate UI setups methods.
+     *
+     * @param actionType The choosen type of action componing the rule.
+     * @param triggerType The choosen type of trigger componing the rule.
+     */
     public void initData(String actionType, String triggerType) {
         setupActionUI(actionType);
         setupTriggerUI(triggerType);
@@ -188,6 +205,14 @@ public class FXMLDialogInputBoxController implements Initializable {
 
     }
 
+    /**
+     * The method is related to the edit action, and let the user confrontate
+     * with the rule being editing.
+     *
+     * @param actionType The choosen type of action componing the rule.
+     * @param triggerType The choosen type of action componing the rule.
+     * @param oldRule The rule being editing.
+     */
     public void updateData(String actionType, String triggerType, Rule oldRule) {
         setupActionUI(actionType);
         setupTriggerUI(triggerType);
@@ -309,27 +334,33 @@ public class FXMLDialogInputBoxController implements Initializable {
     private void editRule(Rule oldRule, String triggerString, String actionString, String ruleName, String actionType, String triggerType) {
         processRule(ruleName, actionType, triggerType, oldRule);
     }
-    
-    private void updateRepetionBox(Rule oldRule){
+
+    /**
+     * The method is related to the edit action, and let the user redefine when
+     * the rule must repeat.
+     *
+     * @param oldRule The rule being replaced.
+     */
+    private void updateRepetionBox(Rule oldRule) {
         repetitionBox.setSelected(true);
-            Pattern pattern = Pattern.compile("^PT((\\d+)H)?((\\d+)M)?((\\d+)(\\.\\d+)?S)?$"); //Pattern for the Duration string
-            Matcher matcher = pattern.matcher(oldRule.getPeriod().toString());
+        Pattern pattern = Pattern.compile("^PT((\\d+)H)?((\\d+)M)?((\\d+)(\\.\\d+)?S)?$"); //Pattern for the Duration string
+        Matcher matcher = pattern.matcher(oldRule.getPeriod().toString());
 
-            if (matcher.matches()) {
-                int hours = Integer.parseInt(matcher.group(2) != null ? matcher.group(2) : "0");
-                int minutes = Integer.parseInt(matcher.group(4) != null ? matcher.group(4) : "0");
-                int seconds = (int) Math.round(Double.parseDouble(matcher.group(6) != null ? matcher.group(6) : "0"));
+        if (matcher.matches()) {
+            int hours = Integer.parseInt(matcher.group(2) != null ? matcher.group(2) : "0");
+            int minutes = Integer.parseInt(matcher.group(4) != null ? matcher.group(4) : "0");
+            int seconds = (int) Math.round(Double.parseDouble(matcher.group(6) != null ? matcher.group(6) : "0"));
 
-                int totalMinutes = hours * 60 + minutes;
-                int days = totalMinutes / (24 * 60);
-                int remainingMinutes = totalMinutes % (24 * 60);
-                int remainingHours = remainingMinutes / 60;
-                int finalMinutes = remainingMinutes % 60;
+            int totalMinutes = hours * 60 + minutes;
+            int days = totalMinutes / (24 * 60);
+            int remainingMinutes = totalMinutes % (24 * 60);
+            int remainingHours = remainingMinutes / 60;
+            int finalMinutes = remainingMinutes % 60;
 
-                daySpinner.getValueFactory().setValue(days);
-                hourSpinner.getValueFactory().setValue(remainingHours);
-                minuteSpinner.getValueFactory().setValue(finalMinutes);
-            }
+            daySpinner.getValueFactory().setValue(days);
+            hourSpinner.getValueFactory().setValue(remainingHours);
+            minuteSpinner.getValueFactory().setValue(finalMinutes);
+        }
 
     }
 }
