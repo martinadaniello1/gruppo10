@@ -11,7 +11,8 @@ public class RemoveFileAction extends Action {
     private String filePath;
 
     /**
-     * Executes the action of removing the specified file. 
+     * Executes the action of removing the specified file.
+     *
      * @return 0 if the removal was successful, -1 otherwise.
      */
     @Override

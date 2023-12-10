@@ -1,6 +1,5 @@
 package automatehub.model_view.action;
 
-import automatehub.model_view.action.Action;
 import javax.sound.sampled.*;
 import java.io.*;
 import java.util.Objects;
@@ -44,6 +43,7 @@ public class AudioAction extends Action {
         this.atEnd = atEnd;
     }
 
+    @Override
     public String getType() {
         return "Play an audio file";
     }

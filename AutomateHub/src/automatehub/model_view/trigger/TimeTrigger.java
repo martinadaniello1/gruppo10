@@ -1,6 +1,5 @@
 package automatehub.model_view.trigger;
 
-import automatehub.model_view.trigger.Trigger;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;

@@ -1,4 +1,6 @@
-package automatehub.model_view.trigger;
+package automatehub.model_view.trigger.creator;
+
+import automatehub.model_view.trigger.*;
 
 import java.time.LocalTime;
 

@@ -23,8 +23,8 @@ public class AudioActionCreator implements CreatorAction {
     /**
      * Creates an instance of the {@link AudioAction} class.
      *
-     * @return a new instance of the AudioAction class with the specified
-     * audio file path.
+     * @return a new instance of the AudioAction class with the specified audio
+     * file path.
      */
     @Override
     public Action create() {

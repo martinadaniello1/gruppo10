@@ -24,7 +24,7 @@ public class MoveFileActionCreator implements CreatorAction {
         this.destinationPath = destinationPath;
     }
 
-      /**
+    /**
      * Creates an instance of the {@link MoveFileAction} class.
      *
      * @return a new instance of the MoveFileAction class with the specified

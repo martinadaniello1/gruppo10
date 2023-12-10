@@ -1,4 +1,6 @@
-package automatehub.model_view.trigger;
+package automatehub.model_view.trigger.creator;
+
+import automatehub.model_view.trigger.*;
 
 /**
  * Represents a ConcreteCreator of the Factory Method pattern for creating
@@ -10,9 +12,11 @@ public class FileSizeTriggerCreator implements CreatorTrigger {
     private Long specifiedSize;
 
     /**
-     * Constructs a FileSizeTriggerCreator with the specified file path and specified Long value for the size.
+     * Constructs a FileSizeTriggerCreator with the specified file path and
+     * specified Long value for the size.
+     *
      * @param filePath the file path to check
-     * @param specifiedSize the size to compare 
+     * @param specifiedSize the size to compare
      */
     public FileSizeTriggerCreator(String filePath, Long specifiedSize) {
         this.filePath = filePath;

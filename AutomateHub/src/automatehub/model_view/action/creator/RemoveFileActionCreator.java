@@ -13,6 +13,7 @@ public class RemoveFileActionCreator implements CreatorAction {
 
     /**
      * Constructs a RemoveFileActionCreator with the specified file path.
+     *
      * @param filePath the file path to remove
      */
     public RemoveFileActionCreator(String filePath) {

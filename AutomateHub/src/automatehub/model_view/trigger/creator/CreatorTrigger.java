@@ -1,4 +1,6 @@
-package automatehub.model_view.trigger;
+package automatehub.model_view.trigger.creator;
+
+import automatehub.model_view.trigger.*;
 
 /**
  * Interface for creating instances of the {@link Trigger} class. The interface

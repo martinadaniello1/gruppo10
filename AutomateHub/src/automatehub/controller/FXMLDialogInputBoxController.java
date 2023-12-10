@@ -3,6 +3,7 @@ package automatehub.controller;
 import automatehub.controller.trigger_state.*;
 import automatehub.controller.action_state.*;
 import automatehub.model_view.trigger.*;
+import automatehub.model_view.trigger.creator.*;
 import automatehub.model_view.action.creator.*;
 import automatehub.model_view.action.*;
 import automatehub.model_view.*;

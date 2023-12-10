@@ -5,8 +5,8 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 /**
- * The class represents a trigger whose condition is verified when the day of week
- * inserted is the current day of the week.
+ * The class represents a trigger whose condition is verified when the day of
+ * week inserted is the current day of the week.
  */
 public class DayOfWeekTrigger extends Trigger {
 
