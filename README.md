@@ -34,6 +34,6 @@ The program aims to provide users with the ability to create "rules" to automate
 
 ### Third Sprint - from 04/12/2023 to 10/12/2023
 <ul>
-<li><a href="https://docs.google.com/document/d/1s4XUlJyEKDQIGKvKDzqhGRGjABVZAPaU1I2YLwFMyjg/edit?usp=sharing" target="_blank">Retrospective report</a></li>
+<li><a href="https://docs.google.com/document/d/17kw_NYCBlrCzLElQq9Y3uCX7n81EDmC8_v4TOLxHOh4/edit?usp=sharing" target="_blank">Retrospective report</a></li>
 <li><a href="https://docs.google.com/document/d/1s4XUlJyEKDQIGKvKDzqhGRGjABVZAPaU1I2YLwFMyjg/edit?usp=sharing">Review report</a></li>
 </ul>
